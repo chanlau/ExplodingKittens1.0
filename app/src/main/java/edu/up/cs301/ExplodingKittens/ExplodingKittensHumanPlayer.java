@@ -79,6 +79,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer {
     public void setAsGui(GameMainActivity activity) {
         myActivity = activity;
         //load the layout for GUI
+        activity.setContentView(R.layout.activity_main);
 
         //Initialize widgets
     }
