@@ -6,10 +6,9 @@
 
 package edu.up.cs301.ExplodingKittens;
 
-
 import java.util.ArrayList;
-
 import edu.up.cs301.game.GameFramework.infoMessage.GameState;
+
 
 public class EKGameState extends GameState {
     /**
