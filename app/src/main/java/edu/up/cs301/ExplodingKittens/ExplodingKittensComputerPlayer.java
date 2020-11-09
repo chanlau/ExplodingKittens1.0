@@ -3,7 +3,7 @@ package edu.up.cs301.ExplodingKittens;
 
 import java.util.ArrayList;
 
-import edu.up.cs301.ExplodingKittens.EKActions.DrawCard;
+import edu.up.cs301.ExplodingKittens.EKActions.DrawCardAction;
 import edu.up.cs301.game.GameFramework.GameComputerPlayer;
 import edu.up.cs301.game.GameFramework.GameMainActivity;
 import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
@@ -36,7 +36,7 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
             random = (int)(Math.random()*(2-0)+0);
             //if 1 then draw a card, if two then play a card
             if(random == 0){
-                DrawCard draw = new DrawCard(this);
+                DrawCardAction draw = new DrawCardAction(this);
                 this.game.sendAction(draw);
             }
             else{

@@ -9,11 +9,11 @@ package edu.up.cs301.ExplodingKittens.EKActions;
 import edu.up.cs301.ExplodingKittens.Player;
 import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
 
-public class Trade2 extends GameAction {
+public class Trade2Action extends GameAction {
     private Player targetPlayer;
     private int PosC1, PosC2;
 
-    public Trade2(Player p, Player t, int c1, int c2){
+    public Trade2Action(Player p, Player t, int c1, int c2){
         super(p);
         this.targetPlayer = t;
         this.PosC1 = c1;

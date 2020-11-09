@@ -5,16 +5,17 @@ import android.util.Log;
 import java.util.Collections;
 import java.util.Random;
 
-import edu.up.cs301.ExplodingKittens.EKActions.DrawCard;
+import edu.up.cs301.ExplodingKittens.EKActions.DrawCardAction;
 import edu.up.cs301.ExplodingKittens.EKActions.PlayAttackCard;
+import edu.up.cs301.ExplodingKittens.EKActions.PlayDefuseCard;
 import edu.up.cs301.ExplodingKittens.EKActions.PlayFavorCard;
 import edu.up.cs301.ExplodingKittens.EKActions.PlayFutureCard;
 import edu.up.cs301.ExplodingKittens.EKActions.PlayNopeCard;
 import edu.up.cs301.ExplodingKittens.EKActions.PlayShuffleCard;
 import edu.up.cs301.ExplodingKittens.EKActions.PlaySkipCard;
-import edu.up.cs301.ExplodingKittens.EKActions.Trade2;
-import edu.up.cs301.ExplodingKittens.EKActions.Trade3;
-import edu.up.cs301.ExplodingKittens.EKActions.Trade5;
+import edu.up.cs301.ExplodingKittens.EKActions.Trade2Action;
+import edu.up.cs301.ExplodingKittens.EKActions.Trade3Action;
+import edu.up.cs301.ExplodingKittens.EKActions.Trade5Action;
 import edu.up.cs301.game.GameFramework.GamePlayer;
 import edu.up.cs301.game.GameFramework.LocalGame;
 import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
@@ -24,6 +25,13 @@ import static java.sql.Types.NULL;
 public class EK_LocalGame extends LocalGame {
 
     EKGameState currState;
+    //Instance variable representing the previous state of the game
+    private EKGameState previousState;
+
+    public EK_LocalGame() {
+        this.currState = new EKGameState();
+        this.previousState = null;
+    }
 
     @Override
     protected void sendUpdatedStateTo(GamePlayer p) {
@@ -32,54 +40,63 @@ public class EK_LocalGame extends LocalGame {
 
     @Override
     protected boolean canMove(int playerIdx) {
-        if(playerIdx == currState.getWhoseTurn()){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return playerIdx == currState.getWhoseTurn();
     }
 
     @Override
     protected boolean makeMove(GameAction action) {
         //check which action is being taken
-        if (action instanceof DrawCard) {
-            return drawCard(action.getPlayer());
-        } else if (action instanceof PlayNopeCard) {
+        if (action instanceof PlayNopeCard) {
             return Nope(action.getPlayer());
-        } else if (action instanceof PlayFavorCard) {
-            return Favor(action.getPlayer(),
-                    ((PlayFavorCard) action).getTarget(),
-                    ((PlayFavorCard) action).getChoice());
-        } else if (action instanceof PlayAttackCard) {
-            return Attack(action.getPlayer());
-        } else if (action instanceof PlayShuffleCard) {
-            return Shuffle(action.getPlayer());
-        } else if (action instanceof PlaySkipCard) {
-            return Skip(action.getPlayer());
-        } else if (action instanceof PlayFutureCard){
-            return SeeTheFuture(action.getPlayer()) ;
-        } else if (action instanceof Trade2) {
-            return trade2(action.getPlayer(), ((Trade2) action).getTarget(),
-                    ((Trade2) action).getPosC1(), ((Trade2) action).getPosC2());
-        } else if (action instanceof Trade3) {
-            return trade3(action.getPlayer(), ((Trade3) action).getTarget(),
-                    ((Trade3) action).getPosC1(),
-                    ((Trade3) action).getPosC2(),
-                    ((Trade3) action).getPosC3(),
-                    ((Trade3) action).getTargetValue());
-        } else if (action instanceof Trade5) {
-            return trade5(action.getPlayer(), ((Trade5) action).getPosC1(),
-                    ((Trade5) action).getPosC2(),
-                    ((Trade5) action).getPosC3(),
-                    ((Trade5) action).getPosC4(), ((Trade5) action).getPosC5(),
-                    ((Trade5) action).getTargetValue());
         }
-        //error message
         else {
-            Log.d("Invalid Action",
-                    "Action provided was an invalid action");
+            this.previousState = new EKGameState(this.currState);
+            if (action instanceof DrawCardAction) {
+
+                return drawCard(action.getPlayer());
+            } else if (action instanceof PlayFavorCard) {
+                return Favor(action.getPlayer(),
+                        ((PlayFavorCard) action).getTarget(),
+                        ((PlayFavorCard) action).getChoice());
+            } else if (action instanceof PlayAttackCard) {
+
+                return Attack(action.getPlayer());
+            } else if (action instanceof PlayShuffleCard) {
+
+                return Shuffle(action.getPlayer());
+            } else if (action instanceof PlaySkipCard) {
+
+                return Skip(action.getPlayer());
+            } else if (action instanceof PlayFutureCard) {
+
+                return SeeTheFuture(action.getPlayer());
+            } else if (action instanceof PlayDefuseCard) {
+
+                return Defuse(action.getPlayer());
+            } else if (action instanceof Trade2Action) {
+
+                return trade2(action.getPlayer(), ((Trade2Action) action).getTarget(),
+                        ((Trade2Action) action).getPosC1(), ((Trade2Action) action).getPosC2());
+            } else if (action instanceof Trade3Action) {
+
+                return trade3(action.getPlayer(), ((Trade3Action) action).getTarget(),
+                        ((Trade3Action) action).getPosC1(),
+                        ((Trade3Action) action).getPosC2(),
+                        ((Trade3Action) action).getPosC3(),
+                        ((Trade3Action) action).getTargetValue());
+            } else if (action instanceof Trade5Action) {
+
+                return trade5(action.getPlayer(), ((Trade5Action) action).getPosC1(),
+                        ((Trade5Action) action).getPosC2(),
+                        ((Trade5Action) action).getPosC3(),
+                        ((Trade5Action) action).getPosC4(), ((Trade5Action) action).getPosC5(),
+                        ((Trade5Action) action).getTargetValue());
+            }
         }
+
+        //error message
+        Log.d("Invalid Action",
+                "Action provided was an invalid action");
         return false;
     }
 
