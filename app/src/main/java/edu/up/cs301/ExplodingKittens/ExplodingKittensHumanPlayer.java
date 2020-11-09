@@ -1,6 +1,7 @@
 package edu.up.cs301.ExplodingKittens;
 
 import android.graphics.Color;
+import android.media.Image;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -17,6 +18,9 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer {
 
     private EKGameState state;
     ArrayList<Card> playerHand;
+
+    //for printing cards in hand
+    int firstInHand = 0;
 
     private GameMainActivity myActivity;
 
@@ -42,7 +46,6 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer {
         return myActivity.findViewById(R.id.topGUI);
     }
 
-
     /**
      * Receives information (hopefully the gamestate) and decides the best
      * actions from there
@@ -51,7 +54,6 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer {
      */
     public void receiveInfo(GameInfo info) {
         //indicates which card is being shown in hand first
-        int firstInHand = 0;
 
         if(info instanceof EKGameState == false){
             flash(Color.RED, 500);
@@ -61,12 +63,12 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer {
             EKGameState currentState = (EKGameState) info;
             //this switch statement returns card type for printing
             //set up a for loop to update these guys
-            //incomplete cuz sams working on it i think
             switch (currentState.getPlayers().get(this.playerNum).getPlayerHand().get(firstInHand).getCardType()){
 
             };
         }
     }
+
 
     /**
      * Updates the GUI with new information after actions are taken
