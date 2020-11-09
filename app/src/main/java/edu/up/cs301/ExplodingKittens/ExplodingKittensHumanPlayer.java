@@ -2,6 +2,8 @@ package edu.up.cs301.ExplodingKittens;
 
 import android.graphics.Color;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 
 
 import java.util.ArrayList;
@@ -73,8 +75,31 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer {
 
     }
 
-    public void onClick() {
+    public void onClick(View button) {
+        // if we are not yet connected to a game, ignore
+        if (game == null) return;
 
+        if(button instanceof ImageButton){
+            //Send action according the card that is selected
+            //Implement when GUI is up and running
+            /*
+            if(something to check which card it is)
+            DrawCardAction humanMove = new DrawCardAction(this);
+            PlayAttackCardAction humanMove = new PlayAttackCard(this);
+            PlayDefuseCardAction humanMove = new PlayDefuseCardAction(this);
+            PlayFavorCardAction humanMove = new PlayFavorCardAction(this);
+            PlayFutureCardAction humanMove = new PlayFutureCardAction(this);
+            PlayNopeCardAction humanMove = new PlayNopeCardAction(this);
+            PlayShuffleCardAction humanMove = new PlayShuffleCardAction(this);
+            PlaySkipCardAction humanMove = new PlaySkipCardAction(this);
+
+            this.game.sendAction(humanMove);
+
+             */
+        }
+        else if (button instanceof Button){
+
+        }
     }
 
     public void setAsGui(GameMainActivity activity) {
