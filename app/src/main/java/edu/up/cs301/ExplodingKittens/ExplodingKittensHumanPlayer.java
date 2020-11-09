@@ -108,21 +108,15 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
      *     information, presumably the gamestate
      */
     public void receiveInfo(GameInfo info) {
-        //indicates which card is being shown in hand first
 
         if(info instanceof EKGameState == false){
             flash(Color.RED, 500);
             return;
         }
         else{
-            EKGameState currentState = (EKGameState) info;
-            //this switch statement returns card type for printing
-            //set up a for loop to update these guys
-            switch (currentState.getPlayers().get(this.playerNum).getPlayerHand().get(firstInHand).getCardType()){
 
-            };
+            }
         }
-    }
 
     /**
      * Updates the GUI with new information after actions are taken
@@ -176,7 +170,10 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
     } //updateDisplay class
 
     public void setAsGui(GameMainActivity activity) {
+        myActivity = activity;
 
+        //loads layout for GUI
+        activity.setContentView(R.layout.activity_main);
     }
 
     /**
