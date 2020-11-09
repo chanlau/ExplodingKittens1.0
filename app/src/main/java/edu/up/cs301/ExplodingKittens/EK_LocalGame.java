@@ -2,6 +2,7 @@ package edu.up.cs301.ExplodingKittens;
 
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
@@ -18,12 +19,28 @@ import edu.up.cs301.ExplodingKittens.EKActions.Trade5;
 import edu.up.cs301.game.GameFramework.GamePlayer;
 import edu.up.cs301.game.GameFramework.LocalGame;
 import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
+import edu.up.cs301.game.GameFramework.infoMessage.GameState;
 
 import static java.sql.Types.NULL;
 
 public class EK_LocalGame extends LocalGame {
 
     EKGameState currState;
+
+    private ArrayList<Card> discardPile;
+    private ArrayList<Card> deck;
+    private ArrayList<Player> players;
+    private int whoseTurn;
+    private int cardsToDraw;
+
+    public EK_LocalGame() {
+        currState = new GameState;
+        this.discardPile = new ArrayList<Card>();
+        this.deck = new ArrayList<Card>();
+        this.players = new ArrayList<Player>();
+        this.whoseTurn = 1;
+        this.cardsToDraw = 1;
+    }
 
     @Override
     protected void sendUpdatedStateTo(GamePlayer p) {

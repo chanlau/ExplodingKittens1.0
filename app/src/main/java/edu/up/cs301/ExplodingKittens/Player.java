@@ -37,8 +37,11 @@ public class Player implements GamePlayer {
     public int getPlayerNum(){
         return this.playerNum;
     }
+    public void setPlayerNum(int num) { playerNum = num; }
     public String getPlayerName() {return this.playerName;}
+    public void setPlayerName(String name) { playerName = name; }
     public ArrayList<Card> getPlayerHand() {return this.playerHand;}
+    public void setPlayerHand(Card card) { this.playerHand.add(card); }
 
     @Override
     public void gameSetAsGui(GameMainActivity activity) {
