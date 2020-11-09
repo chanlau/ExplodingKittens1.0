@@ -84,11 +84,6 @@ public class EK_LocalGame extends LocalGame {
     }
 
 
-   // @Override
-    protected void sendUpdatedStateTo(Player p) {
-    }
-
-
     @Override
     protected String checkIfGameOver() {
         return null;

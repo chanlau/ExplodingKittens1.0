@@ -37,8 +37,9 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer {
 
     //This returns the top level surface view of main GUI
     public View getTopView() {
-        return myActivity.findViewById(R.id.top_gui_layout);
+        return myActivity.findViewById(R.id.topGUI);
     }
+
 
     /**
      * Receives information (hopefully the gamestate) and decides the best

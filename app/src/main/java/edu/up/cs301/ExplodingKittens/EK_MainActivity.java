@@ -3,9 +3,9 @@ package edu.up.cs301.ExplodingKittens;
 
 import java.util.ArrayList;
 
-import edu.up.cs301.counter.CounterComputerPlayer1;
-import edu.up.cs301.counter.CounterComputerPlayer2;
-import edu.up.cs301.counter.CounterHumanPlayer;
+//import edu.up.cs301.counter.CounterComputerPlayer1;
+//import edu.up.cs301.counter.CounterComputerPlayer2;
+//import edu.up.cs301.counter.CounterHumanPlayer;
 import edu.up.cs301.game.GameFramework.GameMainActivity;
 import edu.up.cs301.game.GameFramework.GamePlayer;
 import edu.up.cs301.game.GameFramework.LocalGame;
@@ -37,7 +37,7 @@ public class EK_MainActivity extends GameMainActivity {
         // a computer player type (player type 2)
         playerTypes.add(new GamePlayerType("Computer Player (GUI)") {
             public GamePlayer createPlayer(String name) {
-                return new CounterComputerPlayer2(2, name);
+                return null; //new CounterComputerPlayer2(2, name);
             }});
 
         // Create a game configuration class for Counter:
