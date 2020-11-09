@@ -62,15 +62,36 @@ public class EKGameState extends GameState {
 
         //deep copy of the gamestate discardPile
         for (int a = 0; a < gamestate.getDiscardPile().size(); a++) {
-            this.discardPile.add(gamestate.getDiscardPile().get(a));
+            //create a copy of the given card from the discard pile
+            Card newCard =
+                    new Card(gamestate.getDiscardPile().get(a).getCardType());
+            //add that new copy to the current discard pile
+            discardPile.add(newCard);
         }
         //deep copy of the gamestate deck
         for (int b = 0; b < gamestate.getDeck().size(); b++) {
-            this.deck.add(gamestate.getDeck().get(b));
+            //create a copy of the given card from the deck
+            Card newCard2 =
+                    new Card(gamestate.getDiscardPile().get(b).getCardType());
+            //add that new copy to the current deck
+            deck.add(newCard2);
         }
         //deep copy of the players array list
         for (int c = 0; c < gamestate.getPlayers().size(); c++) {
-            this.players.add(gamestate.getPlayers().get(c));
+            //get the player at the given index c
+            Player tempPlayer = gamestate.getPlayers().get(c);
+            //create a new player using the player at index c information
+            Player player1 =
+                    new Player(tempPlayer.getPlayerNum(),
+                            tempPlayer.getPlayerName());
+            //copy the hand of the given player to the new player
+            for (int i = 0; i < tempPlayer.getPlayerHand().size(); i++) {
+                //create a new card from the given card
+                Card tempCard = new Card(tempPlayer.getPlayerHand().get(i).getCardType());
+                player1.setPlayerHand(tempCard);
+            }
+            //add the new player to the array list
+            players.add(player1);
         }
         //copy of whose turn it is
         this.whoseTurn = gamestate.getWhoseTurn();
