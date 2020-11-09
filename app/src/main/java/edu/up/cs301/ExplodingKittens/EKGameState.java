@@ -96,6 +96,16 @@ public class EKGameState extends GameState {
                 "\n Player 4 Hand: " + Player3String);
     }
 
+    //Remove player method
+    //Removes a selected player from the game
+    public void removePlayer(Player p){
+        for(int i = 0; i < players.size(); i++){
+            if(p.getPlayerNum() == players.get(i).getPlayerNum()){
+                players.remove(i);
+            }
+        }
+    }
+
    //Getters and Setters
    public void addPlayer(Player p) {
        players.add(p);

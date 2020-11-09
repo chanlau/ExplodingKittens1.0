@@ -189,29 +189,23 @@ public class EK_LocalGame extends LocalGame {
         return true;
     }
 
-    //Exploding kitten card
+    ///Play Defuse card
     //if the current player does not have a defuse card, they lose the game,
     //if they do have a defuse card play the defuse card and reshuffle the
     //exploding kitten card back into the deck
-    public boolean ExplodingKitten(Player p) {
-        boolean trigger = false;
+    public boolean Defuse(Player p) {
         //check if there is a defuse card in the hand
-        for (int i = 0; i < p.getPlayerHand().size(); i++) {
-            //reshuffle the exploding kitten card back into the deck
-            if (p.getPlayerHand().get(i).getCardType() == 0) {
-                currState.getDeck().add(p.getPlayerHand().get(i));
-                Collections.shuffle(currState.getDeck());
-            }
-            //if there is a defuse card, play it and move the defuse card to
-            // the discard pile and remove it from the players hand, return
-            // true to indicate that the bomb has been defused
-            if (p.getPlayerHand().get(i).getCardType() == 12) {
-                currState.getDiscardPile().add(p.getPlayerHand().get(i));
-                p.getPlayerHand().remove(i);
-                trigger = true;
-            }
+        int defusePos = checkHand(p, 12);
+        int explodePos = checkHand(p, 0);
+        if(defusePos != NULL && explodePos != NULL){
+            currState.getDiscardPile().add(p.getPlayerHand().get(defusePos));
+            p.getPlayerHand().remove(defusePos);
+            currState.getDeck().add(p.getPlayerHand().get(explodePos));
+            Collections.shuffle(currState.getDeck());
+            return true;
         }
-        return trigger;
+        currState.removePlayer(p);
+        return false;
     }
 
     //draw a card and end the turn of the player
@@ -395,6 +389,8 @@ public class EK_LocalGame extends LocalGame {
 
     }
 
-
+    public EKGameState getCurrState(){
+        return this.currState;
+    }
 
 }
