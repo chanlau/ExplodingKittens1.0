@@ -201,7 +201,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                         }
                     }
                     else {
-                        if (cardHand[i] + 1 >= discardPile.size()) {
+                        if (cardHand[i] + 1 >= state.getDiscardPile().size()) {
                             break;
                         }
                         else {
@@ -220,6 +220,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                     for (int i = 0; i < 5; i++) {
                         cardHand[i] = i;
                     }
+
                 }
             }
             updateDisplay();
