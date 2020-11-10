@@ -36,6 +36,7 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
      */
     @Override
     protected void receiveInfo(GameInfo info) {
+        /*
         EKGameState computerState = (EKGameState) info;
         //check to see if it's this player's turn
         if(computerState.getWhoseTurn() == this.playerNum){
@@ -97,7 +98,7 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
                 int decider = (int)(Math.random()*3);
                 int playerSelected = 0;
                 //Find the first player that isn't null and isn't this player
-                for (int i = 0; i < computerState.getPlayers().size(); i++) {
+                for (int i = 0; i < computerState.getNumPlayers(); i++) {
                     Player temp = computerState.getPlayers().get(i);
                     if (temp != null && temp.getPlayerNum() != this.playerNum) {
                         playerSelected = i;

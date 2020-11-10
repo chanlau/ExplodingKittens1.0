@@ -7,13 +7,14 @@
 package edu.up.cs301.ExplodingKittens.EKActions;
 
 import edu.up.cs301.ExplodingKittens.Player;
+import edu.up.cs301.game.GameFramework.GamePlayer;
 import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
 
 public class Trade2Action extends GameAction {
-    private Player targetPlayer;
+    private GamePlayer targetPlayer;
     private int PosC1, PosC2;
 
-    public Trade2Action(Player player, Player target, int card1, int card2){
+    public Trade2Action(GamePlayer player, GamePlayer target, int card1, int card2){
         super(player);
         this.targetPlayer = target;
         this.PosC1 = card1;
@@ -21,7 +22,7 @@ public class Trade2Action extends GameAction {
     }
 
     //Getter methods for all of the instance variables
-    public Player getTarget(){
+    public GamePlayer getTarget(){
         return targetPlayer;
     }
     public int getPosC1(){return PosC1;}
