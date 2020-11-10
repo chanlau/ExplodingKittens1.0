@@ -13,8 +13,8 @@ import edu.up.cs301.game.GameFramework.GameMainActivity;
 import edu.up.cs301.game.GameFramework.GamePlayer;
 import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
 
-public class Player implements GamePlayer {
-
+public class Player{
+/*
     int playerNum;
     String playerName;
 
@@ -69,4 +69,6 @@ public class Player implements GamePlayer {
     public boolean supportsGui() {
         return false;
     }
+
+ */
 }

@@ -41,8 +41,8 @@ public class CounterHumanPlayer extends GameHumanPlayer implements OnClickListen
 	 * @param name
 	 * 		the player's name
 	 */
-	public CounterHumanPlayer(int num, String name) {
-		super(num, name);
+	public CounterHumanPlayer(String name) {
+		super(name);
 	}
 
 	/**

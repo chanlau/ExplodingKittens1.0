@@ -71,7 +71,7 @@ public class EKGameState extends GameState {
             Card newCard =
                     new Card(gamestate.getDiscardPile().get(a).getCardType());
             //add that new copy to the current discard pile
-            discardPile.add(newCard);
+            this.discardPile.add(newCard);
         }
         //deep copy of the gamestate deck
         for (int b = 0; b < gamestate.getDeck().size(); b++) {
@@ -79,7 +79,7 @@ public class EKGameState extends GameState {
             Card newCard2 =
                     new Card(gamestate.getDiscardPile().get(b).getCardType());
             //add that new copy to the current deck
-            deck.add(newCard2);
+            this.deck.add(newCard2);
         }
 
         //deep copy for array of player hands
@@ -115,6 +115,11 @@ public class EKGameState extends GameState {
         return "HI this is just a place holder";
     }
 
+    public ArrayList<ArrayList<Card>> getPlayerHands(){
+        return this.playerHands;
+    }
+
+    public ArrayList<Card> getCurrentPlayerHand() {return this.playerHands.get(this.whoseTurn);}
 
     public ArrayList<Card> getDiscardPile(){
         return this.discardPile;
@@ -136,11 +141,7 @@ public class EKGameState extends GameState {
 
     public void setCardsToDraw(int i){ this.cardsToDraw = i;}
 
-    public int getNumPlayers(){return this.numPlayers;}
 
-    public ArrayList<ArrayList<Card>> getPlayerHands(){
-        return this.playerHands;
-    }
 }
 
 

@@ -26,7 +26,7 @@ import android.os.Looper;
  * @author Andrew Nuxoll
  * @version July 2013
  */
-public abstract class GameComputerPlayer extends Player implements Tickable {
+public abstract class GameComputerPlayer implements Tickable, GamePlayer {
     //Tag for logging
     private static final String TAG = "GameComputerPlayer";
     /**
@@ -80,8 +80,7 @@ public abstract class GameComputerPlayer extends Player implements Tickable {
      * @param name
      * 			the player's name (e.g., "John")
      */
-    public GameComputerPlayer(int num, String name) {
-        super(num, name);
+    public GameComputerPlayer(String name) {
         this.name = name;
     }
 
