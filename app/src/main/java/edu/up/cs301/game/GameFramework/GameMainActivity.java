@@ -9,6 +9,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -43,7 +44,7 @@ import edu.up.cs301.game.R;
  * @author Steven R. Vegdahl
  * @date Version 2013
  */
-public abstract class GameMainActivity extends Activity implements
+public abstract class GameMainActivity extends AppCompatActivity implements
         View.OnClickListener {
     //Tag for Logging
     private static final String TAG = "GameMainActivity";

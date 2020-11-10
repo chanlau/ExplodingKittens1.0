@@ -36,7 +36,7 @@ public class EK_LocalGame extends LocalGame {
     private int cardsToDraw;
 
     public EK_LocalGame() {
-        currState = new GameState;
+        currState = new EKGameState();
         this.discardPile = new ArrayList<Card>();
         this.deck = new ArrayList<Card>();
         this.players = new ArrayList<Player>();
@@ -46,10 +46,13 @@ public class EK_LocalGame extends LocalGame {
         this.previousState = null;
     }
 
+
+    //send updated state to a given player
     @Override
     protected void sendUpdatedStateTo(GamePlayer p) {
-
-    }
+        //EKGameState gameCopy = new EKGameState(currState);
+        //p.sendInfo(gameCopy);
+    }//sendUpdatedState
 
     @Override
     protected boolean canMove(int playerIdx) {
@@ -111,11 +114,6 @@ public class EK_LocalGame extends LocalGame {
         Log.d("Invalid Action",
                 "Action provided was an invalid action");
         return false;
-    }
-
-
-   // @Override
-    protected void sendUpdatedStateTo(Player p) {
     }
 
 

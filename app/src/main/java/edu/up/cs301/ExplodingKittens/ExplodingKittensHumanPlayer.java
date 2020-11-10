@@ -1,6 +1,7 @@
 package edu.up.cs301.ExplodingKittens;
 
 import android.graphics.Color;
+import android.media.Image;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -95,9 +96,9 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
          } //for loop*/
     } //ExplodingKittensHumanPlayer class
 
-    //This returns the top level surface view
+    //This returns the top level surface view of main GUI
     public View getTopView() {
-        return null;
+        return myActivity.findViewById(R.id.topGUI);
     }
 
     /**
@@ -108,7 +109,14 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
      */
     public void receiveInfo(GameInfo info) {
 
-    }
+        if(info instanceof EKGameState == false){
+            flash(Color.RED, 500);
+            return;
+        }
+        else{
+            updateDisplay();
+            }
+        }
 
     /**
      * Updates the GUI with new information after actions are taken
@@ -162,7 +170,10 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
     } //updateDisplay class
 
     public void setAsGui(GameMainActivity activity) {
+        myActivity = activity;
 
+        //loads layout for GUI
+        activity.setContentView(R.layout.activity_main);
     }
 
     /**
@@ -226,4 +237,5 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             updateDisplay();
         }
     }
+
 }
