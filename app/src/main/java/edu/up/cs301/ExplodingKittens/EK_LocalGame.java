@@ -205,7 +205,7 @@ public class EK_LocalGame extends LocalGame {
         /**
          * External Citation
          * Date: 19 October 2020
-         * Problem: Was unsure if there was an easy way to shuffle and array
+         * Problem: Was unsure if there was an easy way to shuffle an array
          * list
          * <p>
          * Resource:
