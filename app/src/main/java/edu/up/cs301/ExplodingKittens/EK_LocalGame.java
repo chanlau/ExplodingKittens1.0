@@ -34,7 +34,7 @@ public class EK_LocalGame extends LocalGame {
     private int cardsToDraw;
 
     public EK_LocalGame() {
-        currState = new GameState;
+        currState = new EKGameState();
         this.discardPile = new ArrayList<Card>();
         this.deck = new ArrayList<Card>();
         this.players = new ArrayList<Player>();
@@ -98,11 +98,6 @@ public class EK_LocalGame extends LocalGame {
                     "Action provided was an invalid action");
         }
         return false;
-    }
-
-
-   // @Override
-    protected void sendUpdatedStateTo(Player p) {
     }
 
 
