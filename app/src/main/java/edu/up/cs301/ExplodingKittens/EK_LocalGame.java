@@ -248,13 +248,13 @@ public class EK_LocalGame extends LocalGame {
     //exploding kitten card back into the deck
     public boolean Defuse(GamePlayer p) {
         //check if there is a defuse card in the hand
-        int defusePos = checkHand(p, 12);
-        int explodePos = checkHand(p, 0);
+        int defusePos = checkHand(currState.getCurrentPlayerHand(), 12);
+        int explodePos = checkHand(currState.getCurrentPlayerHand(), 0);
         if(defusePos != NULL && explodePos != NULL){
-            currState.getDiscardPile().add(p.getPlayerHand().get(defusePos));
-            p.getPlayerHand().remove(defusePos);
-            currState.getDeck().add(p.getPlayerHand().get(explodePos));
-            Collections.shuffle(currState.getDeck());
+            currState.getDiscardPile().add(currState.getCurrentPlayerHand().get(defusePos));
+            currState.getCurrentPlayerHand().remove(defusePos);
+            int randPos = (int)(Math.random()*currState.getDeck().size());
+            currState.getDeck().add(randPos, currState.getCurrentPlayerHand().get(explodePos));
             return true;
         }
         return false;
@@ -272,8 +272,7 @@ public class EK_LocalGame extends LocalGame {
         currState.setCardsToDraw(currState.getCardsToDraw()-1);
 
         //Check if the player drew an Exploding Kitten and they can't defuse it, then they lose
-        if(currState.getPlayerHands().get(this.currState.getWhoseTurn()).get(
-                currState.getPlayerHands().get(this.currState.getWhoseTurn()).size()-1).getCardType() == 0){
+        if(currState.getCurrentPlayerHand().get(currState.getCurrentPlayerHand().size()-1).getCardType() == 0){
             if(!(Defuse(player))){
                 currState.setCardsToDraw(1);
                 nextTurn();
@@ -377,11 +376,11 @@ public class EK_LocalGame extends LocalGame {
 
 
     //check for the card
-    public int checkHand(GamePlayer p, int card) {
+    public int checkHand(ArrayList<Card> hand, int card) {
         //check to see if the card type exists in the players hand, if it
         // does return the position of the card
-        for (int i = 0; i < p.getPlayerHand().size(); i++) {
-            if (p.getPlayerHand().get(i).getCardType() == card) {
+        for (int i = 0; i < hand.size(); i++) {
+            if (hand.get(i).getCardType() == card) {
                 return i;
             }
         }
