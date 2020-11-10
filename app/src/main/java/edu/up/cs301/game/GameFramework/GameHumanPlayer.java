@@ -1,6 +1,5 @@
 package edu.up.cs301.game.GameFramework;
 
-import edu.up.cs301.ExplodingKittens.Player;
 import edu.up.cs301.game.GameFramework.actionMessage.GameOverAckAction;
 import edu.up.cs301.game.GameFramework.actionMessage.MyNameIsAction;
 import edu.up.cs301.game.GameFramework.actionMessage.ReadyAction;

@@ -33,6 +33,15 @@ public class EKGameState extends GameState {
     private int numPlayers;
 
 
+    public EKGameState() {
+        this.discardPile = new ArrayList<Card>();
+        this.deck = new ArrayList<Card>();
+        this.whoseTurn = 1;
+        this.cardsToDraw = 1;
+        //populateDeck();
+        //populateHands();
+    }
+
     //constructor
     public EKGameState(int numOfPlayers) {
         this.discardPile = new ArrayList<Card>();
@@ -207,6 +216,10 @@ public class EKGameState extends GameState {
             }
         }
 
+    }
+
+    public void setNumPlayers(int val){
+        this.numPlayers = val;
     }
 
 }

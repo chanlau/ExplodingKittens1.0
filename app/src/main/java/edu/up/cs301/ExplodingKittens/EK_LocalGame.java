@@ -29,9 +29,16 @@ public class EK_LocalGame extends LocalGame {
     EKGameState currState;
     //Instance variable representing the previous state of the game
     private EKGameState previousState;
+    private EKGameState newState;
+    int test;
 
     public EK_LocalGame() {
-        currState = new EKGameState(players.length);
+        //crashes here
+        currState = new EKGameState();
+        //currState.setNumPlayers(this.players.length);
+        //call method to set currState playerNum
+
+        //currState = new EKGameState(this.players.length);
         this.previousState = null;
     }
 
@@ -425,8 +432,6 @@ public class EK_LocalGame extends LocalGame {
             currState.getDeck().add(new Card(12));
         }
     }
-
-
 
 
     public EKGameState getCurrState(){

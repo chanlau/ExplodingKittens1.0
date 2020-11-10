@@ -49,8 +49,8 @@ public class CounterComputerPlayer2 extends CounterComputerPlayer1 {
 	 * @param name
 	 * 		the player's name
 	 */
-	public CounterComputerPlayer2(int num, String name) {
-		super(num, name);
+	public CounterComputerPlayer2(String name) {
+		super(name);
 	}
 	
     /**

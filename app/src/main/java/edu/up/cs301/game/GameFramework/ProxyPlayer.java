@@ -1,6 +1,5 @@
 package edu.up.cs301.game.GameFramework;
 
-import edu.up.cs301.ExplodingKittens.Player;
 import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
 import edu.up.cs301.game.GameFramework.infoMessage.BindGameInfo;
 import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
@@ -17,7 +16,7 @@ import edu.up.cs301.game.GameFramework.utilities.Logger;
  * @author Steven R. Vegdahl
  * @version July 2013
  */
-public class ProxyPlayer extends Player {
+public class ProxyPlayer implements GamePlayer {
     //Tag for logging
     private static final String TAG = "ProxyPlayer";
 
@@ -38,8 +37,8 @@ public class ProxyPlayer extends Player {
      * @param portNum
      * 		the port number through which we connect to our client
      */
-    public ProxyPlayer(int num, int portNum, String name) {
-        super(num, name);
+    public ProxyPlayer(int portNum) {
+        super();
 
         Logger.debugLog(TAG, "Creating Proxy Player");
 

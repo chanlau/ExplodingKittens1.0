@@ -3,7 +3,6 @@ package edu.up.cs301.game.GameFramework.actionMessage;
 
 import java.io.Serializable;
 
-import edu.up.cs301.ExplodingKittens.Player;
 import edu.up.cs301.game.GameFramework.GamePlayer;
 
 /**
