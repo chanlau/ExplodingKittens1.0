@@ -22,8 +22,8 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
     int random;
     ArrayList<Card> playerHand;
 
-    public ExplodingKittensComputerPlayer(int num, String name) {
-        super(num, name);
+    public ExplodingKittensComputerPlayer(String name) {
+        super(name);
         this.playerHand = new ArrayList<Card>();
 
     }
@@ -36,6 +36,7 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
      */
     @Override
     protected void receiveInfo(GameInfo info) {
+        /*
         EKGameState computerState = (EKGameState) info;
         //check to see if it's this player's turn
         if(computerState.getWhoseTurn() == this.playerNum){
@@ -61,7 +62,7 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
                         case 8:
                             int holder = 0;
                             //Find the first player that isn't null and isn't this player
-                            for(int i = 0; i < computerState.getPlayers().size(); i++){
+                            for(int i = 0; i < computerState.getNumPlayers(); i++){
                                 Player temp = computerState.getPlayers().get(i);
                                 if(temp != null && temp.getPlayerNum() != this.playerNum){
                                     holder = i;
@@ -140,7 +141,7 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
                     }
                 }
             }
-        }
+        } */
     }
 
     /**

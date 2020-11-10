@@ -30,6 +30,7 @@ public class EKGameState extends GameState {
     private ArrayList<ArrayList<Card>> playerHands;
     private int whoseTurn;
     private int cardsToDraw;
+    private int numPlayers;
 
 
     //constructor
@@ -41,6 +42,7 @@ public class EKGameState extends GameState {
         }
         this.whoseTurn = 1;
         this.cardsToDraw = 1;
+        this.numPlayers = numOfPlayers;
     }
 
     //constructor to copy the given gamestate
@@ -55,6 +57,9 @@ public class EKGameState extends GameState {
          * Solution: Reaffirmed that the best way is to use a for loop
          */
 
+        this.discardPile = new ArrayList<Card>();
+        this.deck = new ArrayList<Card>();
+        //this.players = new ArrayList<Player>();
         //copy of whose turn it is
         this.whoseTurn = gamestate.getWhoseTurn();
         //Copy of # of cards to draw
@@ -76,16 +81,15 @@ public class EKGameState extends GameState {
             //add that new copy to the current deck
             this.deck.add(newCard2);
         }
-        //deep copy of the playersHands array list
-        for (int c = 0; c < gamestate.getPlayerHands().size(); c++) {
-            //Make a new player hand for each in gamestate
-            this.playerHands.add(new ArrayList<Card>());
-            //copy all of the cards in each hand
-            for (int i = 0; i < gamestate.getPlayerHands().get(c).size(); i++) {
-                //create a new card from the given card
-                this.playerHands.get(i).add(new Card(gamestate.getPlayerHands().get(c).get(i)));
+
+        //deep copy for array of player hands
+        for(int c = 0; c < numPlayers; c++){
+            for (int d = 0; d < gamestate.playerHands.get(c).size(); d++){
+                this.playerHands.get(c).add(gamestate.playerHands.get(c).get(d));
             }
         }
+
+        this.numPlayers = gamestate.numPlayers;
     }
 
 
@@ -137,6 +141,13 @@ public class EKGameState extends GameState {
 
     public void setCardsToDraw(int i){ this.cardsToDraw = i;}
 
+    public ArrayList<Card> getPlayerHand(int playerID){
+        return this.playerHands.get(playerID);
+    }
+
+    public int getNumPlayers(){
+        return this.numPlayers;
+    }
 
 }
 
