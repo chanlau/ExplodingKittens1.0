@@ -114,7 +114,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             return;
         }
         else{
-
+            updateDisplay();
             }
         }
 
