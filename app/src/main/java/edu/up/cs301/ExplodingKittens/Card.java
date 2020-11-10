@@ -10,9 +10,11 @@ public class Card {
     //create variables for the current player playing the card, the target player of the card
     //if there is one, and the cardType as an int
     private int cardType;
+    private boolean selected;
 
     public Card(int cardType){
         this.cardType = cardType;
+        selected = false;
     }
 
     public Card(Card orig) {
@@ -22,6 +24,10 @@ public class Card {
     public int getCardType() {
         return cardType;
     }
+
+    public boolean getSelected() { return selected; }
+
+    public void setSelected( boolean bool ) { this.selected = bool; }
 }
 
 /*Card Index:

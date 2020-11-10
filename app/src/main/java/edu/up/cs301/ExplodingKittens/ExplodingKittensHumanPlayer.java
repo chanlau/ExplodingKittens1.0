@@ -24,6 +24,22 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
     /* an array of 5 ints that correspond to index positions in the target
      array list. This could be the discard pile or the players hand */
     private int cardHand[] = new int[5];
+    /*
+    int variable to keep track of which player is currently selected for a
+    trade 2 or 3
+     */
+    private int tradePlayer;
+    /*
+    buttons
+     */
+    private Button leftScroll = null;
+    private Button rightScroll = null;
+    private Button trade2Btn = null;
+    private Button trade3Btn = null;
+    private Button trade5Btn = null;
+    private Button enterBtn = null;
+    private Button playBtn = null;
+    private Button endTurn = null;
     /* image buttons that will be set to the corresponding image buttons for
     he players hand and will be updated as the players hand adds or
     subtracts cards or they scroll through their hand. They will also be
@@ -33,13 +49,35 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
     private ImageButton card3 = null;
     private ImageButton card4 = null;
     private ImageButton card5 = null;
+    /*
+    image buttons for the players that will be selectable for trade 2 and 3
+     */
+    private ImageButton player2 = null;
+    private ImageButton player3 = null;
+    private ImageButton player4 = null;
     //an array list of image buttons to be used
     private ImageButton imagesHand[] = new ImageButton[5];
     // the discard pile image button
     private ImageButton discardPileBtn = null;
+    /*
+    booleans to keep track of which trade is currently selected
+     */
+    private boolean trade2 = false;
+    private boolean trade3 = false;
+    private boolean trade5 = false;
     // a boolean to keep track of if the player is looking at the discard
     // pile (true) or not (false)
     private boolean switchedDiscard = false;
+    /*
+    a boolean to keep track of if the player can select other players for
+    trade 2 or trade 3
+     */
+    private boolean selectablePlayers = false;
+    /*
+    a boolean to keep track of if the player is selecting a card (true) or
+    not (false)
+     */
+    private boolean selectingCard = false;
 
     /*
 
@@ -50,7 +88,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
      * @param num
      * @param name
      *      number corresponding to this player
-     *      name corresponding to  this player
+     *      name corresponding to this player
      */
     public ExplodingKittensHumanPlayer(int num, String name) {
         super(num, name);
@@ -97,67 +135,117 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
      * Updates the GUI with new information after actions are taken
      */
     public void updateDisplay() {
+
         /* updates the display with the card type, the array is changed in
         the onClick method depending on whether the players hand is being
         viewed or the discard pile is being viewed and is updated with the
         card indexes for the given array */
-        for (int i = 0; i < 5; i++) {
-            int cardType;
+            for (int i = 0; i < 5; i++) {
+                int cardType;
             /*
             check to see if we are looking at the discard pile or the player
             hand array and choose the correct array index accordingly
              */
-            if (switchedDiscard == false) {
-                cardType = this.getPlayerHand().get(cardHand[i]).getCardType();
-            }
-            else {
-                cardType =
-                        state.getDiscardPile().get(cardHand[i]).getCardType();
-            }
-            switch (cardType) {
-                case 0:
-                    imagesHand[i].setImageResource(R.drawable.explodingkittencard);
-                    break;
-                case 1:
-                    imagesHand[i].setImageResource(R.drawable.tacocatcard);
-                    break;
-                case 2:
-                    imagesHand[i].setImageResource(R.drawable.beardcatcard);
-                    break;
-                case 3:
-                    imagesHand[i].setImageResource(R.drawable.hairypotatocatcard);
-                    break;
-                case 4:
-                    imagesHand[i].setImageResource(R.drawable.rainbowralphingcatcard);
-                    break;
-                case 5:
-                    imagesHand[i].setImageResource(R.drawable.cattermeloncard);
-                    break;
-                case 6:
-                    imagesHand[i].setImageResource(R.drawable.attackcard);
-                    break;
-                case 7:
-                    imagesHand[i].setImageResource(R.drawable.shufflecard);
-                    break;
-                case 8:
-                    imagesHand[i].setImageResource(R.drawable.favorcard);
-                    break;
-                case 9:
-                    imagesHand[i].setImageResource(R.drawable.skipcard);
-                    break;
-                case 10:
-                    imagesHand[i].setImageResource(R.drawable.seethefuturecard);
-                    break;
-                case 11:
-                    imagesHand[i].setImageResource(R.drawable.nopecard);
-                    break;
-                case 12:
-                    imagesHand[i].setImageResource(R.drawable.defusecard);
-                    break;
-                default:
-                    break;
-            } //switch statement
-        } //for loop
+                if (switchedDiscard == false) {
+                    cardType = this.getPlayerHand().get(cardHand[i]).getCardType();
+                }
+                else {
+                    cardType =
+                            state.getDiscardPile().get(cardHand[i]).getCardType();
+                }
+                // check to see if the player is selecting a card or not
+                if (selectingCard == false) {
+                    // set the appropriate image to each button
+                    switch (cardType) {
+                        case 0:
+                            imagesHand[i].setImageResource(R.drawable.explodingkittencard);
+                            break;
+                        case 1:
+                            imagesHand[i].setImageResource(R.drawable.tacocatcard);
+                            break;
+                        case 2:
+                            imagesHand[i].setImageResource(R.drawable.beardcatcard);
+                            break;
+                        case 3:
+                            imagesHand[i].setImageResource(R.drawable.hairypotatocatcard);
+                            break;
+                        case 4:
+                            imagesHand[i].setImageResource(R.drawable.rainbowralphingcatcard);
+                            break;
+                        case 5:
+                            imagesHand[i].setImageResource(R.drawable.cattermeloncard);
+                            break;
+                        case 6:
+                            imagesHand[i].setImageResource(R.drawable.attackcard);
+                            break;
+                        case 7:
+                            imagesHand[i].setImageResource(R.drawable.shufflecard);
+                            break;
+                        case 8:
+                            imagesHand[i].setImageResource(R.drawable.favorcard);
+                            break;
+                        case 9:
+                            imagesHand[i].setImageResource(R.drawable.skipcard);
+                            break;
+                        case 10:
+                            imagesHand[i].setImageResource(R.drawable.seethefuturecard);
+                            break;
+                        case 11:
+                            imagesHand[i].setImageResource(R.drawable.nopecard);
+                            break;
+                        case 12:
+                            imagesHand[i].setImageResource(R.drawable.defusecard);
+                            break;
+                        default:
+                            break;
+                    } //switch statement
+                } // if statement for selectingCard
+                else {
+                    switch (cardType) {
+                        case 0:
+                            imagesHand[i].setImageResource(R.drawable.explodingkittencard);
+                            break;
+                        case 1:
+                            imagesHand[i].setImageResource(R.drawable.selecttacocatcard);
+                            break;
+                        case 2:
+                            imagesHand[i].setImageResource(R.drawable.selectbeardcatcard);
+                            break;
+                        case 3:
+                            imagesHand[i].setImageResource(R.drawable.selecthairypotatocatcard);
+                            break;
+                        case 4:
+                            imagesHand[i].setImageResource(R.drawable.selectrainbowralphingcatcard);
+                            break;
+                        case 5:
+                            imagesHand[i].setImageResource(R.drawable.selectcattermeloncard);
+                            break;
+                        case 6:
+                            imagesHand[i].setImageResource(R.drawable.selectattackcard);
+                            break;
+                        case 7:
+                            imagesHand[i].setImageResource(R.drawable.selectshufflecard);
+                            break;
+                        case 8:
+                            imagesHand[i].setImageResource(R.drawable.selectfavorcard);
+                            break;
+                        case 9:
+                            imagesHand[i].setImageResource(R.drawable.selectskipcard);
+                            break;
+                        case 10:
+                            imagesHand[i].setImageResource(R.drawable.selectseethefuturecard);
+                            break;
+                        case 11:
+                            imagesHand[i].setImageResource(R.drawable.selectnopecard);
+                            break;
+                        case 12:
+                            imagesHand[i].setImageResource(R.drawable.selectdefusecard);
+                            break;
+                        default:
+                            break;
+                    } //switch statement
+                } // else statement for selectingCard
+            } //for loop
     } //updateDisplay method
 
     public void setAsGui(GameMainActivity activity) {
@@ -167,13 +255,43 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         activity.setContentView(R.layout.activity_main);
 
         //initialize the widget reference member variables
+        this.leftScroll = (Button)activity.findViewById(R.id.leftScroll);
+        this.rightScroll = (Button)activity.findViewById(R.id.rightScroll);
+        this.trade2Btn = (Button)activity.findViewById(R.id.trade2);
+        this.trade3Btn = (Button)activity.findViewById(R.id.trade3);
+        this.trade5Btn = (Button)activity.findViewById(R.id.trade5);
+        this.enterBtn = (Button)activity.findViewById(R.id.enter);
+        this.playBtn = (Button)activity.findViewById(R.id.play);
+        this.endTurn = (Button)activity.findViewById(R.id.endTurn);
         this.card1 = (ImageButton)activity.findViewById(R.id.imageButton5);
         this.card2 = (ImageButton)activity.findViewById(R.id.imageButton6);
         this.card3 = (ImageButton)activity.findViewById(R.id.imageButton7);
         this.card4 = (ImageButton)activity.findViewById(R.id.imageButton8);
         this.card5 = (ImageButton)activity.findViewById(R.id.imageButton9);
+        this.player2 = (ImageButton)activity.findViewById(R.id.player2);
+        this.player3 = (ImageButton)activity.findViewById(R.id.player3);
+        this.player4 = (ImageButton)activity.findViewById(R.id.player4);
         this.discardPileBtn =
                 (ImageButton)activity.findViewById(R.id.discardPile);
+
+        // listen for button presses
+        leftScroll.setOnClickListener(this);
+        rightScroll.setOnClickListener(this);
+        trade2Btn.setOnClickListener(this);
+        trade3Btn.setOnClickListener(this);
+        trade5Btn.setOnClickListener(this);
+        enterBtn.setOnClickListener(this);
+        playBtn.setOnClickListener(this);
+        endTurn.setOnClickListener(this);
+        card1.setOnClickListener(this);
+        card2.setOnClickListener(this);
+        card3.setOnClickListener(this);
+        card4.setOnClickListener(this);
+        card5.setOnClickListener(this);
+        player2.setOnClickListener(this);
+        player3.setOnClickListener(this);
+        player4.setOnClickListener(this);
+        discardPileBtn.setOnClickListener(this);
     } //setAsGui method
 
     /**
@@ -194,8 +312,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 for (int i = 0; i < 5; i++) {
                     if (cardHand[i] - 1 == -1) {
                         break;
-                    }
-                    else {
+                    } else {
                         cardHand[i] = cardHand[i] - 1;
                     }
                 }
@@ -214,23 +331,71 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                     if (switchedDiscard == false) {
                         if (cardHand[i] + 1 >= this.playerHand.size()) {
                             break;
-                        }
-                        else {
+                        } else {
                             cardHand[i] = cardHand[i] + 1;
                         }
-                    }
-                    else {
+                    } else {
                         if (cardHand[i] + 1 >= state.getDiscardPile().size()) {
                             break;
-                        }
-                        else {
+                        } else {
                             cardHand[i] = cardHand[i] + 1;
                         }
                     }
                 }
             } //right scroll button
 
-            else if (button == button.findViewById(R.id.discardPile)) {
+            else if (button == button.findViewById(R.id.trade2)) {
+                selectablePlayers = true;
+                trade2 = true;
+                trade3 = false;
+                trade5 = false;
+            } // trade2 button
+
+            else if (button == button.findViewById(R.id.trade3)) {
+                selectablePlayers = true;
+                trade2 = false;
+                trade3 = true;
+                trade5 = false;
+            } // trade3 button
+
+            else if (button == button.findViewById(R.id.trade5)) {
+                trade2 = false;
+                trade3 = false;
+                trade5 = true;
+            } else if (button == button.findViewById(R.id.enter)) {
+                //for trade 2
+                /*
+                check to make sure that only two cards are selected then send the action
+                 */
+                if (switchedDiscard == false) {
+                    if (selectablePlayers == true) {
+                        int numSelected = 0;
+                        int tradeCards[] = new int[2];
+                        int c = 0;
+                        for (int i = 0; i < this.getPlayerHand().size(); i++) {
+                            if (this.getPlayerHand().get(i).getSelected() == true) {
+                                if (numSelected < 2) {
+                                    tradeCards[c] = i;
+                                    c++;
+                                }
+                                numSelected++;
+                            }
+                        }
+                        if (numSelected == 2) {
+
+                        } else {
+                        }
+                        selectablePlayers = false;
+                    } // boolean selectablePlayers
+                } // boolean switchedDiscard
+            } // enter button
+
+            updateDisplay();
+        } // if statement for instance of button
+
+        else if (button instanceof ImageButton) {
+
+            if (button == button.findViewById(R.id.discardPile)) {
                 /*
                 check to see if the player wants to view the discard pile
                 or close the discard pile that they are actively viewing
@@ -258,9 +423,123 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             else if (button == button.findViewById(R.id.imageButton5)) {
                 /*
                 check to see if the player hand previously selected the image
-                 button in question. If so carry out the action of the image
-                 button, if not select the image button
+                 button in question. Reverse the current selection state of
+                 the card
                  */
+                if (switchedDiscard == false) {
+                    if (this.getPlayerHand().get(cardHand[0]).getSelected() == true) {
+                        this.getPlayerHand().get(cardHand[0]).setSelected(false);
+                    } else {
+                        this.getPlayerHand().get(cardHand[0]).setSelected(true);
+                    }
+                }
+                /*
+                if the discard pile is selected, perform the same action on
+                the discard pile card
+                 */
+                else {
+                    if (state.getDiscardPile().get(cardHand[4]).getSelected() == true) {
+                        state.getDiscardPile().get(cardHand[4]).setSelected(false);
+                    } else {
+                        state.getDiscardPile().get(cardHand[4]).setSelected(true);
+                    }
+                }
+            } else if (button == button.findViewById(R.id.imageButton6)) {
+                 /*
+                check to see if the player hand previously selected the image
+                 button in question. Reverse the current selection state of
+                 the card
+                 */
+                if (switchedDiscard == false) {
+                    if (this.getPlayerHand().get(cardHand[1]).getSelected() == true) {
+                        this.getPlayerHand().get(cardHand[1]).setSelected(false);
+                    } else {
+                        this.getPlayerHand().get(cardHand[1]).setSelected(true);
+                    }
+                }
+                /*
+                if the discard pile is selected, perform the same action on
+                the discard pile card
+                 */
+                else {
+                    if (state.getDiscardPile().get(cardHand[4]).getSelected() == true) {
+                        state.getDiscardPile().get(cardHand[4]).setSelected(false);
+                    } else {
+                        state.getDiscardPile().get(cardHand[4]).setSelected(true);
+                    }
+                }
+            } else if (button == button.findViewById(R.id.imageButton7)) {
+                /*
+                check to see if the player hand previously selected the image
+                 button in question. Reverse the current selection state of
+                 the card
+                 */
+                if (switchedDiscard == false) {
+                    if (this.getPlayerHand().get(cardHand[2]).getSelected() == true) {
+                        this.getPlayerHand().get(cardHand[2]).setSelected(false);
+                    } else {
+                        this.getPlayerHand().get(cardHand[2]).setSelected(true);
+                    }
+                }
+                /*
+                if the discard pile is selected, perform the same action on
+                the discard pile card
+                 */
+                else {
+                    if (state.getDiscardPile().get(cardHand[4]).getSelected() == true) {
+                        state.getDiscardPile().get(cardHand[4]).setSelected(false);
+                    } else {
+                        state.getDiscardPile().get(cardHand[4]).setSelected(true);
+                    }
+                }
+            } else if (button == button.findViewById(R.id.imageButton8)) {
+                /*
+                check to see if the player hand previously selected the image
+                 button in question. Reverse the current selection state of
+                 the card
+                 */
+                if (switchedDiscard == false) {
+                    if (this.getPlayerHand().get(cardHand[3]).getSelected() == true) {
+                        this.getPlayerHand().get(cardHand[3]).setSelected(false);
+                    } else {
+                        this.getPlayerHand().get(cardHand[3]).setSelected(true);
+                    }
+                }
+                /*
+                if the discard pile is selected, perform the same action on
+                the discard pile card
+                 */
+                else {
+                    if (state.getDiscardPile().get(cardHand[4]).getSelected() == true) {
+                        state.getDiscardPile().get(cardHand[4]).setSelected(false);
+                    } else {
+                        state.getDiscardPile().get(cardHand[4]).setSelected(true);
+                    }
+                }
+            } else if (button == button.findViewById(R.id.imageButton9)) {
+                /*
+                check to see if the player hand previously selected the image
+                 button in question. Reverse the current selection state of
+                 the card
+                 */
+                if (switchedDiscard == false) {
+                    if (this.getPlayerHand().get(cardHand[4]).getSelected() == true) {
+                        this.getPlayerHand().get(cardHand[4]).setSelected(false);
+                    } else {
+                        this.getPlayerHand().get(cardHand[4]).setSelected(true);
+                    }
+                }
+                /*
+                if the discard pile is selected, perform the same action on
+                the discard pile card
+                 */
+                else {
+                    if (state.getDiscardPile().get(cardHand[4]).getSelected() == true) {
+                        state.getDiscardPile().get(cardHand[4]).setSelected(false);
+                    } else {
+                        state.getDiscardPile().get(cardHand[4]).setSelected(true);
+                    }
+                }
             }
 
             updateDisplay();
