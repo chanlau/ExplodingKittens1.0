@@ -17,14 +17,15 @@ public class Player implements GamePlayer {
 
     int playerNum;
     String playerName;
-    ArrayList<Card> playerHand;
+
 
     public Player(int num, String name){
         this.playerNum = num;
         this.playerName = name;
-        this.playerHand = new ArrayList<Card>();
+        playerHand = new ArrayList<Card>();
     }
 
+    //returns true if they have an exploding kitten
     public boolean checkForExplodingKitten(){
         for(int i = 0; i < this.playerHand.size(); i++){
             if(this.playerHand.get(i).getCardType() == 0){
