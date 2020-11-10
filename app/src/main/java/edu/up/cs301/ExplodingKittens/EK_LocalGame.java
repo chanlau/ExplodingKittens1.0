@@ -113,14 +113,14 @@ public class EK_LocalGame extends LocalGame {
         //See how many players have lost the game
         int playersLost = 0;
         for(int i = 0; i < players.length; i++){
-            if(currState.getPlayers().get(i).checkForExplodingKitten()){
+            if(checkHand(currState.getPlayerHands().get(i),0) != -1){
                 playersLost++;
             }
         }
-        if(playersLost == (currState.getPlayers().size()-1)) {
-            for(int i = 0; i < currState.getPlayers().size(); i++){
-                if(!(currState.getPlayers().get(i).checkForExplodingKitten())){
-                    return "Congratulations, " + currState.getPlayers().get(i).getPlayerName() + "! You won";
+        if(playersLost == (currState.getPlayerHands().size()-2)) {
+            for(int i = 0; i < currState.getPlayerHands().size(); i++){
+                if(checkHand(currState.getPlayerHands().get(i),0) == -1){
+                    return "Congratulations, " + playerNames[i] + "! You won";
                 }
             }
 
@@ -401,6 +401,7 @@ public class EK_LocalGame extends LocalGame {
 
 
     //check the arraylist for a certain card value
+    //returns -1 if the card is not in the arraylist
     public int checkHand(ArrayList<Card> hand, int cardTypeValue) {
         //check to see if the card type exists in the players hand, if it
         // does return the position of the card
