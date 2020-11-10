@@ -27,18 +27,27 @@ public class EKGameState extends GameState {
     //instance variables
     private ArrayList<Card> discardPile;
     private ArrayList<Card> deck;
-    private ArrayList<Player> players;
+    //private ArrayList<Player> players;
     private int whoseTurn;
     private int cardsToDraw;
+    private ArrayList<ArrayList<Card>> playerHands;
+    private ArrayList<Card> player1Hand;
+    private ArrayList<Card> player2Hand;
+    private ArrayList<Card> player3Hand;
+    private ArrayList<Card> player4Hand;
 
 
     //constructor
     public EKGameState() {
         this.discardPile = new ArrayList<Card>();
         this.deck = new ArrayList<Card>();
-        this.players = new ArrayList<Player>();
+        //this.players = new ArrayList<Player>();
         this.whoseTurn = 1;
         this.cardsToDraw = 1;
+        this.playerHands.add(player1Hand);
+        this.playerHands.add(player2Hand);
+        this.playerHands.add(player3Hand);
+        this.playerHands.add(player4Hand);
         //populateDeck();
         //populateHands();
     }
@@ -57,9 +66,8 @@ public class EKGameState extends GameState {
 
         this.discardPile = new ArrayList<Card>();
         this.deck = new ArrayList<Card>();
-        this.players = new ArrayList<Player>();
-        this.whoseTurn = 1;
-        this.cardsToDraw = 1;
+        this.whoseTurn = gamestate.whoseTurn;
+        this.cardsToDraw = gamestate.cardsToDraw;
 
         //deep copy of the gamestate discardPile
         for (int a = 0; a < gamestate.getDiscardPile().size(); a++) {
@@ -72,34 +80,23 @@ public class EKGameState extends GameState {
         //deep copy of the gamestate deck
         for (int b = 0; b < gamestate.getDeck().size(); b++) {
             //create a copy of the given card from the deck
-            Card newCard2 =
-                    new Card(gamestate.getDiscardPile().get(b).getCardType());
+            Card newCard2 = new Card(gamestate.getDiscardPile().get(b).getCardType());
             //add that new copy to the current deck
             deck.add(newCard2);
         }
-        //deep copy of the players array list
-        for (int c = 0; c < gamestate.getPlayers().size(); c++) {
-            //get the player at the given index c
-            Player tempPlayer = gamestate.getPlayers().get(c);
-            //create a new player using the player at index c information
-            Player player1 =
-                    new Player(tempPlayer.getPlayerNum(),
-                            tempPlayer.getPlayerName());
-            //copy the hand of the given player to the new player
-            for (int i = 0; i < tempPlayer.getPlayerHand().size(); i++) {
-                //create a new card from the given card
-                Card tempCard = new Card(tempPlayer.getPlayerHand().get(i).getCardType());
-                player1.setPlayerHand(tempCard);
-            }
-            //add the new player to the array list
-            players.add(player1);
+        //deep copy of the playerHands array list
+        for(int c = 0; c < 4; c++){
+
         }
+
+        this.playerHands = gamestate.playerHands;
+
         //copy of whose turn it is
         this.whoseTurn = gamestate.getWhoseTurn();
     }
 
 
-
+/**
     //to string class
     //@Override
     public String ToString(){
@@ -117,16 +114,8 @@ public class EKGameState extends GameState {
                 Player0String + "\n Player 2 Hand: " + Player1String + "\n Player 3 Hand" + Player2String +
                 "\n Player 4 Hand: " + Player3String);
     }
+ */
 
-    //Remove player method
-    //Removes a selected player from the game
-    public void removePlayer(Player p){
-        for(int i = 0; i < players.size(); i++){
-            if(p.getPlayerNum() == players.get(i).getPlayerNum()){
-                players.remove(i);
-            }
-        }
-    }
 
     //restart the deck
     public void populateDeck() {
@@ -152,22 +141,15 @@ public class EKGameState extends GameState {
         int i, j;
         for (i = 0; i < 4; i++) {
             for (j = 0; j < 7; j++) {
-                this.players.get(i).getPlayerHand().add(deck.get(0));
+                this.playerHands.get(i).add(deck.get(0));
                 this.deck.remove(0);
 
             }
-            players.get(i).getPlayerHand().add(new Card(12));
+            this.playerHands.get(i).add(new Card(12));
         }
     }
 
    //Getters and Setters
-   public void addPlayer(Player p) {
-       players.add(p);
-   }
-
-    public ArrayList<Player> getPlayers(){
-        return this.players;
-    }
 
     public ArrayList<Card> getDiscardPile(){
         return this.discardPile;
