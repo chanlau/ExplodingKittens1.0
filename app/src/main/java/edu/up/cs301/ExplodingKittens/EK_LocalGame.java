@@ -33,8 +33,6 @@ public class EK_LocalGame extends LocalGame {
     public EK_LocalGame() {
         currState = new EKGameState(players.length);
         this.previousState = null;
-        populateDeck();
-        makeTestHand();
     }
 
 
@@ -112,7 +110,7 @@ public class EK_LocalGame extends LocalGame {
     protected String checkIfGameOver() {
         //See how many players have lost the game
         int playersLost = 0;
-        for(int i = 0; i < players.length; i++){
+       /* for(int i = 0; i < players.length; i++){
             if(currState.getPlayers().get(i).checkForExplodingKitten()){
                 playersLost++;
             }
@@ -124,7 +122,7 @@ public class EK_LocalGame extends LocalGame {
                 }
             }
 
-        }
+        } */
             return null;
     }
 
@@ -154,12 +152,13 @@ public class EK_LocalGame extends LocalGame {
     public boolean Attack(Player p) {
         int card = checkHand(p, 6);
         //move the card into the discard pile
-        currState.getDiscardPile().add(p.getPlayerHand().get(card));
-        p.getPlayerHand().remove(card);
+        currState.getDiscardPile().add(currState.getPlayerHands().get(p.playerNum).get(card));
+        currState.getPlayerHands().get(p.playerNum).remove(card);
         //increment cards to draw counter and change turn
         currState.setCardsToDraw(currState.getCardsToDraw()+1);
         nextTurn();
         return true;
+
     }
 
 
@@ -168,8 +167,8 @@ public class EK_LocalGame extends LocalGame {
         int card = checkHand(p, 11);
         //move the played nope card to the discard pile and remove it from
         //the players hand
-        currState.getDiscardPile().add(p.getPlayerHand().get(card));
-        p.getPlayerHand().remove(card);
+        currState.getDiscardPile().add(currState.getPlayerHands().get(p.playerNum).get(card));
+        currState.getPlayerHands().get(p.playerNum).remove(card);
         EKGameState temp = new EKGameState(currState);
         currState = previousState;
         previousState = temp;
@@ -182,11 +181,11 @@ public class EK_LocalGame extends LocalGame {
     public boolean Favor(Player p, Player t, int targCard) {
         int card = checkHand(p, 8);
         //copy selected card from target player to current player
-        p.getPlayerHand().add(t.getPlayerHand().get(card));
+        currState.getPlayerHands().get(p.playerNum).add(currState.getPlayerHands().get(t.playerNum).get(card));
         //move the played favor card to the discard pile and remove it from
         // the players hand
-        currState.getDiscardPile().add(p.getPlayerHand().get(targCard));
-        t.getPlayerHand().remove(targCard);
+        currState.getDiscardPile().add(currState.getPlayerHands().get(p.playerNum).get(targCard));
+        currState.getPlayerHands().get(t.playerNum).remove(targCard);
         return true;
     }
 
@@ -194,8 +193,8 @@ public class EK_LocalGame extends LocalGame {
     //current player looks at the top three cards of the deck
     public boolean SeeTheFuture(Player p) {
         int card = checkHand(p, 10);
-        currState.getDiscardPile().add(p.getPlayerHand().get(card));
-        p.getPlayerHand().remove(card);
+        currState.getDiscardPile().add(currState.getPlayerHands().get(p.playerNum).get(card));
+        currState.getPlayerHands().get(p.playerNum).remove(card);
         return true;
     }
 
@@ -217,8 +216,8 @@ public class EK_LocalGame extends LocalGame {
         int position = checkHand(p, 7);
         //add the played shuffle card to the discard pile and remove it from
         //the players hand
-        currState.getDiscardPile().add(p.getPlayerHand().get(position));
-        p.getPlayerHand().remove(position);
+        currState.getDiscardPile().add(currState.getPlayerHands().get(p.playerNum).get(position));
+        currState.getPlayerHands().get(p.playerNum).remove(position);
         //shuffle the deck
         Collections.shuffle(currState.getDeck());
 
@@ -230,8 +229,9 @@ public class EK_LocalGame extends LocalGame {
     public boolean Skip(Player p) {
         int card = checkHand(p, 9);
         //finds skip in hand and removes it before incrementing the turn;
-        currState.getDiscardPile().add(p.getPlayerHand().get(card));
-        currState.getPlayers().get(p.getPlayerNum()).getPlayerHand().remove(card);
+        currState.getDiscardPile().add(currState.getPlayerHands().get(p.playerNum).get(card));
+        //currState.getPlayers().get(p.getPlayerNum()).getPlayerHand().remove
+        // (card);
         //call the nextTurn method to move to the next player
         if(currState.getCardsToDraw() > 1){
             currState.setCardsToDraw(currState.getCardsToDraw()-1);
@@ -251,9 +251,9 @@ public class EK_LocalGame extends LocalGame {
         int defusePos = checkHand(p, 12);
         int explodePos = checkHand(p, 0);
         if(defusePos != NULL && explodePos != NULL){
-            currState.getDiscardPile().add(p.getPlayerHand().get(defusePos));
-            p.getPlayerHand().remove(defusePos);
-            currState.getDeck().add(p.getPlayerHand().get(explodePos));
+            currState.getDiscardPile().add(currState.getPlayerHands().get(p.playerNum).get(defusePos));
+            currState.getPlayerHands().get(p.playerNum).remove(defusePos);
+            currState.getDeck().add(currState.getPlayerHands().get(p.playerNum).get(explodePos));
             Collections.shuffle(currState.getDeck());
             return true;
         }
@@ -267,12 +267,12 @@ public class EK_LocalGame extends LocalGame {
             return false;
         }
         //add top card of deck to hand and remove it from deck
-        player.getPlayerHand().add(currState.getDeck().get(0));
+        currState.getPlayerHands().get(player.playerNum).add(currState.getDeck().get(0));
         currState.getDeck().remove(0);
         currState.setCardsToDraw(currState.getCardsToDraw()-1);
 
         //Check if the player drew an Exploding Kitten and they can't defuse it, then they lose
-        if(player.getPlayerHand().get(player.getPlayerHand().size()-1).getCardType() == 0){
+        if(currState.getPlayerHands().get(player.playerNum).get(currState.getPlayerHands().get(player.playerNum).size()-1).getCardType() == 0){
             if(!(Defuse(player))){
                 currState.setCardsToDraw(1);
                 nextTurn();
@@ -292,18 +292,19 @@ public class EK_LocalGame extends LocalGame {
 
     public boolean trade2(Player play, Player targ, int a, int b) {
         //determine if the two cards are of the same card type
-        Card trade1 = play.getPlayerHand().get(a);
-        Card trade2 = play.getPlayerHand().get(b);
+        Card trade1 = currState.getPlayerHands().get(play.playerNum).get(a);
+        Card trade2 = currState.getPlayerHands().get(play.playerNum).get(b);
         if (trade1.getCardType() == trade2.getCardType()) {
             //update the players hand
-            play.getPlayerHand().remove(b);
-            play.getPlayerHand().remove(a);
+            currState.getPlayerHands().get(play.playerNum).remove(b);
+            currState.getPlayerHands().get(play.playerNum).remove(a);
             //copy the new card from the target player into the player hand
             Random rand = new Random();
-            int random = rand.nextInt(targ.getPlayerHand().size() + 1);
-            play.getPlayerHand().add(targ.getPlayerHand().get(random));
+            int random =
+                    rand.nextInt(currState.getPlayerHands().get(targ.playerNum).size() + 1);
+            currState.getPlayerHands().get(play.playerNum).add(currState.getPlayerHands().get(targ.playerNum).get(random));
             //remove the target player card that was stolen
-            targ.getPlayerHand().remove(random);
+            currState.getPlayerHands().get(targ.playerNum).remove(random);
             return true;
         }
 
@@ -313,23 +314,23 @@ public class EK_LocalGame extends LocalGame {
     public boolean trade3(Player play, Player targ, int a, int b, int c,
                           int targCard) {
         //determine if the three cards are of the same type
-        Card trade1 = play.getPlayerHand().get(a);
-        Card trade2 = play.getPlayerHand().get(b);
-        Card trade3 = play.getPlayerHand().get(c);
+        Card trade1 = currState.getPlayerHands().get(play.playerNum).get(a);
+        Card trade2 = currState.getPlayerHands().get(play.playerNum).get(b);
+        Card trade3 = currState.getPlayerHands().get(play.playerNum).get(c);
         if (trade1.getCardType() == trade2.getCardType() &&
                 trade2.getCardType() == trade3.getCardType()) {
             //update the players hand
-            play.getPlayerHand().remove(c);
-            play.getPlayerHand().remove(b);
-            play.getPlayerHand().remove(a);
+            currState.getPlayerHands().get(play.playerNum).remove(c);
+            currState.getPlayerHands().get(play.playerNum).remove(b);
+            currState.getPlayerHands().get(play.playerNum).remove(a);
             //check to see if the target player has the desired card
-            for (int i = 0; i < targ.getPlayerHand().size(); i++) {
-                if (targCard == targ.getPlayerHand().get(i).getCardType()) {
+            for (int i = 0; i < currState.getPlayerHands().get(targ.playerNum).size(); i++) {
+                if (targCard == currState.getPlayerHands().get(targ.playerNum).get(i).getCardType()) {
                     //add the desired card to the player hand and remove it
                     // from the target player
                     //hand
-                    play.getPlayerHand().add(targ.getPlayerHand().get(i));
-                    targ.getPlayerHand().remove(i);
+                    currState.getPlayerHands().get(play.playerNum).add(currState.getPlayerHands().get(targ.playerNum).get(i));
+                    currState.getPlayerHands().get(targ.playerNum).remove(i);
                 }
             }
             return true;
@@ -343,35 +344,40 @@ public class EK_LocalGame extends LocalGame {
     public boolean trade5(Player p, int cardPos1, int cardPos2, int cardPos3,
                           int cardPos4, int cardPos5, int target) {
         //determine if the 5 cards are unique
-        int comp1 = p.getPlayerHand().get(cardPos1).getCardType();
-        int comp2 = p.getPlayerHand().get(cardPos2).getCardType();
-        int comp3 = p.getPlayerHand().get(cardPos3).getCardType();
-        int comp4 = p.getPlayerHand().get(cardPos4).getCardType();
-        int comp5 = p.getPlayerHand().get(cardPos5).getCardType();
+        int comp1 =
+                currState.getPlayerHands().get(p.playerNum).get(cardPos1).getCardType();
+        int comp2 = currState.getPlayerHands().get(p.playerNum).get(cardPos2).getCardType();
+        int comp3 = currState.getPlayerHands().get(p.playerNum).get(cardPos3).getCardType();
+        int comp4 = currState.getPlayerHands().get(p.playerNum).get(cardPos4).getCardType();
+        int comp5 = currState.getPlayerHands().get(p.playerNum).get(cardPos5).getCardType();
         if (comp1 == comp2 || comp1 == comp3 || comp1 == comp4 || comp1 == comp5 ||
                 comp2 == comp3 || comp2 == comp4 || comp2 == comp5 ||
                 comp3 == comp4 || comp3 == comp5 ||
                 comp4 == comp5) {
             //update the players hand
-            p.getPlayerHand().remove(cardPos5);
-            p.getPlayerHand().remove(cardPos4);
-            p.getPlayerHand().remove(cardPos3);
-            p.getPlayerHand().remove(cardPos2);
-            p.getPlayerHand().remove(cardPos1);
+            currState.getPlayerHands().get(p.playerNum).remove(cardPos5);
+            currState.getPlayerHands().get(p.playerNum).remove(cardPos4);
+            currState.getPlayerHands().get(p.playerNum).remove(cardPos3);
+            currState.getPlayerHands().get(p.playerNum).remove(cardPos2);
+            currState.getPlayerHands().get(p.playerNum).remove(cardPos1);
             //copy the desired card to the players hand
-            p.getPlayerHand().add(currState.getDiscardPile().get(target));
+            currState.getPlayerHands().get(p.playerNum).add(currState.getDiscardPile().get(target));
             //remove the card from the discard pile
             currState.getDiscardPile().remove(target);
         }
         return false;
     }
 
+
     //increments turn
     public void nextTurn() {
-        currState.setWhoseTurn((currState.getWhoseTurn()+1)%(currState.getPlayers().size()));
+        currState.setWhoseTurn((currState.getWhoseTurn()+1)%(currState.getNumPlayers()));
+
+        /*
         while (currState.getPlayers().get(currState.getWhoseTurn()).checkForExplodingKitten()) {
             currState.setWhoseTurn(currState.getWhoseTurn()+1);
         }
+         */
     }
 
 
@@ -379,32 +385,15 @@ public class EK_LocalGame extends LocalGame {
     public int checkHand(Player p, int card) {
         //check to see if the card type exists in the players hand, if it
         // does return the position of the card
-        for (int i = 0; i < p.getPlayerHand().size(); i++) {
-            if (p.getPlayerHand().get(i).getCardType() == card) {
+        for (int i = 0; i < currState.getPlayerHands().get(p.playerNum).size(); i++) {
+            if (currState.getPlayerHands().get(p.playerNum).get(i).getCardType() == card) {
                 return i;
             }
         }
         return NULL;
     }
 
-    //restart the deck
-    public void populateDeck() {
-        int i;
-        int j;
-        //puts 4 of each cat card, attack, shuffle, favor, skip cards
-        for (i = 1; i <= 9; i++) {
-            for (j = 0; j < 4; j++) {
-                currState.getDeck().add(new Card(i));
-            }
-        }
-        // puts 5 See the Future and Nope Cards into deck
-        for (i = 10; i <= 11; i++) {
-            for (j = 0; j < 5; j++) {
-                currState.getDeck().add(new Card(i));
-            }
-        }
-
-    }
+/*
 
     //adds defuse and explode cards to deck
     public void populateDefuseExplode() {
@@ -421,16 +410,6 @@ public class EK_LocalGame extends LocalGame {
         }
     }
 
-    //adds appropriate amt. of cards to all players hands
-    public void populateHands() {
-        int i, j;
-        for (i = 0; i < 4; i++) {
-            for (j = 0; j < 7; j++) {
-                drawCard(currState.getPlayers().get(i));
-            }
-            currState.getPlayers().get(i).getPlayerHand().add(new Card(12));
-        }
-    }
 
 //sets all players hands to be able to do each action once
 
@@ -451,6 +430,8 @@ public class EK_LocalGame extends LocalGame {
         }
 
     }
+
+    */
 
     public EKGameState getCurrState(){
         return this.currState;

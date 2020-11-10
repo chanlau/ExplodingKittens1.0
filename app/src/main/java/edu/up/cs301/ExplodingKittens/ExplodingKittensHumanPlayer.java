@@ -106,11 +106,11 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             hand array and choose the correct array index accordingly
              */
             if (switchedDiscard == false) {
-                cardType = this.getPlayerHand().get(cardHand[i]).getCardType();
+                cardType =
+                        state.getPlayerHands().get(this.playerNum).get(cardHand[i]).getCardType();
             }
             else {
-                cardType =
-                        state.getDiscardPile().get(cardHand[i]).getCardType();
+                cardType = state.getDiscardPile().get(cardHand[i]).getCardType();
             }
             switch (cardType) {
                 case 0:

@@ -30,6 +30,7 @@ public class EKGameState extends GameState {
     private ArrayList<ArrayList<Card>> playerHands;
     private int whoseTurn;
     private int cardsToDraw;
+    private int numPlayers;
 
 
     //constructor
@@ -41,6 +42,7 @@ public class EKGameState extends GameState {
         }
         this.whoseTurn = 1;
         this.cardsToDraw = 1;
+        this.numPlayers = numOfPlayers;
     }
 
     //constructor to copy the given gamestate
@@ -79,23 +81,15 @@ public class EKGameState extends GameState {
             //add that new copy to the current deck
             deck.add(newCard2);
         }
-        //deep copy of the players array list
-        for (int c = 0; c < gamestate.getPlayers().size(); c++) {
-            //get the player at the given index c
-            Player tempPlayer = gamestate.getPlayers().get(c);
-            //create a new player using the player at index c information
-            Player player1 =
-                    new Player(tempPlayer.getPlayerNum(),
-                            tempPlayer.getPlayerName());
-            //copy the hand of the given player to the new player
-            for (int i = 0; i < tempPlayer.getPlayerHand().size(); i++) {
-                //create a new card from the given card
-                Card tempCard = new Card(tempPlayer.getPlayerHand().get(i).getCardType());
-                player1.setPlayerHand(tempCard);
+
+        //deep copy for array of player hands
+        for(int c = 0; c < numPlayers; c++){
+            for (int d = 0; d < gamestate.playerHands.get(c).size(); d++){
+                this.playerHands.get(c).add(gamestate.playerHands.get(c).get(d));
             }
-            //add the new player to the array list
-            //players.add(player1);
         }
+
+        this.numPlayers = gamestate.numPlayers;
     }
 
 
@@ -142,7 +136,11 @@ public class EKGameState extends GameState {
 
     public void setCardsToDraw(int i){ this.cardsToDraw = i;}
 
+    public int getNumPlayers(){return this.numPlayers;}
 
+    public ArrayList<ArrayList<Card>> getPlayerHands(){
+        return this.playerHands;
+    }
 }
 
 
