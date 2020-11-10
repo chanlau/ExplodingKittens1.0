@@ -121,6 +121,13 @@ public class EKGameState extends GameState {
 
     public ArrayList<Card> getCurrentPlayerHand() {return this.playerHands.get(this.whoseTurn);}
 
+    public ArrayList<Card> getTargetPlayerHand(int targetPlayerIdx){
+        if(playerHands.size() < targetPlayerIdx){
+            return null;
+        }
+        return playerHands.get(targetPlayerIdx);
+    }
+
     public ArrayList<Card> getDiscardPile(){
         return this.discardPile;
     }
