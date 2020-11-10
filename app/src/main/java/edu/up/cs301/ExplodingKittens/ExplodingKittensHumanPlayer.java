@@ -47,53 +47,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         for (int i = 0; i < 5; i++) {
             cardHand[i] = i;
         }
-        //set the image buttons for the players hand to their
-        //card hand to begin the game (5 left most cards)
-        /**for (int i = 0; i < 5; i++) {
-         switch (this.playerHand.get(i).getCardType()) {
-         case 0:
-         cardHand[i] = 0;
-         break;
-         case 1:
-         cardHand[i] = 1;
-         break;
-         case 2:
-         cardHand[i] = 2;
-         break;
-         case 3:
-         cardHand[i] = 3;
-         break;
-         case 4:
-         cardHand[i] = 4;
-         break;
-         case 5:
-         cardHand[i] = 5;
-         break;
-         case 6:
-         cardHand[i] = 6;
-         break;
-         case 7:
-         cardHand[i] = 7;
-         break;
-         case 8:
-         cardHand[i] = 8;
-         break;
-         case 9:
-         cardHand[i] = 9;
-         break;
-         case 10:
-         cardHand[i] = 10;
-         break;
-         case 11:
-         cardHand[i] = 11;
-         break;
-         case 12:
-         cardHand[i] = 12;
-         break;
-         default:
-         break;
-         } //switch statement
-         } //for loop*/
+
     } //ExplodingKittensHumanPlayer class
 
     //This returns the top level surface view of main GUI
