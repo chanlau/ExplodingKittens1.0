@@ -33,6 +33,15 @@ public class EKGameState extends GameState {
     private int numPlayers;
 
 
+    public EKGameState() {
+        this.discardPile = new ArrayList<Card>();
+        this.deck = new ArrayList<Card>();
+        this.whoseTurn = 1;
+        this.cardsToDraw = 1;
+        //populateDeck();
+        //populateHands();
+    }
+
     //constructor
     public EKGameState(int numOfPlayers) {
         this.discardPile = new ArrayList<Card>();
@@ -43,6 +52,8 @@ public class EKGameState extends GameState {
         this.whoseTurn = 1;
         this.cardsToDraw = 1;
         this.numPlayers = numOfPlayers;
+        populateDeck();
+        populateHands();
     }
 
     //constructor to copy the given gamestate
@@ -121,6 +132,13 @@ public class EKGameState extends GameState {
 
     public ArrayList<Card> getCurrentPlayerHand() {return this.playerHands.get(this.whoseTurn);}
 
+    public ArrayList<Card> getTargetPlayerHand(int targetPlayerIdx){
+        if(playerHands.size() < targetPlayerIdx){
+            return null;
+        }
+        return playerHands.get(targetPlayerIdx);
+    }
+
     public ArrayList<Card> getDiscardPile(){
         return this.discardPile;
     }
@@ -147,6 +165,61 @@ public class EKGameState extends GameState {
 
     public int getNumPlayers(){
         return this.numPlayers;
+    }
+
+    public void populateDeck() {
+        int i;
+        int j;
+        //puts 4 of each cat card, attack, shuffle, favor, skip cards
+        for (i = 1; i <= 9; i++) {
+            for (j = 0; j < 4; j++) {
+                this.getDeck().add(new Card(i));
+            }
+        }
+        // puts 5 See the Future and Nope Cards into deck
+        for (i = 10; i <= 11; i++) {
+            for (j = 0; j < 5; j++) {
+                this.getDeck().add(new Card(i));
+            }
+        }
+
+    }
+
+    //adds appropriate amt. of cards to all players hands
+    public void populateHands() {
+        int i, j;
+        for (i = 0; i < this.getNumPlayers(); i++) {
+            for (j = 0; j < 7; j++) {
+                this.playerHands.get(i).add(this.getDeck().get(0));
+                this.deck.remove(0);
+            }
+            this.playerHands.get(i).add(new Card(12));
+        }
+    }
+
+    //sets all players hands to be able to do each action once
+
+    public void makeTestHand() {
+        int i, j;
+        for (i = 0; i < this.getNumPlayers(); i++) {
+            //puts 3 tacocats in hand
+            for (j = 0; j < 3; j++) {
+                this.getPlayerHand(i).add(new Card(1));
+            }
+            //puts 2 beardcats in hand
+            for (j = 0; j < 2; j++) {
+                this.getPlayerHand(i).add(new Card(2));
+            }
+            //puts one of every card in hand
+            for (j = 1; j <= 12; j++) {
+                this.getPlayerHand(i).add(new Card(j));
+            }
+        }
+
+    }
+
+    public void setNumPlayers(int val){
+        this.numPlayers = val;
     }
 
 }

@@ -140,7 +140,7 @@ public class GameConfig {
             public GamePlayer createPlayer(String name) {
                 int portNum = getPortNum();
                 Logger.log(TAG, "Port number:" + portNum);
-                return new ProxyPlayer(0, portNum, "");
+                return new ProxyPlayer(portNum);
             }
         };
         /*//Add the Bluetooth Network Player to the available players list

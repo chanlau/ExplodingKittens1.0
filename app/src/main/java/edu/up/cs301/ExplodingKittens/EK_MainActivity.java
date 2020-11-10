@@ -25,13 +25,13 @@ public class EK_MainActivity extends GameMainActivity {
         // a human player player type (player type 0)
         playerTypes.add(new GamePlayerType("Local Human Player") {
             public GamePlayer createPlayer(String name) {
-                return new ExplodingKittensHumanPlayer(0, name);
+                return new ExplodingKittensHumanPlayer(name);
             }});
 
         // a computer player type (player type 1)
         playerTypes.add(new GamePlayerType("Computer Player") {
             public GamePlayer createPlayer(String name) {
-                return new ExplodingKittensComputerPlayer(1, name);
+                return new ExplodingKittensComputerPlayer(name);
             }});
 
         // a computer player type (player type 2)
@@ -52,8 +52,8 @@ public class EK_MainActivity extends GameMainActivity {
         // Add the default players to the configuration
         defaultConfig.addPlayer("Human", 0); // player 1: a human player
         defaultConfig.addPlayer("Computer 1", 1); // player 2: a computer player
-        defaultConfig.addPlayer("Computer 2", 1); // player 2: a computer player
-        defaultConfig.addPlayer("Computer 3", 1); // player 2: a computer player
+        defaultConfig.addPlayer("Computer 2", 1); // player 3: a computer player
+        defaultConfig.addPlayer("Computer 3", 1); // player 4: a computer player
 
 
         // Set the default remote-player setup:

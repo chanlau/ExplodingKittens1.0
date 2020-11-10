@@ -1,12 +1,12 @@
 package edu.up.cs301.ExplodingKittens.EKActions;
 
-import edu.up.cs301.ExplodingKittens.Player;
+import edu.up.cs301.game.GameFramework.GamePlayer;
 import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
 
 public class Trade5Action extends GameAction {
     private int PosC1, PosC2, PosC3, PosC4, PosC5, targetCardValue;
 
-    public Trade5Action(Player player, int card1, int card2, int card3, int card4, int card5, int targetValue) {
+    public Trade5Action(GamePlayer player, int card1, int card2, int card3, int card4, int card5, int targetValue) {
         super(player);
         this.PosC1 = card1;
         this.PosC2 = card2;

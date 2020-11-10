@@ -21,9 +21,9 @@ public class CounterComputerPlayer1 extends GameComputerPlayer implements Tickab
      * @param name
      * 		the player's name
      */
-    public CounterComputerPlayer1(int num, String name) {
+    public CounterComputerPlayer1(String name) {
         // invoke superclass constructor
-        super(num, name);
+        super(name);
         
         // start the timer, ticking 20 times per second
         getTimer().setInterval(50);
