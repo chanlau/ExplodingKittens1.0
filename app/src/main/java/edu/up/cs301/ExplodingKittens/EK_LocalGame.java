@@ -42,10 +42,13 @@ public class EK_LocalGame extends LocalGame {
         this.cardsToDraw = 1;
     }
 
+
+    //send updated state to a given player
     @Override
     protected void sendUpdatedStateTo(GamePlayer p) {
-
-    }
+        //EKGameState gameCopy = new EKGameState(currState);
+        //p.sendInfo(gameCopy);
+    }//sendUpdatedState
 
     @Override
     protected boolean canMove(int playerIdx) {
