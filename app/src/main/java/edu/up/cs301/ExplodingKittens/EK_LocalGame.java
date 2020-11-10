@@ -6,16 +6,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
-import edu.up.cs301.ExplodingKittens.EKActions.DrawCard;
+import edu.up.cs301.ExplodingKittens.EKActions.DrawCardAction;
 import edu.up.cs301.ExplodingKittens.EKActions.PlayAttackCard;
+import edu.up.cs301.ExplodingKittens.EKActions.PlayDefuseCard;
 import edu.up.cs301.ExplodingKittens.EKActions.PlayFavorCard;
 import edu.up.cs301.ExplodingKittens.EKActions.PlayFutureCard;
 import edu.up.cs301.ExplodingKittens.EKActions.PlayNopeCard;
 import edu.up.cs301.ExplodingKittens.EKActions.PlayShuffleCard;
 import edu.up.cs301.ExplodingKittens.EKActions.PlaySkipCard;
-import edu.up.cs301.ExplodingKittens.EKActions.Trade2;
-import edu.up.cs301.ExplodingKittens.EKActions.Trade3;
-import edu.up.cs301.ExplodingKittens.EKActions.Trade5;
+import edu.up.cs301.ExplodingKittens.EKActions.Trade2Action;
+import edu.up.cs301.ExplodingKittens.EKActions.Trade3Action;
+import edu.up.cs301.ExplodingKittens.EKActions.Trade5Action;
 import edu.up.cs301.game.GameFramework.GamePlayer;
 import edu.up.cs301.game.GameFramework.LocalGame;
 import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
@@ -26,10 +27,14 @@ import static java.sql.Types.NULL;
 public class EK_LocalGame extends LocalGame {
 
     EKGameState currState;
-
+    //Instance variable representing the previous state of the game
+    private EKGameState previousState;
 
     public EK_LocalGame() {
-        this.currState = new EKGameState();
+        currState = new EKGameState(players.length);
+        this.previousState = null;
+        populateDeck();
+        makeTestHand();
     }
 
 
@@ -42,67 +47,107 @@ public class EK_LocalGame extends LocalGame {
 
     @Override
     protected boolean canMove(int playerIdx) {
-        if(playerIdx == currState.getWhoseTurn()){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return playerIdx == currState.getWhoseTurn();
     }
 
     @Override
     protected boolean makeMove(GameAction action) {
         //check which action is being taken
-        if (action instanceof DrawCard) {
-            return drawCard(action.getPlayer());
-        } else if (action instanceof PlayNopeCard) {
+        if (action instanceof PlayNopeCard) {
             return Nope(action.getPlayer());
-        } else if (action instanceof PlayFavorCard) {
-            return Favor(action.getPlayer(),
-                    ((PlayFavorCard) action).getTarget(),
-                    ((PlayFavorCard) action).getChoice());
-        } else if (action instanceof PlayAttackCard) {
-            return Attack(action.getPlayer());
-        } else if (action instanceof PlayShuffleCard) {
-            return Shuffle(action.getPlayer());
-        } else if (action instanceof PlaySkipCard) {
-            return Skip(action.getPlayer());
-        } else if (action instanceof PlayFutureCard){
-            return SeeTheFuture(action.getPlayer()) ;
-        } else if (action instanceof Trade2) {
-            return trade2(action.getPlayer(), ((Trade2) action).getTarget(),
-                    ((Trade2) action).getPosC1(), ((Trade2) action).getPosC2());
-        } else if (action instanceof Trade3) {
-            return trade3(action.getPlayer(), ((Trade3) action).getTarget(),
-                    ((Trade3) action).getPosC1(),
-                    ((Trade3) action).getPosC2(),
-                    ((Trade3) action).getPosC3(),
-                    ((Trade3) action).getTargetValue());
-        } else if (action instanceof Trade5) {
-            return trade5(action.getPlayer(), ((Trade5) action).getPosC1(),
-                    ((Trade5) action).getPosC2(),
-                    ((Trade5) action).getPosC3(),
-                    ((Trade5) action).getPosC4(), ((Trade5) action).getPosC5(),
-                    ((Trade5) action).getTargetValue());
         }
-        //error message
         else {
-            Log.d("Invalid Action",
-                    "Action provided was an invalid action");
+            this.previousState = new EKGameState(this.currState);
+            if (action instanceof DrawCardAction) {
+
+                return drawCard(action.getPlayer());
+            } else if (action instanceof PlayFavorCard) {
+                return Favor(action.getPlayer(),
+                        ((PlayFavorCard) action).getTarget(),
+                        ((PlayFavorCard) action).getChoice());
+            } else if (action instanceof PlayAttackCard) {
+
+                return Attack(action.getPlayer());
+            } else if (action instanceof PlayShuffleCard) {
+
+                return Shuffle(action.getPlayer());
+            } else if (action instanceof PlaySkipCard) {
+
+                return Skip(action.getPlayer());
+            } else if (action instanceof PlayFutureCard) {
+
+                return SeeTheFuture(action.getPlayer());
+            } else if (action instanceof PlayDefuseCard) {
+
+                return Defuse(action.getPlayer());
+            } else if (action instanceof Trade2Action) {
+
+                return trade2(action.getPlayer(), ((Trade2Action) action).getTarget(),
+                        ((Trade2Action) action).getPosC1(), ((Trade2Action) action).getPosC2());
+            } else if (action instanceof Trade3Action) {
+
+                return trade3(action.getPlayer(), ((Trade3Action) action).getTarget(),
+                        ((Trade3Action) action).getPosC1(),
+                        ((Trade3Action) action).getPosC2(),
+                        ((Trade3Action) action).getPosC3(),
+                        ((Trade3Action) action).getTargetValue());
+            } else if (action instanceof Trade5Action) {
+
+                return trade5(action.getPlayer(), ((Trade5Action) action).getPosC1(),
+                        ((Trade5Action) action).getPosC2(),
+                        ((Trade5Action) action).getPosC3(),
+                        ((Trade5Action) action).getPosC4(), ((Trade5Action) action).getPosC5(),
+                        ((Trade5Action) action).getTargetValue());
+            }
         }
+
+        //error message
+        Log.d("Invalid Action",
+                "Action provided was an invalid action");
         return false;
     }
 
 
     @Override
     protected String checkIfGameOver() {
-        return null;
+        //See how many players have lost the game
+        int playersLost = 0;
+        for(int i = 0; i < players.length; i++){
+            if(currState.getPlayers().get(i).checkForExplodingKitten()){
+                playersLost++;
+            }
+        }
+        if(playersLost == (currState.getPlayers().size()-1)) {
+            for(int i = 0; i < currState.getPlayers().size(); i++){
+                if(!(currState.getPlayers().get(i).checkForExplodingKitten())){
+                    return "Congratulations, " + currState.getPlayers().get(i).getPlayerName() + "! You won";
+                }
+            }
+
+        }
+            return null;
     }
 
 
     /****************************************************************************
-     * Card Methods
-     *************************************************************************/
+     * Card Methods shown below are:
+     * Attack
+     * Nope
+     * Favor
+     * SeeTheFuture
+     * Shuffle*
+     * Skip*
+     * Defuse*
+     * drawCard*
+     * Trade2
+     * Trade3
+     * Trade5
+     * nextTurn
+     * checkCard
+     * populateDeck*
+     * populateDefuseExplode*
+     * makeTestHand
+     ***************************************************************************/
     //Attack card
     //current player ends their turn without drawing a card and forces the
     //next player to draw two cards before ending their turn
@@ -125,7 +170,10 @@ public class EK_LocalGame extends LocalGame {
         //the players hand
         currState.getDiscardPile().add(p.getPlayerHand().get(card));
         p.getPlayerHand().remove(card);
-        return false;
+        EKGameState temp = new EKGameState(currState);
+        currState = previousState;
+        previousState = temp;
+        return true;
     }
 
     //Favor card
@@ -209,24 +257,35 @@ public class EK_LocalGame extends LocalGame {
             Collections.shuffle(currState.getDeck());
             return true;
         }
-        currState.removePlayer(p);
         return false;
     }
 
     //draw a card and end the turn of the player
     public boolean drawCard(Player player) {
         //checks if deck is empty
-        if (currState.getDeck().get(0) == null) {
+        if (currState.getDeck().get(0) == null || player == null) {
             return false;
         }
         //add top card of deck to hand and remove it from deck
         player.getPlayerHand().add(currState.getDeck().get(0));
         currState.getDeck().remove(0);
         currState.setCardsToDraw(currState.getCardsToDraw()-1);
-        //alternate turn
+
+        //Check if the player drew an Exploding Kitten and they can't defuse it, then they lose
+        if(player.getPlayerHand().get(player.getPlayerHand().size()-1).getCardType() == 0){
+            if(!(Defuse(player))){
+                currState.setCardsToDraw(1);
+                nextTurn();
+                return true;
+            }
+        }
+        //Progress the turn count
         if(currState.getCardsToDraw() == 0){
             nextTurn();
             currState.setCardsToDraw(1);
+        }
+        else{
+            drawCard(player);
         }
         return true;
     }
@@ -309,7 +368,7 @@ public class EK_LocalGame extends LocalGame {
 
     //increments turn
     public void nextTurn() {
-        currState.setWhoseTurn(currState.getWhoseTurn()+1);
+        currState.setWhoseTurn((currState.getWhoseTurn()+1)%(currState.getPlayers().size()));
         while (currState.getPlayers().get(currState.getWhoseTurn()).checkForExplodingKitten()) {
             currState.setWhoseTurn(currState.getWhoseTurn()+1);
         }
@@ -377,10 +436,9 @@ public class EK_LocalGame extends LocalGame {
 
     public void makeTestHand() {
         int i, j;
-        for (i = 0; i < currState.getPlayers().size(); i++) {
+        for (i = 0; i < players.length; i++) {
             //puts 3 tacocats in hand
             for (j = 0; j < 3; j++) {
-                currState.getPlayers().get(i).getPlayerHand().add(new Card(1));
             }
             //puts 2 beardcats in hand
             for (j = 0; j < 2; j++) {

@@ -15,6 +15,7 @@ public class Card {
         this.cardType = cardType;
     }
 
+    //deep copy constructor
     public Card(Card orig) {
         this.cardType = orig.getCardType();
     }
