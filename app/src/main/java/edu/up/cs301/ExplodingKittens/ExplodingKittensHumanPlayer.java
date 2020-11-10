@@ -9,12 +9,15 @@ import android.widget.ImageButton;
 
 import java.util.ArrayList;
 
+import edu.up.cs301.ExplodingKittens.EKActions.DrawCardAction;
 import edu.up.cs301.ExplodingKittens.EKActions.PlayAttackCard;
 import edu.up.cs301.ExplodingKittens.EKActions.PlayDefuseCard;
 import edu.up.cs301.ExplodingKittens.EKActions.PlayFavorCard;
 import edu.up.cs301.ExplodingKittens.EKActions.PlayNopeCard;
 import edu.up.cs301.ExplodingKittens.EKActions.PlayShuffleCard;
 import edu.up.cs301.ExplodingKittens.EKActions.PlaySkipCard;
+import edu.up.cs301.ExplodingKittens.EKActions.Trade2Action;
+import edu.up.cs301.ExplodingKittens.EKActions.Trade3Action;
 import edu.up.cs301.game.GameFramework.GameHumanPlayer;
 import edu.up.cs301.game.GameFramework.GameMainActivity;
 import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
@@ -34,6 +37,8 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
     trade 2 or 3
      */
     private int tradePlayer;
+    // int variable to keep track of target card that may get stolen
+    private int targCard;
     /*
     buttons
      */
@@ -78,6 +83,9 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
     not (false)
      */
     private boolean selectingCard = false;
+    // int to keep track of what part of trade 3 we are at: 0 for no trade
+    // yet, 1 for first stage, 2 for second stage
+    private int trade3Stage = 0;
 
     /*
 
@@ -137,7 +145,53 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
      * display the top 3 cards of the draw pile in place of the players hand
      */
     public void seeTheFuture() {
-
+        card1.setImageResource(R.drawable.blankcard);
+        card5.setImageResource(R.drawable.blankcard);
+        for (int i = 0; i < 3; i++) {
+            switch (state.getDeck().get(i).getCardType()) {
+                case 0:
+                    imagesHand[i].setImageResource(R.drawable.explodingkittencard);
+                    break;
+                case 1:
+                    imagesHand[i].setImageResource(R.drawable.tacocatcard);
+                    break;
+                case 2:
+                    imagesHand[i].setImageResource(R.drawable.beardcatcard);
+                    break;
+                case 3:
+                    imagesHand[i].setImageResource(R.drawable.hairypotatocatcard);
+                    break;
+                case 4:
+                    imagesHand[i].setImageResource(R.drawable.rainbowralphingcatcard);
+                    break;
+                case 5:
+                    imagesHand[i].setImageResource(R.drawable.cattermeloncard);
+                    break;
+                case 6:
+                    imagesHand[i].setImageResource(R.drawable.attackcard);
+                    break;
+                case 7:
+                    imagesHand[i].setImageResource(R.drawable.shufflecard);
+                    break;
+                case 8:
+                    imagesHand[i].setImageResource(R.drawable.favorcard);
+                    break;
+                case 9:
+                    imagesHand[i].setImageResource(R.drawable.skipcard);
+                    break;
+                case 10:
+                    imagesHand[i].setImageResource(R.drawable.seethefuturecard);
+                    break;
+                case 11:
+                    imagesHand[i].setImageResource(R.drawable.nopecard);
+                    break;
+                case 12:
+                    imagesHand[i].setImageResource(R.drawable.defusecard);
+                    break;
+                default:
+                    break;
+            } //switch statement
+        }
     }
 
     /**
@@ -192,7 +246,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                             state.getDiscardPile().get(cardHand[i]).getCardType();
                 }
                 // check to see if the player is selecting a card or not
-                if (selectingCard == false) {
+                if (selectingCard == false && trade3Stage != 2) {
                     // set the appropriate image to each button
                     switch (cardType) {
                         case 0:
@@ -238,7 +292,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                             break;
                     } //switch statement
                 } // if statement for selectingCard
-                else {
+                else if (selectingCard == true && trade3Stage != 2) {
                     switch (cardType) {
                         case 0:
                             imagesHand[i].setImageResource(R.drawable.explodingkittencard);
@@ -283,6 +337,8 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                             break;
                     } //switch statement
                 } // else statement for selectingCard
+
+                else if (selectingCard == false && trade3Stage != 2)
             } //for loop
     } //updateDisplay method
 
@@ -346,7 +402,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             left and update the display. If this would shift the index out of
             bounds (i.e. -1 instead of 0) then do no shift the cards
              */
-            if (button == button.findViewById(R.id.leftScroll)) {
+            if (button == leftScroll) {
                 for (int i = 0; i < 5; i++) {
                     if (cardHand[i] - 1 == -1) {
                         break;
@@ -360,7 +416,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             same with the right scroll button, but instead check for out of
             bounds on the right
              */
-            else if (button == button.findViewById(R.id.rightScroll)) {
+            else if (button == rightScroll) {
                 for (int i = 0; i < 5; i++) {
                     /*
                     check to see if we are using the discard pile or the
@@ -382,39 +438,48 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 }
             } //right scroll button
 
-            else if (button == button.findViewById(R.id.trade2)) {
-                trade2 = true;
+            else if (button == trade2Btn) {
+                if (trade2) { trade2 = false; }
+                else { trade2 = true; }
                 trade3 = false;
                 trade5 = false;
             } // trade2 button
 
-            else if (button == button.findViewById(R.id.trade3)) {
+            else if (button == trade3Btn) {
                 trade2 = false;
-                trade3 = true;
+                if (trade3) {
+                    trade3 = false;
+                    trade3Stage = 0;
+                }
+                else {
+                    trade3 = true;
+                    trade3Stage = 1;
+                }
                 trade5 = false;
             } // trade3 button
 
-            else if (button == button.findViewById(R.id.trade5)) {
+            else if (button == trade5Btn) {
                 trade2 = false;
                 trade3 = false;
-                trade5 = true;
+                if (trade5) { trade5 = false; }
+                else { trade5 = true; }
             } // trade5 button
 
-            else if(button == button.findViewById(R.id.play)) {
+            else if(button == playBtn) {
                 // check to make sure that this is not a trade or discard pile
                 if (trade2 == false && trade3 == false && trade5 == false && switchedDiscard == false) {
                     // check to see that only 1 card is selected
                     int a = 0;
                     int index = 0;
-                    for (int i = 0; i < this.getPlayerHand().size(); i++) {
-                        if (this.getPlayerHand().get(i).getSelected() == true) {
+                    for (int i = 0; i < state.getPlayerHand(this.playerNum).size(); i++) {
+                        if (state.getPlayerHand(this.playerNum).get(i).getSelected() == true) {
                             a++;
                             index = i;
                         }
                     }
                     if (a == 1) {
                         //find what card is too be played
-                        switch(this.getPlayerHand().get(index).getCardType()) {
+                        switch(state.getPlayerHand(this.playerNum).get(index).getCardType()) {
                             case 0:
                                 break;
                             case 1:
@@ -465,17 +530,17 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 }
             }
 
-            else if (button == button.findViewById(R.id.enter)) {
+            else if (button == enterBtn) {
                 //for trade 2
                 /*
                 check to make sure that only two cards are selected then send the action
                  */
-                if (switchedDiscard == false && trade2 == true) {
+                if (switchedDiscard == false && trade2 == true && trade3 == false && trade5 == false) {
                     int numSelected = 0;
                     int tradeCards[] = new int[2];
                     int c = 0;
-                    for (int i = 0; i < this.getPlayerHand().size(); i++) {
-                        if (this.getPlayerHand().get(i).getSelected() == true) {
+                    for (int i = 0; i < state.getPlayerHand(this.playerNum).size(); i++) {
+                        if (state.getPlayerHand(this.playerNum).get(i).getSelected() == true) {
                             if (numSelected < 2) {
                                 tradeCards[c] = i;
                                 c++;
@@ -483,34 +548,49 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                             numSelected++;
                         }
                     }
-                    if (numSelected == 2) {
-                if (switchedDiscard == false) {
-                    if (selectablePlayers == true) {
-                        int numSelected = 0;
-                        int tradeCards[] = new int[2];
-                        int c = 0;
-                        for (int i = 0; i < state.getPlayerHand(this.playerNum).size(); i++) {
-                            if (state.getPlayerHand(this.playerNum).get(i).getSelected() == true) {
-                                if (numSelected < 2) {
-                                    tradeCards[c] = i;
-                                    c++;
-                                }
-                                numSelected++;
+                    Trade2Action trade2Act = new Trade2Action(this,
+                            tradePlayer, tradeCards[0], tradeCards[1]);
+                    game.sendAction(trade2Act);
+                }
+                //trade3
+                else if (switchedDiscard == false && trade2 == false && trade3 == true && trade5 == false && trade3Stage == 1) {
+                    int numSelected = 0;
+                    int tradeCards[] = new int[3];
+                    int c = 0;
+                    for (int i = 0; i < state.getPlayerHand(this.playerNum).size(); i++) {
+                        if (state.getPlayerHand(this.playerNum).get(i).getSelected() == true) {
+                            if (numSelected < 3) {
+                                tradeCards[c] = i;
+                                c++;
                             }
+                            numSelected++;
                         }
-                        if (numSelected == 2) {
-
                     }
-                    else {
+                    Trade3Action trade3Act = new Trade3Action(this, )
+                }
+                else if (switchedDiscard == false && trade2 == false && trade3 == true && trade5 == false && trade3Stage == 2) {
+
+                }
+                //trade5
+                else if (switchedDiscard == false && trade2 == false && trade3 == false && trade5 == true) {
+                    int numSelected = 0;
+                    int tradeCards[] = new int[5];
+                    int c = 0;
+                    for (int i = 0; i < state.getPlayerHand(this.playerNum).size(); i++) {
+                        if (state.getPlayerHand(this.playerNum).get(i).getSelected() == true) {
+                            if (numSelected < 5) {
+                                tradeCards[c] = i;
+                                c++;
+                            }
+                            numSelected++;
+                        }
                     }
                 }
-
-
-
             } // enter button
 
-            else if (button == button.findViewById(R.id.endTurn)) {
-                this.drawCard
+            else if (button == endTurn) {
+                DrawCardAction drawCard = new DrawCardAction(this);
+                game.sendAction(drawCard);
             } // endTurn button
 
             updateDisplay();
@@ -518,7 +598,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
 
         else if (button instanceof ImageButton) {
 
-            if (button == button.findViewById(R.id.discardPile)) {
+            if (button == discardPileBtn) {
                 /*
                 check to see if the player wants to view the discard pile
                 or close the discard pile that they are actively viewing
@@ -543,7 +623,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 }
             } //discard pile button
 
-            else if (button == button.findViewById(R.id.imageButton5)) {
+            else if (button == card1) {
                 /*
                 check to see if the player hand previously selected the image
                  button in question. Reverse the current selection state of
@@ -569,7 +649,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 }
             } // player hand button 1
 
-            else if (button == button.findViewById(R.id.imageButton6)) {
+            else if (button == card2) {
                  /*
                 check to see if the player hand previously selected the image
                  button in question. Reverse the current selection state of
@@ -595,7 +675,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 }
             } // player hand button 2
 
-            else if (button == button.findViewById(R.id.imageButton7)) {
+            else if (button == card3) {
                 /*
                 check to see if the player hand previously selected the image
                  button in question. Reverse the current selection state of
@@ -621,7 +701,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 }
             } // player hand button 3
 
-            else if (button == button.findViewById(R.id.imageButton8)) {
+            else if (button == card4) {
                 /*
                 check to see if the player hand previously selected the image
                  button in question. Reverse the current selection state of
@@ -647,7 +727,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 }
             } // player hand button 4
 
-            else if (button == button.findViewById(R.id.imageButton9)) {
+            else if (button == card5) {
                 /*
                 check to see if the player hand previously selected the image
                  button in question. Reverse the current selection state of
@@ -673,7 +753,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 }
             } // player hand button 5
 
-            else if (button == button.findViewById(R.id.player2)) {
+            else if (button == player2) {
                 /*
                 check to see if trade 2
                  or 3 is happening
@@ -684,7 +764,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 }
             } // player2 button
 
-            else if (button == button.findViewById(R.id.player3)) {
+            else if (button == player3) {
                 /*
                 check to see if trade 2
                  or 3 is happening
@@ -695,7 +775,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 }
             } // player3 button
 
-            else if (button == button.findViewById(R.id.player4)) {
+            else if (button == player4) {
                 /*
                 check to see if trade 2
                  or 3 is happening

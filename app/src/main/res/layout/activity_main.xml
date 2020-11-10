@@ -175,7 +175,7 @@
                         tools:srcCompat="@drawable/cardpile" />
 
                     <ImageButton
-                        android:id="@+id/imageButton3"
+                        android:id="@+id/deck"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="47dip"
