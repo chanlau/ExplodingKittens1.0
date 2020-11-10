@@ -78,6 +78,9 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
                             PlayNopeCard nope = new PlayNopeCard(this);
                             this.game.sendAction(nope);
                             break;
+                        default:
+                            DrawCardAction draw = new DrawCardAction(this);
+                            this.game.sendAction(draw);
                     }
                 }
                 else{
