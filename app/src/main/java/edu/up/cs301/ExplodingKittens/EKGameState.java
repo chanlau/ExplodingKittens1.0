@@ -55,9 +55,6 @@ public class EKGameState extends GameState {
          * Solution: Reaffirmed that the best way is to use a for loop
          */
 
-        this.discardPile = new ArrayList<Card>();
-        this.deck = new ArrayList<Card>();
-        //this.players = new ArrayList<Player>();
         //copy of whose turn it is
         this.whoseTurn = gamestate.getWhoseTurn();
         //Copy of # of cards to draw
@@ -69,7 +66,7 @@ public class EKGameState extends GameState {
             Card newCard =
                     new Card(gamestate.getDiscardPile().get(a).getCardType());
             //add that new copy to the current discard pile
-            discardPile.add(newCard);
+            this.discardPile.add(newCard);
         }
         //deep copy of the gamestate deck
         for (int b = 0; b < gamestate.getDeck().size(); b++) {
@@ -77,24 +74,17 @@ public class EKGameState extends GameState {
             Card newCard2 =
                     new Card(gamestate.getDiscardPile().get(b).getCardType());
             //add that new copy to the current deck
-            deck.add(newCard2);
+            this.deck.add(newCard2);
         }
-        //deep copy of the players array list
-        for (int c = 0; c < gamestate.getPlayers().size(); c++) {
-            //get the player at the given index c
-            Player tempPlayer = gamestate.getPlayers().get(c);
-            //create a new player using the player at index c information
-            Player player1 =
-                    new Player(tempPlayer.getPlayerNum(),
-                            tempPlayer.getPlayerName());
-            //copy the hand of the given player to the new player
-            for (int i = 0; i < tempPlayer.getPlayerHand().size(); i++) {
+        //deep copy of the playersHands array list
+        for (int c = 0; c < gamestate.getPlayerHands().size(); c++) {
+            //Make a new player hand for each in gamestate
+            this.playerHands.add(new ArrayList<Card>());
+            //copy all of the cards in each hand
+            for (int i = 0; i < gamestate.getPlayerHands().get(c).size(); i++) {
                 //create a new card from the given card
-                Card tempCard = new Card(tempPlayer.getPlayerHand().get(i).getCardType());
-                player1.setPlayerHand(tempCard);
+                this.playerHands.get(i).add(new Card(gamestate.getPlayerHands().get(c).get(i)));
             }
-            //add the new player to the array list
-            //players.add(player1);
         }
     }
 
@@ -121,6 +111,11 @@ public class EKGameState extends GameState {
         return "HI this is just a place holder";
     }
 
+    public ArrayList<ArrayList<Card>> getPlayerHands(){
+        return this.playerHands;
+    }
+
+    public ArrayList<Card> getCurrentPlayerHand() {return this.playerHands.get(this.whoseTurn);}
 
     public ArrayList<Card> getDiscardPile(){
         return this.discardPile;

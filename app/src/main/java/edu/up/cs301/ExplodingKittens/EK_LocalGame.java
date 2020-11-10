@@ -151,7 +151,7 @@ public class EK_LocalGame extends LocalGame {
     //Attack card
     //current player ends their turn without drawing a card and forces the
     //next player to draw two cards before ending their turn
-    public boolean Attack(Player p) {
+    public boolean Attack(GamePlayer p) {
         int card = checkHand(p, 6);
         //move the card into the discard pile
         currState.getDiscardPile().add(p.getPlayerHand().get(card));
@@ -164,7 +164,7 @@ public class EK_LocalGame extends LocalGame {
 
 
     //Nope card
-    public boolean Nope(Player p) {
+    public boolean Nope(GamePlayer p) {
         int card = checkHand(p, 11);
         //move the played nope card to the discard pile and remove it from
         //the players hand
@@ -179,7 +179,7 @@ public class EK_LocalGame extends LocalGame {
     //Favor card
     //current player selects a target player and target player gives current
     //player a card of target players choosing
-    public boolean Favor(Player p, Player t, int targCard) {
+    public boolean Favor(GamePlayer p, Player t, int targCard) {
         int card = checkHand(p, 8);
         //copy selected card from target player to current player
         p.getPlayerHand().add(t.getPlayerHand().get(card));
@@ -192,7 +192,7 @@ public class EK_LocalGame extends LocalGame {
 
     //See the Future card
     //current player looks at the top three cards of the deck
-    public boolean SeeTheFuture(Player p) {
+    public boolean SeeTheFuture(GamePlayer p) {
         int card = checkHand(p, 10);
         currState.getDiscardPile().add(p.getPlayerHand().get(card));
         p.getPlayerHand().remove(card);
@@ -201,7 +201,7 @@ public class EK_LocalGame extends LocalGame {
 
     //Shuffle card
     //shuffles the deck randomly
-    public boolean Shuffle(Player p) {
+    public boolean Shuffle(GamePlayer p) {
         /**
          * External Citation
          * Date: 19 October 2020
@@ -227,7 +227,7 @@ public class EK_LocalGame extends LocalGame {
 
     //Skip card
     //current players turn ends without drawing a card
-    public boolean Skip(Player p) {
+    public boolean Skip(GamePlayer p) {
         int card = checkHand(p, 9);
         //finds skip in hand and removes it before incrementing the turn;
         currState.getDiscardPile().add(p.getPlayerHand().get(card));
@@ -246,7 +246,7 @@ public class EK_LocalGame extends LocalGame {
     //if the current player does not have a defuse card, they lose the game,
     //if they do have a defuse card play the defuse card and reshuffle the
     //exploding kitten card back into the deck
-    public boolean Defuse(Player p) {
+    public boolean Defuse(GamePlayer p) {
         //check if there is a defuse card in the hand
         int defusePos = checkHand(p, 12);
         int explodePos = checkHand(p, 0);
@@ -261,18 +261,19 @@ public class EK_LocalGame extends LocalGame {
     }
 
     //draw a card and end the turn of the player
-    public boolean drawCard(Player player) {
+    public boolean drawCard(GamePlayer player) {
         //checks if deck is empty
         if (currState.getDeck().get(0) == null || player == null) {
             return false;
         }
         //add top card of deck to hand and remove it from deck
-        player.getPlayerHand().add(currState.getDeck().get(0));
+        currState.getPlayerHands().get(this.currState.getWhoseTurn()).add(currState.getDeck().get(0));
         currState.getDeck().remove(0);
         currState.setCardsToDraw(currState.getCardsToDraw()-1);
 
         //Check if the player drew an Exploding Kitten and they can't defuse it, then they lose
-        if(player.getPlayerHand().get(player.getPlayerHand().size()-1).getCardType() == 0){
+        if(currState.getPlayerHands().get(this.currState.getWhoseTurn()).get(
+                currState.getPlayerHands().get(this.currState.getWhoseTurn()).size()-1).getCardType() == 0){
             if(!(Defuse(player))){
                 currState.setCardsToDraw(1);
                 nextTurn();
@@ -290,7 +291,7 @@ public class EK_LocalGame extends LocalGame {
         return true;
     }
 
-    public boolean trade2(Player play, Player targ, int a, int b) {
+    public boolean trade2(GamePlayer play, Player targ, int a, int b) {
         //determine if the two cards are of the same card type
         Card trade1 = play.getPlayerHand().get(a);
         Card trade2 = play.getPlayerHand().get(b);
@@ -310,7 +311,7 @@ public class EK_LocalGame extends LocalGame {
         return false;
     }
 
-    public boolean trade3(Player play, Player targ, int a, int b, int c,
+    public boolean trade3(GamePlayer play, Player targ, int a, int b, int c,
                           int targCard) {
         //determine if the three cards are of the same type
         Card trade1 = play.getPlayerHand().get(a);
@@ -340,7 +341,7 @@ public class EK_LocalGame extends LocalGame {
     //Trade 5 cards
     //current player selects 5 different cards and trades them for a card
     //from the discard pile
-    public boolean trade5(Player p, int cardPos1, int cardPos2, int cardPos3,
+    public boolean trade5(GamePlayer p, int cardPos1, int cardPos2, int cardPos3,
                           int cardPos4, int cardPos5, int target) {
         //determine if the 5 cards are unique
         int comp1 = p.getPlayerHand().get(cardPos1).getCardType();
@@ -376,7 +377,7 @@ public class EK_LocalGame extends LocalGame {
 
 
     //check for the card
-    public int checkHand(Player p, int card) {
+    public int checkHand(GamePlayer p, int card) {
         //check to see if the card type exists in the players hand, if it
         // does return the position of the card
         for (int i = 0; i < p.getPlayerHand().size(); i++) {
@@ -450,6 +451,17 @@ public class EK_LocalGame extends LocalGame {
             }
         }
 
+    }
+
+    //Checks a hand if it has an exploding kitten and
+    //returns true if they have an exploding kitten
+    public boolean checkForExplodingKitten(ArrayList<Card> hand){
+        for(int i = 0; i < hand.size(); i++){
+            if(hand.get(i).getCardType() == 0){
+                return true;
+            }
+        }
+        return false;
     }
 
     public EKGameState getCurrState(){

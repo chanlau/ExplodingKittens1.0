@@ -47,13 +47,12 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
 
     /**
      * constructor
-     * @param num
      * @param name
      *      number corresponding to this player
      *      name corresponding to  this player
      */
-    public ExplodingKittensHumanPlayer(int num, String name) {
-        super(num, name);
+    public ExplodingKittensHumanPlayer(String name) {
+        super(name);
         /*
         set the cardHand array to the first 5 indexes in the players hand
          */

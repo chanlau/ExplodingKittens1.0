@@ -35,7 +35,7 @@ import android.view.View;
  * @version July 2013
  *
  */
-public abstract class GameHumanPlayer extends Player implements Tickable {
+public abstract class GameHumanPlayer implements Tickable, GamePlayer {
     //Tag for logging
     private static final String TAG = "GameHumanPlayer";
     /**
@@ -46,7 +46,6 @@ public abstract class GameHumanPlayer extends Player implements Tickable {
     protected String name; // my player's name
     protected String[] allPlayerNames; // the names of all the player
     private Handler myHandler; // my thread's handler
-    private Handler saveMe;
     private GameMainActivity myActivity; // the current activity
     private GameTimer myTimer = new GameTimer(this); // my player's timer
     private boolean gameOver; // whether the game is over
@@ -57,14 +56,17 @@ public abstract class GameHumanPlayer extends Player implements Tickable {
      * @param name the name of the player
      */
 
-    public GameHumanPlayer(int num, String name) {
-        super(num, name);
+    public GameHumanPlayer(String name) {
+        // set the name via the argument
+
+        this.name = name;
+
+
         // mark game as not being over
         this.gameOver = false;
 
         // get new handler for this thread
         this.myHandler = new Handler();
-        this.saveMe = new Handler();
     }
 
     /**
@@ -209,9 +211,9 @@ public abstract class GameHumanPlayer extends Player implements Tickable {
         while (myHandler == null) Thread.yield();
 
         // post message to the handler
-        Log.d(TAG, "sendInfo - about to post");
-        myHandler.post(new MyRunnable(info, false));
-        Log.d(TAG, "sendInfo - done with post");
+        Log.d("sendInfo", "about to post");
+        myHandler.post(new MyRunnable(info));
+        Log.d("sendInfo", "done with post");
     }
 
     /**
@@ -222,6 +224,7 @@ public abstract class GameHumanPlayer extends Player implements Tickable {
      */
     public abstract void receiveInfo(GameInfo info);
 
+
     /**
      * Helper-class that runs the on the GUI's main thread when
      * there is a message to the player.
@@ -229,12 +232,10 @@ public abstract class GameHumanPlayer extends Player implements Tickable {
     private class MyRunnable implements Runnable {
         // the message to send to the player
         private GameInfo myInfo;
-        private Boolean isInitialState = false;
 
         // constructor
-        public MyRunnable(GameInfo info, boolean initial) {
+        public MyRunnable(GameInfo info) {
             myInfo = info;
-            isInitialState = initial;
         }
 
         // the run method, which is run in the main GUI thread
@@ -250,7 +251,7 @@ public abstract class GameHumanPlayer extends Player implements Tickable {
                 // game has not been bound: the only thing we're looking for is
                 // BindGameInfo object; ignore everything else
                 if (myInfo instanceof BindGameInfo) {
-                    Logger.debugLog(TAG, "binding game");
+                    Log.i("GameHumanPlayer", "binding game");
                     BindGameInfo bgs = (BindGameInfo)myInfo;
                     game = bgs.getGame(); // set the game
                     playerNum = bgs.getPlayerNum(); // set our player id
@@ -263,7 +264,7 @@ public abstract class GameHumanPlayer extends Player implements Tickable {
                 // here, the only thing we're looking for is a StartGameInfo object;
                 // ignore everything else
                 if (myInfo instanceof StartGameInfo) {
-                    Logger.debugLog(TAG, "notification to start game");
+                    Log.i("GameHumanPlayer", "notification to start game");
 
                     // update our player-name array
                     allPlayerNames = ((StartGameInfo)myInfo).getPlayerNames();
@@ -278,6 +279,8 @@ public abstract class GameHumanPlayer extends Player implements Tickable {
             else if (myInfo instanceof GameOverInfo) {
                 // if we're being notified the game is over, finish up
 
+                // perform the "gave over" behavior--by default, to show pop-up message
+                gameIsOver(((GameOverInfo)myInfo).getMessage());
 
                 // if our activity is non-null (which it should be), mark the activity as over
                 if (myActivity != null) myActivity.setGameOver(true);
@@ -287,24 +290,6 @@ public abstract class GameHumanPlayer extends Player implements Tickable {
 
                 // set our instance variable, to indicate the game as over
                 gameOver = true;
-
-                //Since the game is over, we will ask the player if they would like to restart the game
-                String quitQuestion = ((GameOverInfo)myInfo).getMessage() + "Would you like to restart the game?";
-                String posLabel = "Yes!";
-                String negLabel = "No";
-                MessageBox.popUpChoice(quitQuestion, posLabel, negLabel,
-                        //If they want to restart the game, restart it
-                        new DialogInterface.OnClickListener(){
-                            public void onClick(DialogInterface di, int val) {
-                                myActivity.restartGame();
-                            }},
-                        //If not, then just display who won the game
-                        new DialogInterface.OnClickListener(){
-                            public void onClick(DialogInterface di, int val) {
-                                // perform the "gave over" behavior--by default, to show pop-up message
-                                gameIsOver(((GameOverInfo)myInfo).getMessage());
-                            }},
-                        myActivity);
             }
             else if (myInfo instanceof TimerInfo) {
                 // if we have a timer-tick, and it's our timer object,
@@ -320,7 +305,7 @@ public abstract class GameHumanPlayer extends Player implements Tickable {
             }
             else {
                 // pass the state on to the subclass
-                    receiveInfo(myInfo);
+                receiveInfo(myInfo);
             }
         }
     }

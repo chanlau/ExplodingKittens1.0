@@ -13,8 +13,8 @@ import edu.up.cs301.game.GameFramework.GameMainActivity;
 import edu.up.cs301.game.GameFramework.GamePlayer;
 import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
 
-public class Player implements GamePlayer {
-
+public class Player{
+/*
     int playerNum;
     String playerName;
 
@@ -22,7 +22,6 @@ public class Player implements GamePlayer {
     public Player(int num, String name){
         this.playerNum = num;
         this.playerName = name;
-        playerHand = new ArrayList<Card>();
     }
 
     //returns true if they have an exploding kitten
@@ -74,4 +73,6 @@ public class Player implements GamePlayer {
     public boolean supportsGui() {
         return false;
     }
+
+ */
 }

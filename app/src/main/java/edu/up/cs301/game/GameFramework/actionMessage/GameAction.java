@@ -30,7 +30,7 @@ public abstract class GameAction implements Serializable {
     private static final long serialVersionUID = 30672013L;
 
     // the player who generated the request
-    private Player player;
+    private GamePlayer player;
 
     /**
      * constructor for GameAction
@@ -38,7 +38,7 @@ public abstract class GameAction implements Serializable {
      * @param player
      * 		the player who created the action
      */
-    public GameAction(Player player) {
+    public GameAction(GamePlayer player) {
         this.player = player;
     }
 
@@ -48,7 +48,7 @@ public abstract class GameAction implements Serializable {
      * @return the player who created the action
      *
      */
-    public Player getPlayer() {
+    public GamePlayer getPlayer() {
         return player;
     }
 
@@ -58,7 +58,7 @@ public abstract class GameAction implements Serializable {
      * @param p
      * 		the new player to which the action is to be associated
      */
-    public void setPlayer(Player p) {
+    public void setPlayer(GamePlayer p) {
         this.player = p;
     }
 }
