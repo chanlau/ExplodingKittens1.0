@@ -7,10 +7,11 @@
 package edu.up.cs301.ExplodingKittens.EKActions;
 
 import edu.up.cs301.ExplodingKittens.Player;
+import edu.up.cs301.game.GameFramework.GamePlayer;
 import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
 
 public class PlayShuffleCard extends GameAction {
-    public PlayShuffleCard(Player p){
+    public PlayShuffleCard(GamePlayer p){
         super(p);
     }
 }
