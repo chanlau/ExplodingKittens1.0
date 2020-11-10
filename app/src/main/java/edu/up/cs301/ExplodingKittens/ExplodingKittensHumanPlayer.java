@@ -17,7 +17,6 @@ import edu.up.cs301.game.R;
 public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View.OnClickListener {
 
     private EKGameState state;
-    ArrayList<Card> playerHand;
 
     private GameMainActivity myActivity;
 
@@ -106,6 +105,10 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         imagesHand[3] = card4;
         imagesHand[4] = card5;
 
+        for(int x = 0; x < state.getPlayerHand(this.playerNum).size(); x++){
+            state.getPlayerHand(this.playerNum).add(state.getPlayerHand(this.playerNum).get(x));
+        }
+
     } //ExplodingKittensHumanPlayer method
 
     //This returns the top level surface view of main GUI
@@ -145,7 +148,8 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             hand array and choose the correct array index accordingly
              */
                 if (switchedDiscard == false) {
-                    cardType = this.getPlayerHand().get(cardHand[i]).getCardType();
+                    cardType =
+                            state.getPlayerHand(this.playerNum).get(cardHand[i]).getCardType();
                 }
                 else {
                     cardType =
@@ -327,7 +331,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                     player hand array so we know what array size as upper bound
                      */
                     if (switchedDiscard == false) {
-                        if (cardHand[i] + 1 >= this.playerHand.size()) {
+                        if (cardHand[i] + 1 >= state.getPlayerHand(this.playerNum).size()) {
                             break;
                         } else {
                             cardHand[i] = cardHand[i] + 1;
@@ -370,8 +374,8 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                         int numSelected = 0;
                         int tradeCards[] = new int[2];
                         int c = 0;
-                        for (int i = 0; i < this.getPlayerHand().size(); i++) {
-                            if (this.getPlayerHand().get(i).getSelected() == true) {
+                        for (int i = 0; i < state.getPlayerHand(this.playerNum).size(); i++) {
+                            if (state.getPlayerHand(this.playerNum).get(i).getSelected() == true) {
                                 if (numSelected < 2) {
                                     tradeCards[c] = i;
                                     c++;
@@ -425,10 +429,10 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                  the card
                  */
                 if (switchedDiscard == false) {
-                    if (this.getPlayerHand().get(cardHand[0]).getSelected() == true) {
-                        this.getPlayerHand().get(cardHand[0]).setSelected(false);
+                    if (state.getPlayerHand(this.playerNum).get(cardHand[0]).getSelected() == true) {
+                        state.getPlayerHand(this.playerNum).get(cardHand[0]).setSelected(false);
                     } else {
-                        this.getPlayerHand().get(cardHand[0]).setSelected(true);
+                        state.getPlayerHand(this.playerNum).get(cardHand[0]).setSelected(true);
                     }
                 }
                 /*
@@ -449,10 +453,10 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                  the card
                  */
                 if (switchedDiscard == false) {
-                    if (this.getPlayerHand().get(cardHand[1]).getSelected() == true) {
-                        this.getPlayerHand().get(cardHand[1]).setSelected(false);
+                    if (state.getPlayerHand(this.playerNum).get(cardHand[1]).getSelected() == true) {
+                        state.getPlayerHand(this.playerNum).get(cardHand[1]).setSelected(false);
                     } else {
-                        this.getPlayerHand().get(cardHand[1]).setSelected(true);
+                        state.getPlayerHand(this.playerNum).get(cardHand[1]).setSelected(true);
                     }
                 }
                 /*
@@ -473,10 +477,10 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                  the card
                  */
                 if (switchedDiscard == false) {
-                    if (this.getPlayerHand().get(cardHand[2]).getSelected() == true) {
-                        this.getPlayerHand().get(cardHand[2]).setSelected(false);
+                    if (state.getPlayerHand(this.playerNum).get(cardHand[2]).getSelected() == true) {
+                        state.getPlayerHand(this.playerNum).get(cardHand[2]).setSelected(false);
                     } else {
-                        this.getPlayerHand().get(cardHand[2]).setSelected(true);
+                        state.getPlayerHand(this.playerNum).get(cardHand[2]).setSelected(true);
                     }
                 }
                 /*
@@ -497,10 +501,10 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                  the card
                  */
                 if (switchedDiscard == false) {
-                    if (this.getPlayerHand().get(cardHand[3]).getSelected() == true) {
-                        this.getPlayerHand().get(cardHand[3]).setSelected(false);
+                    if (state.getPlayerHand(this.playerNum).get(cardHand[3]).getSelected() == true) {
+                        state.getPlayerHand(this.playerNum).get(cardHand[3]).setSelected(false);
                     } else {
-                        this.getPlayerHand().get(cardHand[3]).setSelected(true);
+                        state.getPlayerHand(this.playerNum).get(cardHand[3]).setSelected(true);
                     }
                 }
                 /*
@@ -521,10 +525,10 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                  the card
                  */
                 if (switchedDiscard == false) {
-                    if (this.getPlayerHand().get(cardHand[4]).getSelected() == true) {
-                        this.getPlayerHand().get(cardHand[4]).setSelected(false);
+                    if (state.getPlayerHand(this.playerNum).get(cardHand[4]).getSelected() == true) {
+                        state.getPlayerHand(this.playerNum).get(cardHand[4]).setSelected(false);
                     } else {
-                        this.getPlayerHand().get(cardHand[4]).setSelected(true);
+                        state.getPlayerHand(this.playerNum).get(cardHand[4]).setSelected(true);
                     }
                 }
                 /*

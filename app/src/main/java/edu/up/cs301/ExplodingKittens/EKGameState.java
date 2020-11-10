@@ -141,6 +141,13 @@ public class EKGameState extends GameState {
 
     public void setCardsToDraw(int i){ this.cardsToDraw = i;}
 
+    public ArrayList<Card> getPlayerHand(int playerID){
+        return this.playerHands.get(playerID);
+    }
+
+    public int getNumPlayers(){
+        return this.numPlayers;
+    }
 
 }
 

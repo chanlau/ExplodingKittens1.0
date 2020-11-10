@@ -22,8 +22,8 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
     int random;
     ArrayList<Card> playerHand;
 
-    public ExplodingKittensComputerPlayer(int num, String name) {
-        super(num, name);
+    public ExplodingKittensComputerPlayer(String name) {
+        super(name);
         this.playerHand = new ArrayList<Card>();
 
     }
