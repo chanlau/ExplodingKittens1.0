@@ -29,12 +29,6 @@ public class EK_LocalGame extends LocalGame {
     EKGameState currState;
     //Instance variable representing the previous state of the game
     private EKGameState previousState;
-
-    public EK_LocalGame() {
-        this.currState = new EKGameState();
-        this.previousState = null;
-    }
-
     private ArrayList<Card> discardPile;
     private ArrayList<Card> deck;
     private ArrayList<Player> players;
@@ -48,6 +42,8 @@ public class EK_LocalGame extends LocalGame {
         this.players = new ArrayList<Player>();
         this.whoseTurn = 1;
         this.cardsToDraw = 1;
+        this.currState = new EKGameState();
+        this.previousState = null;
     }
 
     @Override
@@ -154,7 +150,10 @@ public class EK_LocalGame extends LocalGame {
         //the players hand
         currState.getDiscardPile().add(p.getPlayerHand().get(card));
         p.getPlayerHand().remove(card);
-        return false;
+        EKGameState temp = new EKGameState(currState);
+        currState = previousState;
+        previousState = temp;
+        return true;
     }
 
     //Favor card
