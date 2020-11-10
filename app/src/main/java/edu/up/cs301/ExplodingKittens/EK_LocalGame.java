@@ -33,8 +33,6 @@ public class EK_LocalGame extends LocalGame {
     public EK_LocalGame() {
         currState = new EKGameState(players.length);
         this.previousState = null;
-        populateDeck();
-        makeTestHand();
     }
 
 
@@ -410,24 +408,6 @@ public class EK_LocalGame extends LocalGame {
         return -1;
     }
 
-    //restart the deck
-    public void populateDeck() {
-        int i;
-        int j;
-        //puts 4 of each cat card, attack, shuffle, favor, skip cards
-        for (i = 1; i <= 9; i++) {
-            for (j = 0; j < 4; j++) {
-                currState.getDeck().add(new Card(i));
-            }
-        }
-        // puts 5 See the Future and Nope Cards into deck
-        for (i = 10; i <= 11; i++) {
-            for (j = 0; j < 5; j++) {
-                currState.getDeck().add(new Card(i));
-            }
-        }
-
-    }
 
     //adds defuse and explode cards to deck
     public void populateDefuseExplode() {
@@ -444,16 +424,6 @@ public class EK_LocalGame extends LocalGame {
         }
     }
 
-    //adds appropriate amt. of cards to all players hands
-    public void populateHands() {
-        int i, j;
-        for (i = 0; i < 4; i++) {
-            for (j = 0; j < 7; j++) {
-                drawCard(currState.getPlayers().get(i));
-            }
-            currState.getPlayers().get(i).getPlayerHand().add(new Card(12));
-        }
-    }
 
 //sets all players hands to be able to do each action once
 
@@ -475,16 +445,6 @@ public class EK_LocalGame extends LocalGame {
 
     }
 
-    //Checks a hand if it has an exploding kitten and
-    //returns true if they have an exploding kitten
-    public boolean checkForExplodingKitten(ArrayList<Card> hand){
-        for(int i = 0; i < hand.size(); i++){
-            if(hand.get(i).getCardType() == 0){
-                return true;
-            }
-        }
-        return false;
-    }
 
     public EKGameState getCurrState(){
         return this.currState;
