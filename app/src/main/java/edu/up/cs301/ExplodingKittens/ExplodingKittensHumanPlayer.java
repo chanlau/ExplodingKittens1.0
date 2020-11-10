@@ -21,14 +21,24 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
 
     private GameMainActivity myActivity;
 
+    /* an array of 5 ints that correspond to index positions in the target
+     array list. This could be the discard pile or the players hand */
     private int cardHand[] = new int[5];
+    /* image buttons that will be set to the corresponding image buttons for
+    he players hand and will be updated as the players hand adds or
+    subtracts cards or they scroll through their hand. They will also be
+    used to show the discard pile when the player wants to look through it */
     private ImageButton card1 = null;
     private ImageButton card2 = null;
     private ImageButton card3 = null;
     private ImageButton card4 = null;
     private ImageButton card5 = null;
+    //an array list of image buttons to be used
     private ImageButton imagesHand[] = new ImageButton[5];
+    // the discard pile image button
     private ImageButton discardPileBtn = null;
+    // a boolean to keep track of if the player is looking at the discard
+    // pile (true) or not (false)
     private boolean switchedDiscard = false;
 
     /*
@@ -44,57 +54,22 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
      */
     public ExplodingKittensHumanPlayer(int num, String name) {
         super(num, name);
+        /*
+        set the cardHand array to the first 5 indexes in the players hand
+         */
         for (int i = 0; i < 5; i++) {
             cardHand[i] = i;
         }
-        //set the image buttons for the players hand to their
-        //card hand to begin the game (5 left most cards)
-        /**for (int i = 0; i < 5; i++) {
-         switch (this.playerHand.get(i).getCardType()) {
-            case 0:
-                cardHand[i] = 0;
-                break;
-            case 1:
-                cardHand[i] = 1;
-                break;
-            case 2:
-                cardHand[i] = 2;
-                break;
-            case 3:
-                cardHand[i] = 3;
-                break;
-            case 4:
-                cardHand[i] = 4;
-                break;
-            case 5:
-                 cardHand[i] = 5;
-                 break;
-            case 6:
-                cardHand[i] = 6;
-                break;
-            case 7:
-                cardHand[i] = 7;
-                break;
-            case 8:
-                cardHand[i] = 8;
-                break;
-            case 9:
-                cardHand[i] = 9;
-                break;
-            case 10:
-                cardHand[i] = 10;
-                break;
-            case 11:
-                cardHand[i] = 11;
-                break;
-            case 12:
-                cardHand[i] = 12;
-                break;
-            default:
-                break;
-            } //switch statement
-         } //for loop */
-    } //ExplodingKittensHumanPlayer class
+        /*
+        set the imagesHand array to the correct image buttons for the GUI
+         */
+        imagesHand[0] = card1;
+        imagesHand[1] = card2;
+        imagesHand[2] = card3;
+        imagesHand[3] = card4;
+        imagesHand[4] = card5;
+
+    } //ExplodingKittensHumanPlayer method
 
     //This returns the top level surface view of main GUI
     public View getTopView() {
@@ -116,19 +91,30 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         else{
             updateDisplay();
             }
-        }
+    } // receiveInfo method
 
     /**
      * Updates the GUI with new information after actions are taken
      */
     public void updateDisplay() {
-        //updates the display with the card types that exist as integers in
-        // the int array cardHand, the array is changed in the onClick method
-        // depending on whether the players hand is being viewed or the
-        // discard pile is being viewed and is updated with the cards in
-        // those arrays
+        /* updates the display with the card type, the array is changed in
+        the onClick method depending on whether the players hand is being
+        viewed or the discard pile is being viewed and is updated with the
+        card indexes for the given array */
         for (int i = 0; i < 5; i++) {
-            switch (cardHand[i]) {
+            int cardType;
+            /*
+            check to see if we are looking at the discard pile or the player
+            hand array and choose the correct array index accordingly
+             */
+            if (switchedDiscard == false) {
+                cardType = this.getPlayerHand().get(cardHand[i]).getCardType();
+            }
+            else {
+                cardType =
+                        state.getDiscardPile().get(cardHand[i]).getCardType();
+            }
+            switch (cardType) {
                 case 0:
                     imagesHand[i].setImageResource(R.drawable.explodingkittencard);
                     break;
@@ -172,14 +158,23 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                     break;
             } //switch statement
         } //for loop
-    } //updateDisplay class
+    } //updateDisplay method
 
     public void setAsGui(GameMainActivity activity) {
         myActivity = activity;
 
         //loads layout for GUI
         activity.setContentView(R.layout.activity_main);
-    }
+
+        //initialize the widget reference member variables
+        this.card1 = (ImageButton)activity.findViewById(R.id.imageButton5);
+        this.card2 = (ImageButton)activity.findViewById(R.id.imageButton6);
+        this.card3 = (ImageButton)activity.findViewById(R.id.imageButton7);
+        this.card4 = (ImageButton)activity.findViewById(R.id.imageButton8);
+        this.card5 = (ImageButton)activity.findViewById(R.id.imageButton9);
+        this.discardPileBtn =
+                (ImageButton)activity.findViewById(R.id.discardPile);
+    } //setAsGui method
 
     /**
      * Method to change the imagebuttons of the player hand when the left arrow
@@ -190,33 +185,38 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
     @Override
     public void onClick(View button) {
         if (button instanceof Button) {
-            // if the button pressed is the left scroll button, shift all of
-            // the cards to the left and update the display. If this would
-            // shift to a card that is out of bounds (i.e. -1 instead of 0)
-            // then do no shift the cards
+            /*
+            if the button pressed is the left scroll button, shift index to the
+            left and update the display. If this would shift the index out of
+            bounds (i.e. -1 instead of 0) then do no shift the cards
+             */
             if (button == button.findViewById(R.id.leftScroll)) {
-                if (switchedDiscard == false) {
-
-                }
                 for (int i = 0; i < 5; i++) {
-                    if (cardHand[i-1] == -1) {
+                    if (cardHand[i] - 1 == -1) {
                         break;
                     }
                     else {
-                        cardHand[i] = cardHand[i-1];
+                        cardHand[i] = cardHand[i] - 1;
                     }
                 }
-            }
-            // same with the right scroll button, but instead check for out of
-            // bounds on the right
+            } //left scroll button
+
+            /*
+            same with the right scroll button, but instead check for out of
+            bounds on the right
+             */
             else if (button == button.findViewById(R.id.rightScroll)) {
                 for (int i = 0; i < 5; i++) {
+                    /*
+                    check to see if we are using the discard pile or the
+                    player hand array so we know what array size as upper bound
+                     */
                     if (switchedDiscard == false) {
-                        if (cardHand[i+1] >= this.playerHand.size()) {
+                        if (cardHand[i] + 1 >= this.playerHand.size()) {
                             break;
                         }
                         else {
-                            cardHand[i] = cardHand[i+1];
+                            cardHand[i] = cardHand[i] + 1;
                         }
                     }
                     else {
@@ -227,30 +227,44 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                             cardHand[i] = cardHand[i] + 1;
                         }
                     }
-
                 }
-            }
+            } //right scroll button
+
             else if (button == button.findViewById(R.id.discardPile)) {
-                // check to see if the player wants to view the discard pile
-                // or close the discard pile that they are actively viewing
+                /*
+                check to see if the player wants to view the discard pile
+                or close the discard pile that they are actively viewing
+                 */
                 if (switchedDiscard == false) {
                     switchedDiscard = true;
-                    //display the discard pile in place of the players cards
+                    /*
+                    change the indexes of the cardHand array to be the first
+                    5 indexes for the discard pile
+                     */
                     for (int i = 0; i < 5; i++) {
-                        cardHand[i] = state.getDiscardPile().get(i).getCardType();
+                        cardHand[i] = i;
                     }
                 }
-                //switchedDiscard == true so switch the displayed cards back
+                // switchedDiscard == true so switch the displayed cards back
                 // to the players hand
                 else {
                     switchedDiscard = false;
                     for (int i = 0; i < 5; i++) {
-                        cardHand[i] = playerHand.get(i).getCardType();
+                        cardHand[i] = i;
                     }
                 }
+            } //discard pile button
+
+            else if (button == button.findViewById(R.id.imageButton5)) {
+                /*
+                check to see if the player hand previously selected the image
+                 button in question. If so carry out the action of the image
+                 button, if not select the image button
+                 */
             }
+
             updateDisplay();
         }
-    }
+    } //onClick method
 
 }
