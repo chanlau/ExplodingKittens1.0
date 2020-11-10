@@ -39,6 +39,8 @@ public class EKGameState extends GameState {
         this.players = new ArrayList<Player>();
         this.whoseTurn = 1;
         this.cardsToDraw = 1;
+        //populateDeck();
+        //populateHands();
     }
 
     //constructor to copy the given gamestate
@@ -126,6 +128,38 @@ public class EKGameState extends GameState {
         }
     }
 
+    //restart the deck
+    public void populateDeck() {
+        int i;
+        int j;
+        //puts 4 of each cat card, attack, shuffle, favor, skip cards
+        for (i = 1; i <= 9; i++) {
+            for (j = 0; j < 4; j++) {
+                this.deck.add(new Card(i));
+            }
+        }
+        // puts 5 See the Future and Nope Cards into deck
+        for (i = 10; i <= 11; i++) {
+            for (j = 0; j < 5; j++) {
+                this.deck.add(new Card(i));
+            }
+        }
+
+    }
+
+    //populates player's hands with cards from deck
+    public void populateHands() {
+        int i, j;
+        for (i = 0; i < 4; i++) {
+            for (j = 0; j < 7; j++) {
+                this.players.get(i).getPlayerHand().add(deck.get(0));
+                this.deck.remove(0);
+
+            }
+            players.get(i).getPlayerHand().add(new Card(12));
+        }
+    }
+
    //Getters and Setters
    public void addPlayer(Player p) {
        players.add(p);
@@ -154,7 +188,6 @@ public class EKGameState extends GameState {
     public int getCardsToDraw() {return this.cardsToDraw;}
 
     public void setCardsToDraw(int i){ this.cardsToDraw = i;}
-
 
 }
 

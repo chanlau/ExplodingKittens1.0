@@ -27,27 +27,17 @@ public class EK_LocalGame extends LocalGame {
 
     EKGameState currState;
 
-    private ArrayList<Card> discardPile;
-    private ArrayList<Card> deck;
-    private ArrayList<Player> players;
-    private int whoseTurn;
-    private int cardsToDraw;
 
     public EK_LocalGame() {
-        currState = new EKGameState();
-        this.discardPile = new ArrayList<Card>();
-        this.deck = new ArrayList<Card>();
-        this.players = new ArrayList<Player>();
-        this.whoseTurn = 1;
-        this.cardsToDraw = 1;
+        this.currState = new EKGameState();
     }
 
 
     //send updated state to a given player
     @Override
     protected void sendUpdatedStateTo(GamePlayer p) {
-        //EKGameState gameCopy = new EKGameState(currState);
-        //p.sendInfo(gameCopy);
+        EKGameState gameCopy = new EKGameState(currState);
+        p.sendInfo(gameCopy);
     }//sendUpdatedState
 
     @Override

@@ -68,7 +68,6 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         imagesHand[2] = card3;
         imagesHand[3] = card4;
         imagesHand[4] = card5;
-
     } //ExplodingKittensHumanPlayer method
 
     //This returns the top level surface view of main GUI
@@ -172,8 +171,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         this.card3 = (ImageButton)activity.findViewById(R.id.imageButton7);
         this.card4 = (ImageButton)activity.findViewById(R.id.imageButton8);
         this.card5 = (ImageButton)activity.findViewById(R.id.imageButton9);
-        this.discardPileBtn =
-                (ImageButton)activity.findViewById(R.id.discardPile);
+        this.discardPileBtn = (ImageButton)activity.findViewById(R.id.discardPile);
     } //setAsGui method
 
     /**
