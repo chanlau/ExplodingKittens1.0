@@ -109,9 +109,8 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
      */
     public void receiveInfo(GameInfo info) {
 
-        if(info instanceof EKGameState == false){
+        if(!(info instanceof EKGameState)){
             flash(Color.RED, 500);
-            return;
         }
         else{
             updateDisplay();

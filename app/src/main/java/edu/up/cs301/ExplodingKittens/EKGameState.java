@@ -56,8 +56,10 @@ public class EKGameState extends GameState {
         this.discardPile = new ArrayList<Card>();
         this.deck = new ArrayList<Card>();
         this.players = new ArrayList<Player>();
-        this.whoseTurn = 1;
-        this.cardsToDraw = 1;
+        //copy of whose turn it is
+        this.whoseTurn = gamestate.getWhoseTurn();
+        //Copy of # of cards to draw
+        this.cardsToDraw = gamestate.getCardsToDraw();
 
         //deep copy of the gamestate discardPile
         for (int a = 0; a < gamestate.getDiscardPile().size(); a++) {
@@ -92,8 +94,6 @@ public class EKGameState extends GameState {
             //add the new player to the array list
             players.add(player1);
         }
-        //copy of whose turn it is
-        this.whoseTurn = gamestate.getWhoseTurn();
     }
 
 

@@ -4,7 +4,7 @@ import edu.up.cs301.ExplodingKittens.Player;
 import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
 
 public class PlayFutureCard extends GameAction {
-    PlayFutureCard(Player p){
+    public PlayFutureCard(Player p){
         super(p);
     }
 }
