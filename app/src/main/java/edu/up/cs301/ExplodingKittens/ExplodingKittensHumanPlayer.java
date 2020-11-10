@@ -18,6 +18,7 @@ import edu.up.cs301.ExplodingKittens.EKActions.PlayShuffleCard;
 import edu.up.cs301.ExplodingKittens.EKActions.PlaySkipCard;
 import edu.up.cs301.ExplodingKittens.EKActions.Trade2Action;
 import edu.up.cs301.ExplodingKittens.EKActions.Trade3Action;
+import edu.up.cs301.ExplodingKittens.EKActions.Trade5Action;
 import edu.up.cs301.game.GameFramework.GameHumanPlayer;
 import edu.up.cs301.game.GameFramework.GameMainActivity;
 import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
@@ -32,6 +33,16 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
     /* an array of 5 ints that correspond to index positions in the target
      array list. This could be the discard pile or the players hand */
     private int cardHand[] = new int[5];
+    /*
+    an array of ints that correspond to card types for when the player wants
+    to trade 3 they can see all possible cards displayed in their hand and
+    select the card they want
+     */
+    private Card allCards[] = new Card[12];
+    /*
+     array to store the index location of cards to trade from the players hand
+     */
+    int tradeCards[] = new int[5];
     /*
     int variable to keep track of which player is currently selected for a
     trade 2 or 3
@@ -113,6 +124,15 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         imagesHand[2] = card3;
         imagesHand[3] = card4;
         imagesHand[4] = card5;
+
+        /*
+        initialize the allCards array with all cards (except exploding kitten
+         card)
+         */
+        for (int y = 0; y < 12; y++) {
+            allCards[y] = new Card(y+1);
+        }
+
 
         for(int x = 0; x < state.getPlayerHand(this.playerNum).size(); x++){
             state.getPlayerHand(this.playerNum).add(state.getPlayerHand(this.playerNum).get(x));
@@ -229,24 +249,43 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
 
         /* updates the display with the card type, the array is changed in
         the onClick method depending on whether the players hand is being
-        viewed or the discard pile is being viewed and is updated with the
-        card indexes for the given array */
+        viewed or the discard pile is being viewed or allCards is being views
+         and is updated with the card indexes for the given array */
             for (int i = 0; i < 5; i++) {
                 int cardType;
             /*
-            check to see if we are looking at the discard pile or the player
-            hand array and choose the correct array index accordingly
+            determine what deck the player is looking at to set the switch
+            parameter to the correct card type from that deck:
+
+                if stmnt 1: the player is looking at the discard deck
+
+                if stmnt 2: the player is looking at all possible cards they
+                can steal from another player in place of their own hand and
+                will be selecting one as part of the trade 3 action
+
+                if stmnt 3: the player is looking at their own hand
              */
-                if (switchedDiscard == false) {
-                    cardType =
-                            state.getPlayerHand(this.playerNum).get(cardHand[i]).getCardType();
-                }
-                else {
+                if (switchedDiscard == true) {
                     cardType =
                             state.getDiscardPile().get(cardHand[i]).getCardType();
+                    selectingCard =
+                            state.getDiscardPile().get(cardHand[i]).getSelected();
                 }
-                // check to see if the player is selecting a card or not
-                if (selectingCard == false && trade3Stage != 2) {
+                else if (switchedDiscard == false && trade3 == true && trade3Stage == 2) {
+                    cardType = allCards[cardHand[i]].getCardType();
+                    selectingCard = allCards[cardHand[i]].getSelected();
+                }
+                else {
+                    cardType = state.getPlayerHand(this.playerNum).get(cardHand[i]).getCardType();
+                    selectingCard =
+                            state.getPlayerHand(this.playerNum).get(cardHand[i]).getSelected();
+                }
+
+                /*
+                determine what image should be displayed for each image
+                button, a selected image or a not selected image
+                 */
+                if (selectingCard == false) {
                     // set the appropriate image to each button
                     switch (cardType) {
                         case 0:
@@ -292,7 +331,8 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                             break;
                     } //switch statement
                 } // if statement for selectingCard
-                else if (selectingCard == true && trade3Stage != 2) {
+                // now for cases when selecting a card is true
+                else {
                     switch (cardType) {
                         case 0:
                             imagesHand[i].setImageResource(R.drawable.explodingkittencard);
@@ -337,8 +377,6 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                             break;
                     } //switch statement
                 } // else statement for selectingCard
-
-                else if (selectingCard == false && trade3Stage != 2)
             } //for loop
     } //updateDisplay method
 
@@ -443,6 +481,10 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 else { trade2 = true; }
                 trade3 = false;
                 trade5 = false;
+                // deselect all player hand cards
+                for (int a = 0; a < state.getPlayerHand(this.playerNum).size(); a++) {
+                    state.getPlayerHand(this.playerNum).get(a).setSelected(false);
+                }
             } // trade2 button
 
             else if (button == trade3Btn) {
@@ -456,6 +498,10 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                     trade3Stage = 1;
                 }
                 trade5 = false;
+                // deselect all player hand cards
+                for (int a = 0; a < state.getPlayerHand(this.playerNum).size(); a++) {
+                    state.getPlayerHand(this.playerNum).get(a).setSelected(false);
+                }
             } // trade3 button
 
             else if (button == trade5Btn) {
@@ -463,6 +509,10 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 trade3 = false;
                 if (trade5) { trade5 = false; }
                 else { trade5 = true; }
+                // deselect all player hand cards
+                for (int a = 0; a < state.getPlayerHand(this.playerNum).size(); a++) {
+                    state.getPlayerHand(this.playerNum).get(a).setSelected(false);
+                }
             } // trade5 button
 
             else if(button == playBtn) {
@@ -531,21 +581,21 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             }
 
             else if (button == enterBtn) {
+                int numSelected = 0;
+                int c = 0;
                 //for trade 2
                 /*
                 check to make sure that only two cards are selected then send the action
                  */
                 if (switchedDiscard == false && trade2 == true && trade3 == false && trade5 == false) {
-                    int numSelected = 0;
-                    int tradeCards[] = new int[2];
-                    int c = 0;
+                    // find the cards to be traded
                     for (int i = 0; i < state.getPlayerHand(this.playerNum).size(); i++) {
-                        if (state.getPlayerHand(this.playerNum).get(i).getSelected() == true) {
-                            if (numSelected < 2) {
+                        if (state.getPlayerHand(this.playerNum).get(i).getSelected()) {
+                            numSelected++;
+                            if (numSelected > 0 && numSelected < 3) {
                                 tradeCards[c] = i;
                                 c++;
                             }
-                            numSelected++;
                         }
                     }
                     Trade2Action trade2Act = new Trade2Action(this,
@@ -554,41 +604,85 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 }
                 //trade3
                 else if (switchedDiscard == false && trade2 == false && trade3 == true && trade5 == false && trade3Stage == 1) {
-                    int numSelected = 0;
-                    int tradeCards[] = new int[3];
-                    int c = 0;
                     for (int i = 0; i < state.getPlayerHand(this.playerNum).size(); i++) {
                         if (state.getPlayerHand(this.playerNum).get(i).getSelected() == true) {
-                            if (numSelected < 3) {
+                            numSelected++;
+                            if (numSelected > 0 && numSelected <= 3) {
                                 tradeCards[c] = i;
                                 c++;
                             }
-                            numSelected++;
                         }
                     }
-                    Trade3Action trade3Act = new Trade3Action(this, )
+                    // set allCards selected booleans to false
+                    for (int i = 0; i < allCards.length; i++) {
+                        allCards[i].setSelected(false);
+                    }
+                    trade3Stage = 2;
                 }
                 else if (switchedDiscard == false && trade2 == false && trade3 == true && trade5 == false && trade3Stage == 2) {
-
+                    // find the target card to be stolen
+                    for (int i = 0; i < allCards.length; i++) {
+                        if (allCards[i].getSelected()) {
+                            targCard = allCards[i].getCardType();
+                        }
+                    }
+                    // find the cards to be traded
+                    int tradeCards[] = new int[3];
+                    int count = 0;
+                    for (int a = 0; a < state.getPlayerHand(this.playerNum).size(); a++) {
+                        if (state.getPlayerHand(this.playerNum).get(a).getSelected() && count < 3) {
+                            tradeCards[count] =
+                                    state.getPlayerHand(this.playerNum).get(a).getCardType();
+                            count++;
+                        }
+                    }
+                    // create and send the action
+                    Trade3Action trade3Act = new Trade3Action(this,
+                            tradePlayer, tradeCards[0], tradeCards[1],
+                            tradeCards[2], targCard);
                 }
+
                 //trade5
                 else if (switchedDiscard == false && trade2 == false && trade3 == false && trade5 == true) {
-                    int numSelected = 0;
-                    int tradeCards[] = new int[5];
-                    int c = 0;
+                    // find the cards to be traded
                     for (int i = 0; i < state.getPlayerHand(this.playerNum).size(); i++) {
                         if (state.getPlayerHand(this.playerNum).get(i).getSelected() == true) {
-                            if (numSelected < 5) {
+                            numSelected++;
+                            if (numSelected > 0 && numSelected < 6) {
                                 tradeCards[c] = i;
                                 c++;
                             }
-                            numSelected++;
                         }
                     }
+                    // find the discard pile card to take
+                    int once = 0;
+                    int cardVal = 0;
+                    for (int a = 0; a < state.getDiscardPile().size(); a++) {
+                        if (state.getDiscardPile().get(a).getSelected() && once == 0) {
+                            once++;
+                            cardVal = state.getDiscardPile().get(a).getCardType();
+                        }
+                    }
+                    Trade5Action trade5Act = new Trade5Action(this,
+                            tradeCards[0], tradeCards[1], tradeCards[2],
+                            tradeCards[3], tradeCards[4], cardVal);
+                    game.sendAction(trade5Act);
                 }
             } // enter button
 
             else if (button == endTurn) {
+                // deselect all player hand cards
+                for (int a = 0; a < state.getPlayerHand(this.playerNum).size(); a++) {
+                    state.getPlayerHand(this.playerNum).get(a).setSelected(false);
+                }
+                // deselect all allCards cards
+                for (int a = 0; a < state.getPlayerHand(this.playerNum).size(); a++) {
+                    allCards[a].setSelected(false);
+                }
+                // deselect all cards in the discard pile array
+                for (int a = 0; a < state.getDiscardPile().size(); a++) {
+                    state.getDiscardPile().get(a).setSelected(false);
+                }
                 DrawCardAction drawCard = new DrawCardAction(this);
                 game.sendAction(drawCard);
             } // endTurn button
@@ -596,6 +690,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             updateDisplay();
         } // if statement for instance of button
 
+        // for all image buttons
         else if (button instanceof ImageButton) {
 
             if (button == discardPileBtn) {
@@ -620,6 +715,10 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                     for (int i = 0; i < 5; i++) {
                         cardHand[i] = i;
                     }
+                    // deselect all cards in the discard pile array
+                    for (int a = 0; a < state.getDiscardPile().size(); a++) {
+                        state.getDiscardPile().get(a).setSelected(false);
+                    }
                 }
             } //discard pile button
 
@@ -640,17 +739,33 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 if the discard pile is selected, perform the same action on
                 the discard pile card
                  */
-                else {
-                    if (state.getDiscardPile().get(cardHand[4]).getSelected() == true) {
-                        state.getDiscardPile().get(cardHand[4]).setSelected(false);
+                else if (switchedDiscard == true) {
+                    if (state.getDiscardPile().get(cardHand[0]).getSelected() == true) {
+                        state.getDiscardPile().get(cardHand[0]).setSelected(false);
                     } else {
-                        state.getDiscardPile().get(cardHand[4]).setSelected(true);
+                        state.getDiscardPile().get(cardHand[0]).setSelected(true);
                     }
                 }
+                /*
+                if the player is doing trade 3 and is selecting a target card
+                 to steal from another player, set the booleans in the allCards
+                 */
+                else if (switchedDiscard == false && trade3Stage == 2) {
+                    if (allCards[0].getSelected() == true) {
+                        allCards[0].setSelected(false);
+                    } else {
+                        allCards[0].setSelected(true);
+                    }
+                }
+                // base case do nothing with the booleans
+                else {
+
+                }
+
             } // player hand button 1
 
             else if (button == card2) {
-                 /*
+                /*
                 check to see if the player hand previously selected the image
                  button in question. Reverse the current selection state of
                  the card
@@ -666,12 +781,27 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 if the discard pile is selected, perform the same action on
                 the discard pile card
                  */
-                else {
-                    if (state.getDiscardPile().get(cardHand[4]).getSelected() == true) {
-                        state.getDiscardPile().get(cardHand[4]).setSelected(false);
+                else if (switchedDiscard == true) {
+                    if (state.getDiscardPile().get(cardHand[1]).getSelected() == true) {
+                        state.getDiscardPile().get(cardHand[1]).setSelected(false);
                     } else {
-                        state.getDiscardPile().get(cardHand[4]).setSelected(true);
+                        state.getDiscardPile().get(cardHand[1]).setSelected(true);
                     }
+                }
+                /*
+                if the player is doing trade 3 and is selecting a target card
+                 to steal from another player, set the booleans in the allCards
+                 */
+                else if (switchedDiscard == false && trade3Stage == 2) {
+                    if (allCards[1].getSelected() == true) {
+                        allCards[1].setSelected(false);
+                    } else {
+                        allCards[1].setSelected(true);
+                    }
+                }
+                // base case do nothing with the booleans
+                else {
+
                 }
             } // player hand button 2
 
@@ -692,12 +822,27 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 if the discard pile is selected, perform the same action on
                 the discard pile card
                  */
-                else {
-                    if (state.getDiscardPile().get(cardHand[4]).getSelected() == true) {
-                        state.getDiscardPile().get(cardHand[4]).setSelected(false);
+                else if (switchedDiscard == true) {
+                    if (state.getDiscardPile().get(cardHand[2]).getSelected() == true) {
+                        state.getDiscardPile().get(cardHand[2]).setSelected(false);
                     } else {
-                        state.getDiscardPile().get(cardHand[4]).setSelected(true);
+                        state.getDiscardPile().get(cardHand[2]).setSelected(true);
                     }
+                }
+                /*
+                if the player is doing trade 3 and is selecting a target card
+                 to steal from another player, set the booleans in the allCards
+                 */
+                else if (switchedDiscard == false && trade3Stage == 2) {
+                    if (allCards[2].getSelected() == true) {
+                        allCards[2].setSelected(false);
+                    } else {
+                        allCards[2].setSelected(true);
+                    }
+                }
+                // base case do nothing with the booleans
+                else {
+
                 }
             } // player hand button 3
 
@@ -718,12 +863,27 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 if the discard pile is selected, perform the same action on
                 the discard pile card
                  */
-                else {
-                    if (state.getDiscardPile().get(cardHand[4]).getSelected() == true) {
-                        state.getDiscardPile().get(cardHand[4]).setSelected(false);
+                else if (switchedDiscard == true) {
+                    if (state.getDiscardPile().get(cardHand[3]).getSelected() == true) {
+                        state.getDiscardPile().get(cardHand[3]).setSelected(false);
                     } else {
-                        state.getDiscardPile().get(cardHand[4]).setSelected(true);
+                        state.getDiscardPile().get(cardHand[3]).setSelected(true);
                     }
+                }
+                /*
+                if the player is doing trade 3 and is selecting a target card
+                 to steal from another player, set the booleans in the allCards
+                 */
+                else if (switchedDiscard == false && trade3Stage == 2) {
+                    if (allCards[3].getSelected() == true) {
+                        allCards[3].setSelected(false);
+                    } else {
+                        allCards[3].setSelected(true);
+                    }
+                }
+                // base case do nothing with the booleans
+                else {
+
                 }
             } // player hand button 4
 
@@ -744,12 +904,27 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 if the discard pile is selected, perform the same action on
                 the discard pile card
                  */
-                else {
+                else if (switchedDiscard == true) {
                     if (state.getDiscardPile().get(cardHand[4]).getSelected() == true) {
                         state.getDiscardPile().get(cardHand[4]).setSelected(false);
                     } else {
                         state.getDiscardPile().get(cardHand[4]).setSelected(true);
                     }
+                }
+                /*
+                if the player is doing trade 3 and is selecting a target card
+                 to steal from another player, set the booleans in the allCards
+                 */
+                else if (switchedDiscard == false && trade3Stage == 2) {
+                    if (allCards[4].getSelected() == true) {
+                        allCards[4].setSelected(false);
+                    } else {
+                        allCards[4].setSelected(true);
+                    }
+                }
+                // base case do nothing with the booleans
+                else {
+
                 }
             } // player hand button 5
 
