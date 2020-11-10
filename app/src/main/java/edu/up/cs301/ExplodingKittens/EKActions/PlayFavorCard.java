@@ -8,19 +8,20 @@ package edu.up.cs301.ExplodingKittens.EKActions;
 
 
 import edu.up.cs301.ExplodingKittens.Player;
+import edu.up.cs301.game.GameFramework.GamePlayer;
 import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
 
 public class PlayFavorCard extends GameAction {
-    private Player target;
+    private int target;
     private int choice;
 
-    public PlayFavorCard(Player p, Player t, int c){
+    public PlayFavorCard(GamePlayer p, int targetPlayerIdx, int selection){
         super(p);
-        this.target = t;
-        this.choice = c;
+        this.target = targetPlayerIdx;
+        this.choice = selection;
     }
 
-    public Player getTarget(){
+    public int getTarget(){
         return this.target;
     }
     public int getChoice() {return this.choice;}
