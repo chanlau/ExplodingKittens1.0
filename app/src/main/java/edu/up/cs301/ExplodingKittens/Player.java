@@ -13,8 +13,8 @@ import edu.up.cs301.game.GameFramework.GameMainActivity;
 import edu.up.cs301.game.GameFramework.GamePlayer;
 import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
 
-public class Player implements GamePlayer {
-
+public class Player{
+/*
     int playerNum;
     String playerName;
 
@@ -22,16 +22,11 @@ public class Player implements GamePlayer {
     public Player(int num, String name){
         this.playerNum = num;
         this.playerName = name;
-        playerHand = new ArrayList<Card>();
     }
 
     //returns true if they have an exploding kitten
     public boolean checkForExplodingKitten(){
-        for(int i = 0; i < this.playerHand.size(); i++){
-            if(this.playerHand.get(i).getCardType() == 0){
-                return true;
-            }
-        }
+
         return false;
     }
 
@@ -41,8 +36,8 @@ public class Player implements GamePlayer {
     public void setPlayerNum(int num) { playerNum = num; }
     public String getPlayerName() {return this.playerName;}
     public void setPlayerName(String name) { playerName = name; }
-    public ArrayList<Card> getPlayerHand() {return this.playerHand;}
-    public void setPlayerHand(Card card) { this.playerHand.add(card); }
+    //public ArrayList<Card> getPlayerHand() {return this.playerHand;}
+    //public void setPlayerHand(Card card) { this.playerHand.add(card); }
 
     @Override
     public void gameSetAsGui(GameMainActivity activity) {
@@ -74,4 +69,6 @@ public class Player implements GamePlayer {
     public boolean supportsGui() {
         return false;
     }
+
+ */
 }

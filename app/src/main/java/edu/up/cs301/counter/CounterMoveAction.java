@@ -28,7 +28,7 @@ public class CounterMoveAction extends GameAction {
 	 * @param isPlus
 	 *            value to initialize this.isPlus
 	 */
-	public CounterMoveAction(Player player, boolean isPlus) {
+	public CounterMoveAction(GamePlayer player, boolean isPlus) {
 		super(player);
 		this.isPlus = isPlus;
 	}
