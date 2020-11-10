@@ -49,7 +49,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         }
         //set the image buttons for the players hand to their
         //card hand to begin the game (5 left most cards)
-        for (int i = 0; i < 5; i++) {
+        /**for (int i = 0; i < 5; i++) {
          switch (this.playerHand.get(i).getCardType()) {
             case 0:
                 cardHand[i] = 0;
@@ -93,7 +93,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             default:
                 break;
             } //switch statement
-         } //for loop
+         } //for loop */
     } //ExplodingKittensHumanPlayer class
 
     //This returns the top level surface view of main GUI
@@ -195,6 +195,9 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             // shift to a card that is out of bounds (i.e. -1 instead of 0)
             // then do no shift the cards
             if (button == button.findViewById(R.id.leftScroll)) {
+                if (switchedDiscard == false) {
+
+                }
                 for (int i = 0; i < 5; i++) {
                     if (cardHand[i-1] == -1) {
                         break;
