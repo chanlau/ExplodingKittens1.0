@@ -31,7 +31,7 @@ public class EK_LocalGame extends LocalGame {
     private EKGameState previousState;
 
     public EK_LocalGame() {
-        currState = new EKGameState();
+        currState = new EKGameState(players.length);
         this.previousState = null;
         populateDeck();
         makeTestHand();
@@ -110,13 +110,44 @@ public class EK_LocalGame extends LocalGame {
 
     @Override
     protected String checkIfGameOver() {
-        return null;
+        //See how many players have lost the game
+        int playersLost = 0;
+        for(int i = 0; i < players.length; i++){
+            if(currState.getPlayers().get(i).checkForExplodingKitten()){
+                playersLost++;
+            }
+        }
+        if(playersLost == (currState.getPlayers().size()-1)) {
+            for(int i = 0; i < currState.getPlayers().size(); i++){
+                if(!(currState.getPlayers().get(i).checkForExplodingKitten())){
+                    return "Congratulations, " + currState.getPlayers().get(i).getPlayerName() + "! You won";
+                }
+            }
+
+        }
+            return null;
     }
 
 
     /****************************************************************************
-     * Card Methods
-     *************************************************************************/
+     * Card Methods shown below are:
+     * Attack
+     * Nope
+     * Favor
+     * SeeTheFuture
+     * Shuffle*
+     * Skip*
+     * Defuse*
+     * drawCard*
+     * Trade2
+     * Trade3
+     * Trade5
+     * nextTurn
+     * checkCard
+     * populateDeck*
+     * populateDefuseExplode*
+     * makeTestHand
+     ***************************************************************************/
     //Attack card
     //current player ends their turn without drawing a card and forces the
     //next player to draw two cards before ending their turn
@@ -226,24 +257,35 @@ public class EK_LocalGame extends LocalGame {
             Collections.shuffle(currState.getDeck());
             return true;
         }
-        currState.removePlayer(p);
         return false;
     }
 
     //draw a card and end the turn of the player
     public boolean drawCard(Player player) {
         //checks if deck is empty
-        if (currState.getDeck().get(0) == null) {
+        if (currState.getDeck().get(0) == null || player == null) {
             return false;
         }
         //add top card of deck to hand and remove it from deck
         player.getPlayerHand().add(currState.getDeck().get(0));
         currState.getDeck().remove(0);
         currState.setCardsToDraw(currState.getCardsToDraw()-1);
-        //alternate turn
+
+        //Check if the player drew an Exploding Kitten and they can't defuse it, then they lose
+        if(player.getPlayerHand().get(player.getPlayerHand().size()-1).getCardType() == 0){
+            if(!(Defuse(player))){
+                currState.setCardsToDraw(1);
+                nextTurn();
+                return true;
+            }
+        }
+        //Progress the turn count
         if(currState.getCardsToDraw() == 0){
             nextTurn();
             currState.setCardsToDraw(1);
+        }
+        else{
+            drawCard(player);
         }
         return true;
     }
@@ -326,7 +368,7 @@ public class EK_LocalGame extends LocalGame {
 
     //increments turn
     public void nextTurn() {
-        currState.setWhoseTurn(currState.getWhoseTurn()+1);
+        currState.setWhoseTurn((currState.getWhoseTurn()+1)%(currState.getPlayers().size()));
         while (currState.getPlayers().get(currState.getWhoseTurn()).checkForExplodingKitten()) {
             currState.setWhoseTurn(currState.getWhoseTurn()+1);
         }
@@ -394,10 +436,9 @@ public class EK_LocalGame extends LocalGame {
 
     public void makeTestHand() {
         int i, j;
-        for (i = 0; i < currState.getPlayers().size(); i++) {
+        for (i = 0; i < players.length; i++) {
             //puts 3 tacocats in hand
             for (j = 0; j < 3; j++) {
-                currState.getPlayers().get(i).getPlayerHand().add(new Card(1));
             }
             //puts 2 beardcats in hand
             for (j = 0; j < 2; j++) {

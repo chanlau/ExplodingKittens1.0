@@ -27,16 +27,18 @@ public class EKGameState extends GameState {
     //instance variables
     private ArrayList<Card> discardPile;
     private ArrayList<Card> deck;
-    private ArrayList<Player> players;
+    private ArrayList<ArrayList<Card>> playerHands;
     private int whoseTurn;
     private int cardsToDraw;
 
 
     //constructor
-    public EKGameState() {
+    public EKGameState(int numOfPlayers) {
         this.discardPile = new ArrayList<Card>();
         this.deck = new ArrayList<Card>();
-        this.players = new ArrayList<Player>();
+        for(int i = 0; i < numOfPlayers; i++){
+            this.playerHands.add(new ArrayList<Card>());
+        }
         this.whoseTurn = 1;
         this.cardsToDraw = 1;
     }
@@ -55,7 +57,7 @@ public class EKGameState extends GameState {
 
         this.discardPile = new ArrayList<Card>();
         this.deck = new ArrayList<Card>();
-        this.players = new ArrayList<Player>();
+        //this.players = new ArrayList<Player>();
         //copy of whose turn it is
         this.whoseTurn = gamestate.getWhoseTurn();
         //Copy of # of cards to draw
@@ -92,7 +94,7 @@ public class EKGameState extends GameState {
                 player1.setPlayerHand(tempCard);
             }
             //add the new player to the array list
-            players.add(player1);
+            //players.add(player1);
         }
     }
 
@@ -105,6 +107,7 @@ public class EKGameState extends GameState {
         String deckString = Integer.toString(getDeck().size());
         String turnString = Integer.toString(getWhoseTurn());
         String cardsToDrawString = Integer.toString(cardsToDraw);
+        /*
         String PlayerString = getPlayers().toString();
         String Player0String = getPlayers().get(0).getPlayerHand().toString();
         String Player1String = getPlayers().get(1).getPlayerHand().toString();
@@ -114,26 +117,10 @@ public class EKGameState extends GameState {
                 + "\n Cards to Draw Counter" + cardsToDrawString + "\n Players:" + Player0String + "\n Player 1 Hand:" +
                 Player0String + "\n Player 2 Hand: " + Player1String + "\n Player 3 Hand" + Player2String +
                 "\n Player 4 Hand: " + Player3String);
+        */
+        return "HI this is just a place holder";
     }
 
-    //Remove player method
-    //Removes a selected player from the game
-    public void removePlayer(Player p){
-        for(int i = 0; i < players.size(); i++){
-            if(p.getPlayerNum() == players.get(i).getPlayerNum()){
-                players.remove(i);
-            }
-        }
-    }
-
-   //Getters and Setters
-   public void addPlayer(Player p) {
-       players.add(p);
-   }
-
-    public ArrayList<Player> getPlayers(){
-        return this.players;
-    }
 
     public ArrayList<Card> getDiscardPile(){
         return this.discardPile;

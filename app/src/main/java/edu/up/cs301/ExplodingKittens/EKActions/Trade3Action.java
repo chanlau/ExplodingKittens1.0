@@ -7,13 +7,13 @@ public class Trade3Action extends GameAction {
     private Player targetPlayer;
     private int PosC1, PosC2, PosC3, targetCardValue;
 
-    public Trade3Action(Player p, Player t, int c1, int c2, int c3, int t_card){
-        super(p);
-        this.targetPlayer = t;
-        this.PosC1 = c1;
-        this.PosC2 = c2;
-        this.PosC3 = c3;
-        this.targetCardValue = t_card;
+    public Trade3Action(Player player, Player target, int card1, int card2, int card3, int targetCard){
+        super(player);
+        this.targetPlayer = target;
+        this.PosC1 = card1;
+        this.PosC2 = card2;
+        this.PosC3 = card3;
+        this.targetCardValue = targetCard;
     }
 
     //Getter methods for all of the instance variables
