@@ -9,6 +9,12 @@ import android.widget.ImageButton;
 
 import java.util.ArrayList;
 
+import edu.up.cs301.ExplodingKittens.EKActions.PlayAttackCard;
+import edu.up.cs301.ExplodingKittens.EKActions.PlayDefuseCard;
+import edu.up.cs301.ExplodingKittens.EKActions.PlayFavorCard;
+import edu.up.cs301.ExplodingKittens.EKActions.PlayNopeCard;
+import edu.up.cs301.ExplodingKittens.EKActions.PlayShuffleCard;
+import edu.up.cs301.ExplodingKittens.EKActions.PlaySkipCard;
 import edu.up.cs301.game.GameFramework.GameHumanPlayer;
 import edu.up.cs301.game.GameFramework.GameMainActivity;
 import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
@@ -69,11 +75,6 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
     // pile (true) or not (false)
     private boolean switchedDiscard = false;
     /*
-    a boolean to keep track of if the player can select other players for
-    trade 2 or trade 3
-     */
-    private boolean selectablePlayers = false;
-    /*
     a boolean to keep track of if the player is selecting a card (true) or
     not (false)
      */
@@ -129,6 +130,41 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             updateDisplay();
             }
     } // receiveInfo method
+
+    /**
+     * display the top 3 cards of the draw pile in place of the players hand
+     */
+    public void seeTheFuture() {
+
+    }
+
+    /**
+     * changes the other players hands when they are selected
+     */
+    public void otherPlayerHands() {
+        /*
+        update each player so that if the current player selects another
+        person it does not keep the previously selected player
+         */
+        if (tradePlayer == 2) {
+            player2.setImageResource(R.drawable.selectcardback);
+        }
+        else {
+            player2.setImageResource(R.drawable.cardback);
+        }
+        if (tradePlayer == 3) {
+            player3.setImageResource(R.drawable.selectcardback);
+        }
+        else {
+            player3.setImageResource(R.drawable.cardback);
+        }
+        if (tradePlayer == 4) {
+            player4.setImageResource(R.drawable.selectcardback);
+        }
+        else {
+            player4.setImageResource(R.drawable.cardback);
+        }
+    }
 
     /**
      * Updates the GUI with new information after actions are taken
@@ -344,14 +380,12 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             } //right scroll button
 
             else if (button == button.findViewById(R.id.trade2)) {
-                selectablePlayers = true;
                 trade2 = true;
                 trade3 = false;
                 trade5 = false;
             } // trade2 button
 
             else if (button == button.findViewById(R.id.trade3)) {
-                selectablePlayers = true;
                 trade2 = false;
                 trade3 = true;
                 trade5 = false;
@@ -361,33 +395,105 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 trade2 = false;
                 trade3 = false;
                 trade5 = true;
-            } else if (button == button.findViewById(R.id.enter)) {
+            } // trade5 button
+
+            else if(button == button.findViewById(R.id.play)) {
+                // check to make sure that this is not a trade or discard pile
+                if (trade2 == false && trade3 == false && trade5 == false && switchedDiscard == false) {
+                    // check to see that only 1 card is selected
+                    int a = 0;
+                    int index = 0;
+                    for (int i = 0; i < this.getPlayerHand().size(); i++) {
+                        if (this.getPlayerHand().get(i).getSelected() == true) {
+                            a++;
+                            index = i;
+                        }
+                    }
+                    if (a == 1) {
+                        //find what card is too be played
+                        switch(this.getPlayerHand().get(index).getCardType()) {
+                            case 0:
+                                break;
+                            case 1:
+                                break;
+                            case 2:
+                                break;
+                            case 3:
+                                break;
+                            case 4:
+                                break;
+                            case 5:
+                                break;
+                            case 6:
+                                PlayAttackCard attackCard =
+                                 new PlayAttackCard(this);
+                                game.sendAction(attackCard);
+                                break;
+                            case 7:
+                                PlayShuffleCard shuffleCard =
+                                        new PlayShuffleCard(this);
+                                game.sendAction(shuffleCard);
+                                break;
+                            case 8:
+                                PlayFavorCard favorCard =
+                                        new PlayFavorCard(this);
+                                game.sendAction(favorCard);
+                                break;
+                            case 9:
+                                PlaySkipCard skipCard = new PlaySkipCard(this);
+                                game.sendAction(skipCard);
+                                break;
+                            case 10:
+                                seeTheFuture();
+                                break;
+                            case 11:
+                                PlayNopeCard nopeCard = new PlayNopeCard(this);
+                                game.sendAction(nopeCard);
+                                break;
+                            case 12:
+                                PlayDefuseCard defuseCard =
+                                        new PlayDefuseCard(this);
+                                game.sendAction(defuseCard);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+            }
+
+            else if (button == button.findViewById(R.id.enter)) {
                 //for trade 2
                 /*
                 check to make sure that only two cards are selected then send the action
                  */
-                if (switchedDiscard == false) {
-                    if (selectablePlayers == true) {
-                        int numSelected = 0;
-                        int tradeCards[] = new int[2];
-                        int c = 0;
-                        for (int i = 0; i < this.getPlayerHand().size(); i++) {
-                            if (this.getPlayerHand().get(i).getSelected() == true) {
-                                if (numSelected < 2) {
-                                    tradeCards[c] = i;
-                                    c++;
-                                }
-                                numSelected++;
+                if (switchedDiscard == false && trade2 == true) {
+                    int numSelected = 0;
+                    int tradeCards[] = new int[2];
+                    int c = 0;
+                    for (int i = 0; i < this.getPlayerHand().size(); i++) {
+                        if (this.getPlayerHand().get(i).getSelected() == true) {
+                            if (numSelected < 2) {
+                                tradeCards[c] = i;
+                                c++;
                             }
+                            numSelected++;
                         }
-                        if (numSelected == 2) {
+                    }
+                    if (numSelected == 2) {
 
-                        } else {
-                        }
-                        selectablePlayers = false;
-                    } // boolean selectablePlayers
-                } // boolean switchedDiscard
+                    }
+                    else {
+                    }
+                }
+
+
+
             } // enter button
+
+            else if (button == button.findViewById(R.id.endTurn)) {
+                this.drawCard
+            } // endTurn button
 
             updateDisplay();
         } // if statement for instance of button
@@ -443,7 +549,9 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                         state.getDiscardPile().get(cardHand[4]).setSelected(true);
                     }
                 }
-            } else if (button == button.findViewById(R.id.imageButton6)) {
+            } // player hand button 1
+
+            else if (button == button.findViewById(R.id.imageButton6)) {
                  /*
                 check to see if the player hand previously selected the image
                  button in question. Reverse the current selection state of
@@ -467,7 +575,9 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                         state.getDiscardPile().get(cardHand[4]).setSelected(true);
                     }
                 }
-            } else if (button == button.findViewById(R.id.imageButton7)) {
+            } // player hand button 2
+
+            else if (button == button.findViewById(R.id.imageButton7)) {
                 /*
                 check to see if the player hand previously selected the image
                  button in question. Reverse the current selection state of
@@ -491,7 +601,9 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                         state.getDiscardPile().get(cardHand[4]).setSelected(true);
                     }
                 }
-            } else if (button == button.findViewById(R.id.imageButton8)) {
+            } // player hand button 3
+
+            else if (button == button.findViewById(R.id.imageButton8)) {
                 /*
                 check to see if the player hand previously selected the image
                  button in question. Reverse the current selection state of
@@ -515,7 +627,9 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                         state.getDiscardPile().get(cardHand[4]).setSelected(true);
                     }
                 }
-            } else if (button == button.findViewById(R.id.imageButton9)) {
+            } // player hand button 4
+
+            else if (button == button.findViewById(R.id.imageButton9)) {
                 /*
                 check to see if the player hand previously selected the image
                  button in question. Reverse the current selection state of
@@ -539,7 +653,40 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                         state.getDiscardPile().get(cardHand[4]).setSelected(true);
                     }
                 }
-            }
+            } // player hand button 5
+
+            else if (button == button.findViewById(R.id.player2)) {
+                /*
+                check to see if trade 2
+                 or 3 is happening
+                 */
+                if (trade2 == true || trade3 == true) {
+                    tradePlayer = 2;
+                    otherPlayerHands();
+                }
+            } // player2 button
+
+            else if (button == button.findViewById(R.id.player3)) {
+                /*
+                check to see if trade 2
+                 or 3 is happening
+                 */
+                if (trade2 == true || trade3 == true) {
+                    tradePlayer = 3;
+                    otherPlayerHands();
+                }
+            } // player3 button
+
+            else if (button == button.findViewById(R.id.player4)) {
+                /*
+                check to see if trade 2
+                 or 3 is happening
+                 */
+                if (trade2 == true || trade3 == true) {
+                    tradePlayer = 4;
+                    otherPlayerHands();
+                }
+            } // player4 button
 
             updateDisplay();
         }
