@@ -12,16 +12,16 @@ import edu.up.cs301.game.GameFramework.GamePlayer;
 import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
 
 public class PlayFavorCard extends GameAction {
-    private GamePlayer target;
+    private int target;
     private int choice;
 
-    public PlayFavorCard(GamePlayer p, GamePlayer t, int c){
+    public PlayFavorCard(GamePlayer p, int targetPlayerIdx, int selection){
         super(p);
-        this.target = t;
-        this.choice = c;
+        this.target = targetPlayerIdx;
+        this.choice = selection;
     }
 
-    public GamePlayer getTarget(){
+    public int getTarget(){
         return this.target;
     }
     public int getChoice() {return this.choice;}
