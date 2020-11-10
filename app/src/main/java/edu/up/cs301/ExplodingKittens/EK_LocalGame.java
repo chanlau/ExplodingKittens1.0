@@ -33,8 +33,6 @@ public class EK_LocalGame extends LocalGame {
     public EK_LocalGame() {
         currState = new EKGameState(players.length);
         this.previousState = null;
-        populateDeck();
-        makeTestHand();
     }
 
 
@@ -113,7 +111,7 @@ public class EK_LocalGame extends LocalGame {
         //See how many players have lost the game
         int playersLost = 0;
         for(int i = 0; i < players.length; i++){
-            if(currState.getPlayers().get(i).checkForExplodingKitten()){
+            if(currState.getPlayerHands().get(i).checkForExplodingKitten()){
                 playersLost++;
             }
         }
@@ -412,24 +410,6 @@ public class EK_LocalGame extends LocalGame {
         return -1;
     }
 
-    //restart the deck
-    public void populateDeck() {
-        int i;
-        int j;
-        //puts 4 of each cat card, attack, shuffle, favor, skip cards
-        for (i = 1; i <= 9; i++) {
-            for (j = 0; j < 4; j++) {
-                currState.getDeck().add(new Card(i));
-            }
-        }
-        // puts 5 See the Future and Nope Cards into deck
-        for (i = 10; i <= 11; i++) {
-            for (j = 0; j < 5; j++) {
-                currState.getDeck().add(new Card(i));
-            }
-        }
-
-    }
 
     //adds defuse and explode cards to deck
     public void populateDefuseExplode() {
@@ -446,36 +426,8 @@ public class EK_LocalGame extends LocalGame {
         }
     }
 
-    //adds appropriate amt. of cards to all players hands
-    public void populateHands() {
-        int i, j;
-        for (i = 0; i < 4; i++) {
-            for (j = 0; j < 7; j++) {
-                drawCard(currState.getPlayers().get(i));
-            }
-            currState.getPlayers().get(i).getPlayerHand().add(new Card(12));
-        }
-    }
 
-//sets all players hands to be able to do each action once
 
-    public void makeTestHand() {
-        int i, j;
-        for (i = 0; i < players.length; i++) {
-            //puts 3 tacocats in hand
-            for (j = 0; j < 3; j++) {
-            }
-            //puts 2 beardcats in hand
-            for (j = 0; j < 2; j++) {
-                currState.getPlayers().get(i).getPlayerHand().add(new Card(2));
-            }
-            //puts one of every card in hand
-            for (j = 1; j <= 12; j++) {
-                currState.getPlayers().get(i).getPlayerHand().add(new Card(j));
-            }
-        }
-
-    }
 
     public EKGameState getCurrState(){
         return this.currState;

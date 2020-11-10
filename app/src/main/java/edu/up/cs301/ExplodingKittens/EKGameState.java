@@ -188,6 +188,27 @@ public class EKGameState extends GameState {
         }
     }
 
+    //sets all players hands to be able to do each action once
+
+    public void makeTestHand() {
+        int i, j;
+        for (i = 0; i < this.getNumPlayers(); i++) {
+            //puts 3 tacocats in hand
+            for (j = 0; j < 3; j++) {
+                this.getPlayerHand(i).add(new Card(1));
+            }
+            //puts 2 beardcats in hand
+            for (j = 0; j < 2; j++) {
+                this.getPlayerHand(i).add(new Card(2));
+            }
+            //puts one of every card in hand
+            for (j = 1; j <= 12; j++) {
+                this.getPlayerHand(i).add(new Card(j));
+            }
+        }
+
+    }
+
 }
 
 
