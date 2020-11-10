@@ -10,10 +10,10 @@ import edu.up.cs301.ExplodingKittens.Player;
 import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
 
 public class Trade2Action extends GameAction {
-    private Player targetPlayer;
+    private int targetPlayerIdx;
     private int PosC1, PosC2;
 
-    public Trade2Action(Player player, Player target, int card1, int card2){
+    public Trade2Action(Player player, int targetPlayerIdx, int card1, int card2){
         super(player);
         this.targetPlayer = target;
         this.PosC1 = card1;

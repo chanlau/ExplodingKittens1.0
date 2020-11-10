@@ -249,7 +249,7 @@ public class EK_LocalGame extends LocalGame {
         }
         //finds skip in hand and removes it before incrementing the turn;
         currState.getDiscardPile().add(currState.getCurrentPlayerHand().get(card));
-        currState.getPlayers().get(p.getPlayerNum()).getPlayerHand().remove(card);
+        currState.getCurrentPlayerHand().remove(card);
         //call the nextTurn method to move to the next player
         if(currState.getCardsToDraw() > 1){
             currState.setCardsToDraw(currState.getCardsToDraw()-1);
@@ -268,7 +268,7 @@ public class EK_LocalGame extends LocalGame {
         //check if there is a defuse card in the hand
         int defusePos = checkHand(currState.getCurrentPlayerHand(), 12);
         int explodePos = checkHand(currState.getCurrentPlayerHand(), 0);
-        if(defusePos != NULL && explodePos != NULL){
+        if(defusePos != -1 && explodePos != -1){
             currState.getDiscardPile().add(currState.getCurrentPlayerHand().get(defusePos));
             currState.getCurrentPlayerHand().remove(defusePos);
             int randPos = (int)(Math.random()*currState.getDeck().size());
@@ -391,6 +391,9 @@ public class EK_LocalGame extends LocalGame {
 
     //increments turn and wraps around from the last player to the first player
     public void nextTurn() {
+        if(currState.getCardsToDraw() == 0){
+            currState.setWhoseTurn((currState.getWhoseTurn()+1)%(currState.getPlayerHands().size()));
+        }
         currState.setWhoseTurn((currState.getWhoseTurn()+1)%(currState.getPlayerHands().size()));
         while (currState.getCurrentPlayerHand().get(0).getCardType() == 0) {
             currState.setWhoseTurn((currState.getWhoseTurn()+1)%(currState.getPlayerHands().size()));
