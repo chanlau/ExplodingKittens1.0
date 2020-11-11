@@ -449,7 +449,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             left and update the display. If this would shift the index out of
             bounds (i.e. -1 instead of 0) then do no shift the cards
              */
-            if (button == leftScroll) {
+            if (button.getId() == R.id.leftScroll) {
                 for (int i = 0; i < 5; i++) {
                     if (cardHand[i] - 1 == -1) {
                         break;
@@ -463,7 +463,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             same with the right scroll button, but instead check for out of
             bounds on the right
              */
-            else if (button == rightScroll) {
+            else if (button.getId() == R.id.rightScroll) {
                 for (int i = 0; i < 5; i++) {
                     /*
                     check to see if we are using the discard pile or the

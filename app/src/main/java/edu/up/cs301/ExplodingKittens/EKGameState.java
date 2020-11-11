@@ -7,6 +7,9 @@
 package edu.up.cs301.ExplodingKittens;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+
 import edu.up.cs301.game.GameFramework.infoMessage.GameState;
 
 
@@ -188,7 +191,7 @@ public class EKGameState extends GameState {
                 this.getDeck().add(new Card(i));
             }
         }
-
+        Collections.shuffle(this.deck);
     }
 
     //adds appropriate amt. of cards to all players hands
