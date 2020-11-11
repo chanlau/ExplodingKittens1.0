@@ -253,7 +253,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         viewed or the discard pile is being viewed and is updated with the
         card indexes for the given array */
 
-
+            int query = 0;
             for (int i = 0; i < 5; i++) {
                 int cardType;
             /*
@@ -343,10 +343,10 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                             imagesHand[i].setImageResource(R.drawable.explodingkittencard);
                             break;
                         case 1:
-                            imagesHand[i].setImageResource(R.drawable.selecttacocatcard);
+                            imagesHand[i].setImageResource(R.drawable.cardback);
                             break;
                         case 2:
-                            imagesHand[i].setImageResource(R.drawable.selectbeardcatcard);
+                            imagesHand[i].setImageResource(R.drawable.cardback);
                             break;
                         case 3:
                             imagesHand[i].setImageResource(R.drawable.selecthairypotatocatcard);
@@ -367,7 +367,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                             imagesHand[i].setImageResource(R.drawable.selectfavorcard);
                             break;
                         case 9:
-                            imagesHand[i].setImageResource(R.drawable.selectskipcard);
+                            imagesHand[i].setImageResource(R.drawable.cardback);
                             break;
                         case 10:
                             imagesHand[i].setImageResource(R.drawable.selectseethefuturecard);
@@ -596,6 +596,9 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             }
 
             else if (button == enterBtn) {
+                for (int p = 0; p < 5; p++) {
+                    tradeCards[p] = 0;
+                }
                 int numSelected = 0;
                 int c = 0;
                 //for trade 2
@@ -707,6 +710,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                     state.getDiscardPile().get(d).setSelected(false);
                 }
                 // reset the cardHands array
+                if (state.getPlayerHand(this.playerNum).size() < 5)
                 for (int q = 0; q < 5; q++) {
                     cardHand[q] = q;
                 }
@@ -719,7 +723,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                     state.getPlayerHand(this.playerNum).get(a).setSelected(false);
                 }
                 // deselect all allCards cards
-                for (int b = 0; b < state.getPlayerHand(this.playerNum).size(); b++) {
+                for (int b = 0; b < allCards.length; b++) {
                     allCards[b].setSelected(false);
                 }
                 // deselect all cards in the discard pile array
@@ -729,7 +733,6 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 DrawCardAction drawCard = new DrawCardAction(this);
                 game.sendAction(drawCard);
             } // endTurn button
-            updateDisplay();
 
         } // if statement for instance of button
 
@@ -1003,9 +1006,8 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                     otherPlayerHands();
                 }
             } // player4 button
-
-            //updateDisplay();
-        }
+        } // image buttons
+        updateDisplay();
     } //onClick method
 
 }
