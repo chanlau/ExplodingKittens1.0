@@ -5,6 +5,7 @@ import android.media.Image;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 
 import java.util.ArrayList;
@@ -84,6 +85,12 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
     private ImageButton imagesHand[] = new ImageButton[5];
     // the discard pile image button
     private ImageButton discardPileBtn = null;
+    //TextViews
+    private TextView player0CardCount = null;
+    private TextView player1CardCount = null;
+    private TextView player2CardCount = null;
+    private TextView player3CardCount = null;
+    private TextView turnText = null;
     /*
     booleans to keep track of which trade is currently selected
      */
@@ -395,6 +402,11 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                     } //switch statement
                 } // else statement for selectingCard
             } //for loop
+        player0CardCount.setText("Your Card Count: " + state.getPlayerHand(0).size());
+        player1CardCount.setText("Card Count: " + state.getPlayerHand(1).size());
+        player2CardCount.setText("Card Count: " + state.getPlayerHand(2).size());
+        player3CardCount.setText("Card Count: " + state.getPlayerHand(3).size());
+        turnText.setText("Player " + state.getWhoseTurn() + "'s Turn");
     } //updateDisplay method
 
     public void setAsGui(GameMainActivity activity) {
@@ -422,6 +434,16 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         this.player4 = (ImageButton)activity.findViewById(R.id.player4);
         this.discardPileBtn =
                 (ImageButton)activity.findViewById(R.id.discardPile);
+        this.player0CardCount =
+                (TextView)activity.findViewById(R.id.player0cards);
+        this.player1CardCount =
+                (TextView)activity.findViewById(R.id.player1cards);
+        this.player2CardCount =
+                (TextView)activity.findViewById(R.id.player2cards);
+        this.player3CardCount =
+                (TextView)activity.findViewById(R.id.player3cards);
+        this.turnText = (TextView)activity.findViewById(R.id.turntext);
+
 
         // listen for button presses
         leftScroll.setOnClickListener(this);
@@ -739,7 +761,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                     state.getPlayerHand(this.playerNum).get(a).setSelected(false);
                 }
                 // deselect all allCards cards
-                for (int b = 0; b < state.getPlayerHand(this.playerNum).size(); b++) {
+                for (int b = 0; b < 11; b++) {
                     allCards[b].setSelected(false);
                 }
                 // deselect all cards in the discard pile array
