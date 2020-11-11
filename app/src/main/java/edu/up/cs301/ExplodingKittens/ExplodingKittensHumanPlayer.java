@@ -269,10 +269,13 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 if stmnt 3: the player is looking at their own hand
              */
                 if (switchedDiscard == true) {
-                    cardType =
-                            state.getDiscardPile().get(cardHand[i]).getCardType();
-                    selectingCard =
-                            state.getDiscardPile().get(cardHand[i]).getSelected();
+                    if(state.getDiscardPile().size() <= i){
+                        cardType = 15;
+                    }
+                    else {
+                        cardType = state.getDiscardPile().get(cardHand[i]).getCardType();
+                        selectingCard = state.getDiscardPile().get(cardHand[i]).getSelected();
+                    }
                 }
                 else if (switchedDiscard == false && trade3 == true && trade3Stage == 2) {
                     cardType = allCards[cardHand[i]].getCardType();
@@ -333,6 +336,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                             imagesHand[i].setImageResource(R.drawable.defusecard);
                             break;
                         default:
+                            imagesHand[i].setImageResource(R.drawable.blankcard);
                             break;
                     } //switch statement
                 } // if statement for selectingCard
@@ -379,6 +383,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                             imagesHand[i].setImageResource(R.drawable.selectdefusecard);
                             break;
                         default:
+                            imagesHand[i].setImageResource(R.drawable.blankcard);
                             break;
                     } //switch statement
                 } // else statement for selectingCard
@@ -478,7 +483,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                             cardHand[i] = cardHand[i] + 1;
                         }
                     } else {
-                        if (cardHand[i] + 1 >= state.getDiscardPile().size()) {
+                        if (cardHand[4] + 1 >= state.getDiscardPile().size()) {
                             break;
                         } else {
                             cardHand[i] = cardHand[i] + 1;
@@ -763,6 +768,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                         state.getDiscardPile().get(a).setSelected(false);
                     }
                 }
+                updateDisplay();
             } //discard pile button
 
             else if (button == card1) {

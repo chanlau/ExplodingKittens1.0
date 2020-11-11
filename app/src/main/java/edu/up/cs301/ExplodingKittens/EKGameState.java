@@ -60,6 +60,8 @@ public class EKGameState extends GameState {
         this.numPlayers = numOfPlayers;
         populateDeck();
         populateHands();
+        discardPile.add(new Card(1));
+        discardPile.add(new Card(12));
     }
 
     //constructor to copy the given gamestate
