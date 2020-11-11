@@ -124,27 +124,20 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         /*
         set the imagesHand array to the correct image buttons for the GUI
          */
+        /*
         imagesHand[0] = card1;
         imagesHand[1] = card2;
         imagesHand[2] = card3;
         imagesHand[3] = card4;
         imagesHand[4] = card5;
-
+        */
         /*
         initialize the allCards array with all cards (except exploding kitten
          card)
          */
-
-        /*
         for (int y = 0; y < 12; y++) {
             allCards[y] = new Card(y+1);
         }
-
-
-        for(int x = 0; x < state.getPlayerHand(this.playerNum).size(); x++){
-            state.getPlayerHand(this.playerNum).add(state.getPlayerHand(this.playerNum).get(x));
-        }
-        */
 
     } //ExplodingKittensHumanPlayer method
 
@@ -261,7 +254,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         card indexes for the given array */
 
 
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 4; i++) {
                 int cardType;
             /*
             determine what deck the player is looking at to set the switch
@@ -275,7 +268,6 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
 
                 if stmnt 3: the player is looking at their own hand
              */
-
                 if (switchedDiscard == true) {
                     cardType =
                             state.getDiscardPile().get(cardHand[i]).getCardType();
@@ -435,7 +427,12 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         player3.setOnClickListener(this);
         player4.setOnClickListener(this);
         discardPileBtn.setOnClickListener(this);
-        
+
+        imagesHand[0] = card1;
+        imagesHand[1] = card2;
+        imagesHand[2] = card3;
+        imagesHand[3] = card4;
+        imagesHand[4] = card5;
     } //setAsGui method
 
     /**
@@ -1005,7 +1002,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 }
             } // player4 button
 
-            updateDisplay();
+            //updateDisplay();
         }
     } //onClick method
 

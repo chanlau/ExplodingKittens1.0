@@ -102,7 +102,7 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
                 }
                 if(decider == 0) {
                     //Make a Trade2Action and draw if you can't
-                    if (this.playerHand.size() >= 2) {
+                    if (computerState.getTargetPlayerHand(this.playerNum).size() >= 2) {
                         Trade2Action trade2 = new Trade2Action(this, playerSelected, 0, 1);
                         this.game.sendAction(trade2);
                     }
@@ -113,7 +113,7 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
                 }
                 else if(decider == 1){
                     //Make a Trade3Action and draw if you can't
-                    if(this.playerHand.size() >= 3){
+                    if(computerState.getTargetPlayerHand(this.playerNum).size()  >= 3){
                         int cardSelected = (int)((Math.random()*12)+1);
                         Trade3Action trade3 = new Trade3Action(this, playerSelected,
                                 0,1,2,cardSelected);
@@ -126,7 +126,7 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
                 }
                 else if(decider ==2){
                     //Make a Trade5Action and draw if you can't
-                    if(this.playerHand.size() >= 5) {
+                    if(computerState.getTargetPlayerHand(this.playerNum).size() >= 5) {
                         int cardSelected = (int) ((Math.random() * 12) + 1);
                         Trade5Action trade5 = new Trade5Action(this, 0, 1, 2, 3, 4, cardSelected);
                         this.game.sendAction(trade5);

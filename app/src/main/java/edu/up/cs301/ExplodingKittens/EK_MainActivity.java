@@ -40,6 +40,8 @@ public class EK_MainActivity extends GameMainActivity {
                 return null; //new CounterComputerPlayer2(2, name);
             }});
 
+
+
         // Create a game configuration class for Counter:
         // - player types as given above
         // - from 1 to 2 players
