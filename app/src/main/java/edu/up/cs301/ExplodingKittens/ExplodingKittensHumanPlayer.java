@@ -159,7 +159,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         }
         else{
             this.state = new EKGameState((EKGameState) info);
-            //updateDisplay(info);
+            updateDisplay();
             }
     } // receiveInfo method
 
