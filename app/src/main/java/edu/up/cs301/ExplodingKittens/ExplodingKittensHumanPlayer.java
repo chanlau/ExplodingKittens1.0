@@ -138,13 +138,6 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             allCards[y] = new Card(y+1);
         }
 
-
-        //for(int x = 0; x < state.getPlayerHand(this.playerNum).size(); x++){
-         //   state.getPlayerHand(this.playerNum).add(state.getPlayerHand
-        //   (this.playerNum).get(x));
-        //}
-
-
     } //ExplodingKittensHumanPlayer method
 
     //This returns the top level surface view of main GUI
@@ -165,7 +158,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         }
         else{
             this.state = new EKGameState((EKGameState) info);
-            updateDisplay();
+            //updateDisplay(info);
             }
     } // receiveInfo method
 
@@ -1002,7 +995,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 }
             } // player4 button
 
-            updateDisplay();
+            //updateDisplay();
         }
     } //onClick method
 
