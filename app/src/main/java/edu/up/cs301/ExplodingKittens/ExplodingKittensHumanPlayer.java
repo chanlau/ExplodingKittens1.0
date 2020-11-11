@@ -105,9 +105,11 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         imagesHand[3] = card4;
         imagesHand[4] = card5;
 
+        /*
         for(int x = 0; x < state.getPlayerHand(this.playerNum).size(); x++){
+            //state is null
             state.getPlayerHand(this.playerNum).add(state.getPlayerHand(this.playerNum).get(x));
-        }
+        } */
 
     } //ExplodingKittensHumanPlayer method
 
@@ -128,19 +130,21 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             flash(Color.RED, 500);
         }
         else{
-            updateDisplay();
+            this.state = new EKGameState((EKGameState) info);
+            updateDisplay(info);
             }
     } // receiveInfo method
 
     /**
      * Updates the GUI with new information after actions are taken
      */
-    public void updateDisplay() {
-
+    public void updateDisplay(GameInfo info) {
         /* updates the display with the card type, the array is changed in
         the onClick method depending on whether the players hand is being
         viewed or the discard pile is being viewed and is updated with the
         card indexes for the given array */
+        this.state = (EKGameState) info;
+
             for (int i = 0; i < 5; i++) {
                 int cardType;
             /*
@@ -392,7 +396,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 } // boolean switchedDiscard
             } // enter button
 
-            updateDisplay();
+            //updateDisplay();
         } // if statement for instance of button
 
         else if (button instanceof ImageButton) {
@@ -543,8 +547,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                     }
                 }
             }
-
-            updateDisplay();
+            //updateDisplay();
         }
     } //onClick method
 
