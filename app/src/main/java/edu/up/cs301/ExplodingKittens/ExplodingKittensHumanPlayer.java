@@ -13,6 +13,7 @@ import edu.up.cs301.ExplodingKittens.EKActions.DrawCardAction;
 import edu.up.cs301.ExplodingKittens.EKActions.PlayAttackCard;
 import edu.up.cs301.ExplodingKittens.EKActions.PlayDefuseCard;
 import edu.up.cs301.ExplodingKittens.EKActions.PlayFavorCard;
+import edu.up.cs301.ExplodingKittens.EKActions.PlayFutureCard;
 import edu.up.cs301.ExplodingKittens.EKActions.PlayNopeCard;
 import edu.up.cs301.ExplodingKittens.EKActions.PlayShuffleCard;
 import edu.up.cs301.ExplodingKittens.EKActions.PlaySkipCard;
@@ -167,7 +168,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
      * display the top 3 cards of the draw pile in place of the players hand
      */
     public void seeTheFuture() {
-        card1.setImageResource(R.drawable.blankcard);
+        card4.setImageResource(R.drawable.blankcard);
         card5.setImageResource(R.drawable.blankcard);
         for (int i = 0; i < 3; i++) {
             switch (state.getDeck().get(i).getCardType()) {
@@ -269,10 +270,13 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 if stmnt 3: the player is looking at their own hand
              */
                 if (switchedDiscard == true) {
-                    cardType =
-                            state.getDiscardPile().get(cardHand[i]).getCardType();
-                    selectingCard =
-                            state.getDiscardPile().get(cardHand[i]).getSelected();
+                    if(state.getDiscardPile().size() <= i){
+                        cardType = 15;
+                    }
+                    else {
+                        cardType = state.getDiscardPile().get(cardHand[i]).getCardType();
+                        selectingCard = state.getDiscardPile().get(cardHand[i]).getSelected();
+                    }
                 }
                 else if (switchedDiscard == false && trade3 == true && trade3Stage == 2) {
                     cardType = allCards[cardHand[i]].getCardType();
@@ -288,7 +292,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 determine what image should be displayed for each image
                 button, a selected image or a not selected image
                  */
-                if (selectingCard == false && seeTheFutHand == false) {
+                if (!selectingCard && !seeTheFutHand) {
                     // set the appropriate image to each button
                     switch (cardType) {
                         case 0:
@@ -298,9 +302,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                             imagesHand[i].setImageResource(R.drawable.tacocatcard);
                             break;
                         case 2:
-                            imagesHand[i].setImageResource(R.drawable.skipcard);
-                            //beardcat hairypcat, rainbowralph, cattermelon,
-                            // attack, c the future, nope,
+                            imagesHand[i].setImageResource(R.drawable.beardcatcard);
                             break;
                         case 3:
                             imagesHand[i].setImageResource(R.drawable.hairypotatocatcard);
@@ -333,11 +335,12 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                             imagesHand[i].setImageResource(R.drawable.defusecard);
                             break;
                         default:
+                            imagesHand[i].setImageResource(R.drawable.blankcard);
                             break;
                     } //switch statement
                 } // if statement for selectingCard
                 // now for cases when selecting a card is true
-                else if (seeTheFutHand == false) {
+                else if (!seeTheFutHand) {
                     switch (cardType) {
                         case 0:
                             imagesHand[i].setImageResource(R.drawable.explodingkittencard);
@@ -379,6 +382,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                             imagesHand[i].setImageResource(R.drawable.selectdefusecard);
                             break;
                         default:
+                            imagesHand[i].setImageResource(R.drawable.blankcard);
                             break;
                     } //switch statement
                 } // else statement for selectingCard
@@ -471,14 +475,14 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                     check to see if we are using the discard pile or the
                     player hand array so we know what array size as upper bound
                      */
-                    if (switchedDiscard == false) {
+                    if (!switchedDiscard) {
                         if (cardHand[4] + 1 >= state.getPlayerHand(this.playerNum).size()) {
                             break;
                         } else {
                             cardHand[i] = cardHand[i] + 1;
                         }
                     } else {
-                        if (cardHand[i] + 1 >= state.getDiscardPile().size()) {
+                        if (cardHand[4] + 1 >= state.getDiscardPile().size()) {
                             break;
                         } else {
                             cardHand[i] = cardHand[i] + 1;
@@ -577,7 +581,11 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                                 break;
                             case 10:
                                 seeTheFutHand = true;
-                                seeTheFuture();
+                                PlayFutureCard futureCard = new PlayFutureCard(this);
+                                game.sendAction(futureCard);
+                                if(state.getWhoseTurn() == this.playerNum) {
+                                    seeTheFuture();
+                                }
                                 break;
                             case 11:
                                 PlayNopeCard nopeCard = new PlayNopeCard(this);
@@ -766,6 +774,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                         state.getDiscardPile().get(a).setSelected(false);
                     }
                 }
+                updateDisplay();
             } //discard pile button
 
             else if (button == card1) {

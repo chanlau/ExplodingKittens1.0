@@ -59,7 +59,10 @@ public class EKGameState extends GameState {
         this.cardsToDraw = 1;
         this.numPlayers = numOfPlayers;
         populateDeck();
+        deck.add(0, new Card(10));
         populateHands();
+        discardPile.add(new Card(1));
+        discardPile.add(new Card(12));
     }
 
     //constructor to copy the given gamestate
@@ -191,7 +194,7 @@ public class EKGameState extends GameState {
                 this.getDeck().add(new Card(i));
             }
         }
-        //Collections.shuffle(this.deck);
+        Collections.shuffle(this.deck);
     }
 
     //adds appropriate amt. of cards to all players hands
