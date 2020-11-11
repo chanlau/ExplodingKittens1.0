@@ -191,7 +191,7 @@ public class EKGameState extends GameState {
                 this.getDeck().add(new Card(i));
             }
         }
-        Collections.shuffle(this.deck);
+        //Collections.shuffle(this.deck);
     }
 
     //adds appropriate amt. of cards to all players hands
