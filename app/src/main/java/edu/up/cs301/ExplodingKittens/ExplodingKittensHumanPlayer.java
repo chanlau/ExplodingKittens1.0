@@ -13,6 +13,7 @@ import edu.up.cs301.ExplodingKittens.EKActions.DrawCardAction;
 import edu.up.cs301.ExplodingKittens.EKActions.PlayAttackCard;
 import edu.up.cs301.ExplodingKittens.EKActions.PlayDefuseCard;
 import edu.up.cs301.ExplodingKittens.EKActions.PlayFavorCard;
+import edu.up.cs301.ExplodingKittens.EKActions.PlayFutureCard;
 import edu.up.cs301.ExplodingKittens.EKActions.PlayNopeCard;
 import edu.up.cs301.ExplodingKittens.EKActions.PlayShuffleCard;
 import edu.up.cs301.ExplodingKittens.EKActions.PlaySkipCard;
@@ -167,7 +168,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
      * display the top 3 cards of the draw pile in place of the players hand
      */
     public void seeTheFuture() {
-        card1.setImageResource(R.drawable.blankcard);
+        card4.setImageResource(R.drawable.blankcard);
         card5.setImageResource(R.drawable.blankcard);
         for (int i = 0; i < 3; i++) {
             switch (state.getDeck().get(i).getCardType()) {
@@ -253,7 +254,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         viewed or the discard pile is being viewed and is updated with the
         card indexes for the given array */
 
-
+            int query = 0;
             for (int i = 0; i < 5; i++) {
                 int cardType;
             /*
@@ -282,9 +283,15 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                     selectingCard = allCards[cardHand[i]].getSelected();
                 }
                 else {
-                    cardType = state.getPlayerHand(this.playerNum).get(cardHand[i]).getCardType();
-                    selectingCard =
-                            state.getPlayerHand(this.playerNum).get(cardHand[i]).getSelected();
+                    if(state.getPlayerHand(this.playerNum).size() <= i) {
+                        cardType = 15;
+                    }
+                    else {
+                        cardType = state.getPlayerHand(this.playerNum).get(cardHand[i]).getCardType();
+                        selectingCard =
+                                state.getPlayerHand(this.playerNum).get(cardHand[i]).getSelected();
+                    }
+
                 }
 
                 /*
@@ -347,10 +354,10 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                             imagesHand[i].setImageResource(R.drawable.explodingkittencard);
                             break;
                         case 1:
-                            imagesHand[i].setImageResource(R.drawable.selecttacocatcard);
+                            imagesHand[i].setImageResource(R.drawable.cardback);
                             break;
                         case 2:
-                            imagesHand[i].setImageResource(R.drawable.selectbeardcatcard);
+                            imagesHand[i].setImageResource(R.drawable.cardback);
                             break;
                         case 3:
                             imagesHand[i].setImageResource(R.drawable.selecthairypotatocatcard);
@@ -371,7 +378,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                             imagesHand[i].setImageResource(R.drawable.selectfavorcard);
                             break;
                         case 9:
-                            imagesHand[i].setImageResource(R.drawable.selectskipcard);
+                            imagesHand[i].setImageResource(R.drawable.cardback);
                             break;
                         case 10:
                             imagesHand[i].setImageResource(R.drawable.selectseethefuturecard);
@@ -582,7 +589,11 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                                 break;
                             case 10:
                                 seeTheFutHand = true;
-                                seeTheFuture();
+                                PlayFutureCard futureCard = new PlayFutureCard(this);
+                                game.sendAction(futureCard);
+                                if(state.getWhoseTurn() == this.playerNum) {
+                                    seeTheFuture();
+                                }
                                 break;
                             case 11:
                                 PlayNopeCard nopeCard = new PlayNopeCard(this);
@@ -601,6 +612,9 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             }
 
             else if (button == enterBtn) {
+                for (int p = 0; p < 5; p++) {
+                    tradeCards[p] = 0;
+                }
                 int numSelected = 0;
                 int c = 0;
                 //for trade 2
@@ -712,6 +726,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                     state.getDiscardPile().get(d).setSelected(false);
                 }
                 // reset the cardHands array
+                if (state.getPlayerHand(this.playerNum).size() < 5)
                 for (int q = 0; q < 5; q++) {
                     cardHand[q] = q;
                 }
@@ -734,7 +749,6 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 DrawCardAction drawCard = new DrawCardAction(this);
                 game.sendAction(drawCard);
             } // endTurn button
-            updateDisplay();
 
         } // if statement for instance of button
 
@@ -1009,9 +1023,8 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                     otherPlayerHands();
                 }
             } // player4 button
-
-            //updateDisplay();
-        }
+        } // image buttons
+        updateDisplay();
     } //onClick method
 
 }
