@@ -20,11 +20,9 @@ import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
 public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
 
     int random;
-    ArrayList<Card> playerHand;
 
     public ExplodingKittensComputerPlayer(String name) {
         super(name);
-        this.playerHand = new ArrayList<Card>();
 
     }
 
@@ -48,9 +46,9 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
             }
             //if 1 then play a card
             else if(random == 1){
-                if(playerHand != null){
+                if(computerState.getTargetPlayerHand(this.playerNum) != null){
                     //Play the first card in your hand and send the appropriate action
-                    switch (playerHand.get(0).getCardType()){
+                    switch (computerState.getTargetPlayerHand(this.playerNum).get(0).getCardType()){
                         case 6:
                             PlayAttackCard attack = new PlayAttackCard(this);
                             this.game.sendAction(attack);
@@ -61,14 +59,13 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
                             break;
                         case 8:
                             int holder = 0;
-                            //Find the first player that isn't null and isn't this player
+                            //Find the first player hand that isn't null and isn't this player's hand
                             for(int i = 0; i < computerState.getNumPlayers(); i++){
-                                Player temp = computerState.getPlayers().get(i);
-                                if(temp != null && temp.getPlayerNum() != this.playerNum){
+                                if(computerState.getPlayerHands().get(i) != null && i != this.playerNum){
                                     holder = i;
                                 }
                             }
-                            PlayFavorCard favor = new PlayFavorCard(this, computerState.getPlayers().get(holder),0);
+                            PlayFavorCard favor = new PlayFavorCard(this, holder,12);
                             this.game.sendAction(favor);
                             break;
                         case 9:
@@ -97,17 +94,16 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
             else if(random == 2){
                 int decider = (int)(Math.random()*3);
                 int playerSelected = 0;
-                //Find the first player that isn't null and isn't this player
-                for (int i = 0; i < computerState.getNumPlayers(); i++) {
-                    Player temp = computerState.getPlayers().get(i);
-                    if (temp != null && temp.getPlayerNum() != this.playerNum) {
+                //Find the first player hand that isn't null and isn't this player's hand
+                for(int i = 0; i < computerState.getNumPlayers(); i++){
+                    if(computerState.getPlayerHands().get(i) != null && i != this.playerNum){
                         playerSelected = i;
                     }
                 }
                 if(decider == 0) {
                     //Make a Trade2Action and draw if you can't
                     if (this.playerHand.size() >= 2) {
-                        Trade2Action trade2 = new Trade2Action(this, computerState.getPlayers().get(playerSelected), 0, 1);
+                        Trade2Action trade2 = new Trade2Action(this, playerSelected, 0, 1);
                         this.game.sendAction(trade2);
                     }
                     else {
@@ -119,7 +115,7 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
                     //Make a Trade3Action and draw if you can't
                     if(this.playerHand.size() >= 3){
                         int cardSelected = (int)((Math.random()*12)+1);
-                        Trade3Action trade3 = new Trade3Action(this, computerState.getPlayers().get(playerSelected),
+                        Trade3Action trade3 = new Trade3Action(this, playerSelected,
                                 0,1,2,cardSelected);
                         this.game.sendAction(trade3);
                     }
