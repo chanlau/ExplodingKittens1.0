@@ -283,9 +283,15 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                     selectingCard = allCards[cardHand[i]].getSelected();
                 }
                 else {
-                    cardType = state.getPlayerHand(this.playerNum).get(cardHand[i]).getCardType();
-                    selectingCard =
-                            state.getPlayerHand(this.playerNum).get(cardHand[i]).getSelected();
+                    if(state.getPlayerHand(this.playerNum).size() <= i) {
+                        cardType = 15;
+                    }
+                    else {
+                        cardType = state.getPlayerHand(this.playerNum).get(cardHand[i]).getCardType();
+                        selectingCard =
+                                state.getPlayerHand(this.playerNum).get(cardHand[i]).getSelected();
+                    }
+
                 }
 
                 /*
