@@ -288,7 +288,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 determine what image should be displayed for each image
                 button, a selected image or a not selected image
                  */
-                if (selectingCard == false && seeTheFutHand == false) {
+                if (!selectingCard && !seeTheFutHand) {
                     // set the appropriate image to each button
                     switch (cardType) {
                         case 0:
@@ -337,7 +337,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                     } //switch statement
                 } // if statement for selectingCard
                 // now for cases when selecting a card is true
-                else if (seeTheFutHand == false) {
+                else if (!seeTheFutHand) {
                     switch (cardType) {
                         case 0:
                             imagesHand[i].setImageResource(R.drawable.explodingkittencard);
@@ -471,7 +471,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                     check to see if we are using the discard pile or the
                     player hand array so we know what array size as upper bound
                      */
-                    if (switchedDiscard == false) {
+                    if (!switchedDiscard) {
                         if (cardHand[4] + 1 >= state.getPlayerHand(this.playerNum).size()) {
                             break;
                         } else {
