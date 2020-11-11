@@ -36,7 +36,7 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
      */
     @Override
     protected void receiveInfo(GameInfo info) {
-
+/*
         EKGameState computerState = (EKGameState) info;
         //check to see if it's this player's turn
         if(computerState.getWhoseTurn() == this.playerNum){
@@ -142,6 +142,7 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
                 }
             }
         }
+        */
     }
 
     /**

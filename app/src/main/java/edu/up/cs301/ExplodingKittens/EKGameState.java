@@ -38,8 +38,10 @@ public class EKGameState extends GameState {
         this.deck = new ArrayList<Card>();
         this.whoseTurn = 1;
         this.cardsToDraw = 1;
-        populateDeck();
-        populateHands();
+        this.playerHands = new ArrayList<>();
+        for(int i = 0; i < 4; i++){
+            this.playerHands.add(new ArrayList<Card>());
+        }
     }
 
     //constructor
@@ -96,7 +98,6 @@ public class EKGameState extends GameState {
 
         //deep copy for array of player hands
         for(int c = 0; c < numPlayers; c++){
-            
             this.playerHands.add(new ArrayList<Card>());
             for (int d = 0; d < gamestate.playerHands.get(c).size(); d++){
                 this.playerHands.get(c).add(gamestate.playerHands.get(c).get(d));

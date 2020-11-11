@@ -43,7 +43,6 @@ public class EK_LocalGame extends LocalGame {
     //send updated state to a given player
     @Override
     protected void sendUpdatedStateTo(GamePlayer p) {
-       // currState.setNumPlayers(this.players.length);
         EKGameState gameCopy = new EKGameState(currState);
         p.sendInfo(gameCopy);
     }//sendUpdatedState

@@ -129,6 +129,8 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         initialize the allCards array with all cards (except exploding kitten
          card)
          */
+
+        /*
         for (int y = 0; y < 12; y++) {
             allCards[y] = new Card(y+1);
         }
@@ -137,6 +139,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         for(int x = 0; x < state.getPlayerHand(this.playerNum).size(); x++){
             state.getPlayerHand(this.playerNum).add(state.getPlayerHand(this.playerNum).get(x));
         }
+        */
 
     } //ExplodingKittensHumanPlayer method
 
@@ -555,9 +558,9 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                                 game.sendAction(shuffleCard);
                                 break;
                             case 8:
-                                PlayFavorCard favorCard =
-                                        new PlayFavorCard(this);
-                                game.sendAction(favorCard);
+                              //  PlayFavorCard favorCard =
+                               //         new PlayFavorCard(this);
+                               // game.sendAction(favorCard);
                                 break;
                             case 9:
                                 PlaySkipCard skipCard = new PlaySkipCard(this);
@@ -711,7 +714,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 DrawCardAction drawCard = new DrawCardAction(this);
                 game.sendAction(drawCard);
             } // endTurn button
-            updateDisplay();
+   //         updateDisplay();
 
         } // if statement for instance of button
 
@@ -986,7 +989,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 }
             } // player4 button
 
-            updateDisplay();
+    //        updateDisplay();
         }
     } //onClick method
 
