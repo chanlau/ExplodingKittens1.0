@@ -26,7 +26,7 @@ import static java.sql.Types.NULL;
 
 public class EK_LocalGame extends LocalGame {
 
-    EKGameState currState;
+    private EKGameState currState;
     //Instance variable representing the previous state of the game
     private EKGameState previousState;
     private EKGameState newState;
