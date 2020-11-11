@@ -159,7 +159,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         }
         else{
             this.state = new EKGameState((EKGameState) info);
-            //updateDisplay(info);
+            updateDisplay();
             }
     } // receiveInfo method
 
@@ -472,7 +472,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                     player hand array so we know what array size as upper bound
                      */
                     if (switchedDiscard == false) {
-                        if (cardHand[i] + 1 >= state.getPlayerHand(this.playerNum).size()) {
+                        if (cardHand[4] + 1 >= state.getPlayerHand(this.playerNum).size()) {
                             break;
                         } else {
                             cardHand[i] = cardHand[i] + 1;
