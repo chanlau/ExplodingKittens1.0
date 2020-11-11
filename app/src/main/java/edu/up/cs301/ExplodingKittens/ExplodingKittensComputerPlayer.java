@@ -63,9 +63,11 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
                             for(int i = 0; i < computerState.getNumPlayers(); i++){
                                 if(computerState.getPlayerHands().get(i) != null && i != this.playerNum){
                                     holder = i;
+                                    break;
                                 }
                             }
-                            PlayFavorCard favor = new PlayFavorCard(this, holder,12);
+                            int randomCardPos = (int)(Math.random()*computerState.getPlayerHand(holder).size());
+                            PlayFavorCard favor = new PlayFavorCard(this, holder, randomCardPos);
                             this.game.sendAction(favor);
                             break;
                         case 9:
@@ -98,6 +100,7 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
                 for(int i = 0; i < computerState.getNumPlayers(); i++){
                     if(computerState.getPlayerHands().get(i) != null && i != this.playerNum){
                         playerSelected = i;
+                        break;
                     }
                 }
                 if(decider == 0) {
