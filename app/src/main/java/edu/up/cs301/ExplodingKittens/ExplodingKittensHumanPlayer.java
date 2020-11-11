@@ -50,6 +50,9 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
     private int tradePlayer;
     // int variable to keep track of target card that may get stolen
     private int targCard;
+    // int to keep track of what part of trade 3 we are at: 0 for no trade
+    // yet, 1 for first stage, 2 for second stage
+    private int trade3Stage = 0;
     /*
     buttons
      */
@@ -94,9 +97,11 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
     not (false)
      */
     private boolean selectingCard = false;
-    // int to keep track of what part of trade 3 we are at: 0 for no trade
-    // yet, 1 for first stage, 2 for second stage
-    private int trade3Stage = 0;
+    /*
+    boolean to keep track of when the player is looking at a seeTheFuture card
+     */
+    private boolean seeTheFutHand = false;
+
 
     /*
 
@@ -285,7 +290,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 determine what image should be displayed for each image
                 button, a selected image or a not selected image
                  */
-                if (selectingCard == false) {
+                if (selectingCard == false && seeTheFutHand == false) {
                     // set the appropriate image to each button
                     switch (cardType) {
                         case 0:
@@ -332,7 +337,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                     } //switch statement
                 } // if statement for selectingCard
                 // now for cases when selecting a card is true
-                else {
+                else if (seeTheFutHand == false) {
                     switch (cardType) {
                         case 0:
                             imagesHand[i].setImageResource(R.drawable.explodingkittencard);
@@ -553,15 +558,16 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                                 game.sendAction(shuffleCard);
                                 break;
                             case 8:
-                                PlayFavorCard favorCard =
+                                /*PlayFavorCard favorCard =
                                         new PlayFavorCard(this);
-                                game.sendAction(favorCard);
+                                game.sendAction(favorCard);*/
                                 break;
                             case 9:
                                 PlaySkipCard skipCard = new PlaySkipCard(this);
                                 game.sendAction(skipCard);
                                 break;
                             case 10:
+                                seeTheFutHand = true;
                                 seeTheFuture();
                                 break;
                             case 11:
@@ -587,7 +593,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 /*
                 check to make sure that only two cards are selected then send the action
                  */
-                if (switchedDiscard == false && trade2 == true && trade3 == false && trade5 == false) {
+                if (switchedDiscard == false && trade2 == true && trade3 == false && trade5 == false && seeTheFutHand == false) {
                     // find the cards to be traded
                     for (int i = 0; i < state.getPlayerHand(this.playerNum).size(); i++) {
                         if (state.getPlayerHand(this.playerNum).get(i).getSelected()) {
@@ -604,7 +610,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                     trade2 = false;
                 }
                 //trade3
-                else if (switchedDiscard == false && trade2 == false && trade3 == true && trade5 == false && trade3Stage == 1) {
+                else if (switchedDiscard == false && trade2 == false && trade3 == true && trade5 == false && trade3Stage == 1 && seeTheFutHand == false) {
                     for (int i = 0; i < state.getPlayerHand(this.playerNum).size(); i++) {
                         if (state.getPlayerHand(this.playerNum).get(i).getSelected() == true) {
                             numSelected++;
@@ -620,7 +626,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                     }
                     trade3Stage = 2;
                 }
-                else if (switchedDiscard == false && trade2 == false && trade3 == true && trade5 == false && trade3Stage == 2) {
+                else if (switchedDiscard == false && trade2 == false && trade3 == true && trade5 == false && trade3Stage == 2 && seeTheFutHand == false) {
                     // find the target card to be stolen
                     for (int i = 0; i < allCards.length; i++) {
                         if (allCards[i].getSelected()) {
@@ -647,7 +653,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 }
 
                 //trade5
-                else if (switchedDiscard == false && trade2 == false && trade3 == false && trade5 == true) {
+                else if (switchedDiscard == false && trade2 == false && trade3 == false && trade5 == true && seeTheFutHand == false) {
                     // find the cards to be traded
                     for (int i = 0; i < state.getPlayerHand(this.playerNum).size(); i++) {
                         if (state.getPlayerHand(this.playerNum).get(i).getSelected() == true) {
@@ -672,6 +678,11 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                             tradeCards[3], tradeCards[4], cardVal);
                     game.sendAction(trade5Act);
                     trade5 = false;
+                }
+
+                //see the future card ticked
+                else if (seeTheFutHand) {
+                    seeTheFutHand = false;
                 }
 
                 // deselect all player hand cards
