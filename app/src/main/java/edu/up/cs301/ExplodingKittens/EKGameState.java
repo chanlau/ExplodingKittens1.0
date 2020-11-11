@@ -38,14 +38,15 @@ public class EKGameState extends GameState {
         this.deck = new ArrayList<Card>();
         this.whoseTurn = 1;
         this.cardsToDraw = 1;
-        //populateDeck();
-        //populateHands();
+        populateDeck();
+        populateHands();
     }
 
     //constructor
     public EKGameState(int numOfPlayers) {
         this.discardPile = new ArrayList<Card>();
         this.deck = new ArrayList<Card>();
+        this.playerHands = new ArrayList<ArrayList<Card>>();
         for(int i = 0; i < numOfPlayers; i++){
             this.playerHands.add(new ArrayList<Card>());
         }
@@ -88,13 +89,15 @@ public class EKGameState extends GameState {
         for (int b = 0; b < gamestate.getDeck().size(); b++) {
             //create a copy of the given card from the deck
             Card newCard2 =
-                    new Card(gamestate.getDiscardPile().get(b).getCardType());
+                    new Card(gamestate.getDeck().get(b).getCardType());
             //add that new copy to the current deck
             this.deck.add(newCard2);
         }
 
         //deep copy for array of player hands
         for(int c = 0; c < numPlayers; c++){
+            
+            this.playerHands.add(new ArrayList<Card>());
             for (int d = 0; d < gamestate.playerHands.get(c).size(); d++){
                 this.playerHands.get(c).add(gamestate.playerHands.get(c).get(d));
             }

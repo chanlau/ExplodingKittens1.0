@@ -162,7 +162,8 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             flash(Color.RED, 500);
         }
         else{
-            updateDisplay();
+            this.state = new EKGameState((EKGameState) info);
+            updateDisplay(info);
             }
     } // receiveInfo method
 
@@ -250,12 +251,13 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
     /**
      * Updates the GUI with new information after actions are taken
      */
-    public void updateDisplay() {
-
+    public void updateDisplay(GameInfo info) {
         /* updates the display with the card type, the array is changed in
         the onClick method depending on whether the players hand is being
-        viewed or the discard pile is being viewed or allCards is being views
-         and is updated with the card indexes for the given array */
+        viewed or the discard pile is being viewed and is updated with the
+        card indexes for the given array */
+        this.state = (EKGameState) info;
+
             for (int i = 0; i < 5; i++) {
                 int cardType;
             /*

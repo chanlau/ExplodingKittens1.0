@@ -86,6 +86,7 @@ public abstract class LocalGame implements Game, Tickable {
      * @param players
      * 			the list of players who are playing in the game
      */
+    //players is known here
     public void start(GamePlayer[] players) {
         // if the game has already started, don't restart
         if (this.players != null) return;
