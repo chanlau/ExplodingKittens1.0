@@ -59,10 +59,8 @@ public class EKGameState extends GameState {
         this.cardsToDraw = 1;
         this.numPlayers = numOfPlayers;
         populateDeck();
-        deck.add(0, new Card(10));
+        populateDeck();
         populateHands();
-        discardPile.add(new Card(1));
-        discardPile.add(new Card(12));
     }
 
     //constructor to copy the given gamestate
@@ -108,7 +106,7 @@ public class EKGameState extends GameState {
             ArrayList<Card> temp = new ArrayList<Card>();
             this.playerHands.add(temp);
             for (int d = 0; d < gamestate.playerHands.get(c).size(); d++){
-                Card tempCard = new Card(gamestate.getTargetPlayerHand(c).get(d));
+                Card tempCard = new Card(gamestate.getPlayerHand(c).get(d));
                 this.playerHands.get(c).add(tempCard);
             }
         }
@@ -143,13 +141,6 @@ public class EKGameState extends GameState {
     }
 
     public ArrayList<Card> getCurrentPlayerHand() {return this.playerHands.get(this.whoseTurn);}
-
-    public ArrayList<Card> getTargetPlayerHand(int targetPlayerIdx){
-        if(playerHands.size() < targetPlayerIdx){
-            return null;
-        }
-        return playerHands.get(targetPlayerIdx);
-    }
 
     public ArrayList<Card> getDiscardPile(){
         return this.discardPile;
@@ -209,8 +200,24 @@ public class EKGameState extends GameState {
         }
     }
 
-    //sets all players hands to be able to do each action once
+    //adds defuse and explode cards to deck
+    public void populateDefuseExplode() {
+        int i;
+        int j;
+        //puts 3 Exploding Kittens into deck
+        for (i = 0; i < 3; i++) {
+            this.deck.add(new Card(0));
+        }
 
+        //Puts 2 defuse into deck
+        for (i = 0; i < 2; i++) {
+            this.deck.add(new Card(12));
+        }
+        Collections.shuffle(this.deck);
+    }
+
+    //sets all players hands to be able to do each action once
+/*
     public void makeTestHand() {
         int i, j;
         for (i = 0; i < this.getNumPlayers(); i++) {
@@ -229,6 +236,8 @@ public class EKGameState extends GameState {
         }
 
     }
+
+ */
 
     public void setNumPlayers(int val){
         this.numPlayers = val;
