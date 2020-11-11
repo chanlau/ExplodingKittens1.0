@@ -147,9 +147,6 @@ public class EK_LocalGame extends LocalGame {
      * Trade5
      * nextTurn
      * checkCard
-     * populateDeck*
-     * populateDefuseExplode*
-     * makeTestHand
      ***************************************************************************/
     //Attack card
     //current player ends their turn without drawing a card and forces the
