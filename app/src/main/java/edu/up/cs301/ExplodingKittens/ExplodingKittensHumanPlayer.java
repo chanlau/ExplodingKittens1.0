@@ -522,7 +522,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                     int a = 0;
                     int index = 0;
                     for (int i = 0; i < state.getPlayerHand(this.playerNum).size(); i++) {
-                        if (state.getPlayerHand(this.playerNum).get(i).getSelected() == true) {
+                        if (state.getPlayerHand(this.playerNum).get(i).getSelected()) {
                             a++;
                             index = i;
                         }
@@ -601,6 +601,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                     Trade2Action trade2Act = new Trade2Action(this,
                             tradePlayer, tradeCards[0], tradeCards[1]);
                     game.sendAction(trade2Act);
+                    trade2 = false;
                 }
                 //trade3
                 else if (switchedDiscard == false && trade2 == false && trade3 == true && trade5 == false && trade3Stage == 1) {
@@ -640,6 +641,9 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                     Trade3Action trade3Act = new Trade3Action(this,
                             tradePlayer, tradeCards[0], tradeCards[1],
                             tradeCards[2], targCard);
+                    game.sendAction(trade3Act);
+                    trade3 = false;
+                    trade3Stage = 0;
                 }
 
                 //trade5
@@ -667,7 +671,26 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                             tradeCards[0], tradeCards[1], tradeCards[2],
                             tradeCards[3], tradeCards[4], cardVal);
                     game.sendAction(trade5Act);
+                    trade5 = false;
                 }
+
+                // deselect all player hand cards
+                for (int a = 0; a < state.getPlayerHand(this.playerNum).size(); a++) {
+                    state.getPlayerHand(this.playerNum).get(a).setSelected(false);
+                }
+                // deselect all allCards cards
+                for (int b = 0; b < state.getPlayerHand(this.playerNum).size(); b++) {
+                    allCards[b].setSelected(false);
+                }
+                // deselect all cards in the discard pile array
+                for (int d = 0; d < state.getDiscardPile().size(); d++) {
+                    state.getDiscardPile().get(d).setSelected(false);
+                }
+                // reset the cardHands array
+                for (int q = 0; q < 5; q++) {
+                    cardHand[q] = q;
+                }
+
             } // enter button
 
             else if (button == endTurn) {
@@ -676,18 +699,18 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                     state.getPlayerHand(this.playerNum).get(a).setSelected(false);
                 }
                 // deselect all allCards cards
-                for (int a = 0; a < state.getPlayerHand(this.playerNum).size(); a++) {
-                    allCards[a].setSelected(false);
+                for (int b = 0; b < state.getPlayerHand(this.playerNum).size(); b++) {
+                    allCards[b].setSelected(false);
                 }
                 // deselect all cards in the discard pile array
-                for (int a = 0; a < state.getDiscardPile().size(); a++) {
-                    state.getDiscardPile().get(a).setSelected(false);
+                for (int c = 0; c < state.getDiscardPile().size(); c++) {
+                    state.getDiscardPile().get(c).setSelected(false);
                 }
                 DrawCardAction drawCard = new DrawCardAction(this);
                 game.sendAction(drawCard);
             } // endTurn button
-
             updateDisplay();
+
         } // if statement for instance of button
 
         // for all image buttons
