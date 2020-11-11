@@ -121,14 +121,6 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         for (int i = 0; i < 5; i++) {
             cardHand[i] = i;
         }
-        /*
-        set the imagesHand array to the correct image buttons for the GUI
-         */
-        imagesHand[0] = card1;
-        imagesHand[1] = card2;
-        imagesHand[2] = card3;
-        imagesHand[3] = card4;
-        imagesHand[4] = card5;
 
         /*
         initialize the allCards array with all cards (except exploding kitten
@@ -139,9 +131,10 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         }
 
 
-        for(int x = 0; x < state.getPlayerHand(this.playerNum).size(); x++){
-            state.getPlayerHand(this.playerNum).add(state.getPlayerHand(this.playerNum).get(x));
-        }
+        //for(int x = 0; x < state.getPlayerHand(this.playerNum).size(); x++){
+         //   state.getPlayerHand(this.playerNum).add(state.getPlayerHand
+        //   (this.playerNum).get(x));
+        //}
 
     } //ExplodingKittensHumanPlayer method
 
@@ -163,7 +156,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         }
         else{
             this.state = new EKGameState((EKGameState) info);
-            //updateDisplay(info);
+            updateDisplay();
             }
     } // receiveInfo method
 
@@ -431,6 +424,15 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         player3.setOnClickListener(this);
         player4.setOnClickListener(this);
         discardPileBtn.setOnClickListener(this);
+
+        /*
+        set the imagesHand array to the correct image buttons for the GUI
+         */
+        imagesHand[0] = card1;
+        imagesHand[1] = card2;
+        imagesHand[2] = card3;
+        imagesHand[3] = card4;
+        imagesHand[4] = card5;
     } //setAsGui method
 
     /**
@@ -589,7 +591,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                         }
                     }
                 }
-            }
+            } //
 
             else if (button == enterBtn) {
                 int numSelected = 0;
