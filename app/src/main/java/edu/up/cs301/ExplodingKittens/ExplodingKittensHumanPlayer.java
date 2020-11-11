@@ -275,6 +275,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
 
                 if stmnt 3: the player is looking at their own hand
              */
+
                 if (switchedDiscard == true) {
                     cardType =
                             state.getDiscardPile().get(cardHand[i]).getCardType();
@@ -434,6 +435,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         player3.setOnClickListener(this);
         player4.setOnClickListener(this);
         discardPileBtn.setOnClickListener(this);
+        
     } //setAsGui method
 
     /**
