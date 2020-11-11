@@ -298,8 +298,9 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                             imagesHand[i].setImageResource(R.drawable.tacocatcard);
                             break;
                         case 2:
-                            imagesHand[i].setImageResource(R.drawable.skipcard);
-                            //beardcat hairypcat, rainbowralph,
+                            imagesHand[i].setImageResource(R.drawable.beardcatcard);
+                            //beardcat hairypcat, rainbowralph, cattermelon,
+                            // attack, c the future, nope,
                             break;
                         case 3:
                             imagesHand[i].setImageResource(R.drawable.hairypotatocatcard);
@@ -450,7 +451,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             left and update the display. If this would shift the index out of
             bounds (i.e. -1 instead of 0) then do no shift the cards
              */
-            if (button.getId() == R.id.leftScroll) {
+            if (button == leftScroll) {
                 for (int i = 0; i < 5; i++) {
                     if (cardHand[i] - 1 == -1) {
                         break;
@@ -464,7 +465,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             same with the right scroll button, but instead check for out of
             bounds on the right
              */
-            else if (button.getId() == R.id.rightScroll) {
+            else if (button == rightScroll) {
                 for (int i = 0; i < 5; i++) {
                     /*
                     check to see if we are using the discard pile or the
@@ -477,7 +478,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                             cardHand[i] = cardHand[i] + 1;
                         }
                     } else {
-                        if (cardHand[4] + 1 >= state.getPlayerHand(this.playerNum).size()) {
+                        if (cardHand[i] + 1 >= state.getDiscardPile().size()) {
                             break;
                         } else {
                             cardHand[i] = cardHand[i] + 1;
