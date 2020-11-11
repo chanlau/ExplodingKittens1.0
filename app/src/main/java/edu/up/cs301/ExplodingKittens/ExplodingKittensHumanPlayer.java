@@ -163,7 +163,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         }
         else{
             this.state = new EKGameState((EKGameState) info);
-            updateDisplay(info);
+            //updateDisplay(info);
             }
     } // receiveInfo method
 
@@ -251,12 +251,12 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
     /**
      * Updates the GUI with new information after actions are taken
      */
-    public void updateDisplay(GameInfo info) {
+    public void updateDisplay() {
         /* updates the display with the card type, the array is changed in
         the onClick method depending on whether the players hand is being
         viewed or the discard pile is being viewed and is updated with the
         card indexes for the given array */
-        this.state = (EKGameState) info;
+
 
             for (int i = 0; i < 5; i++) {
                 int cardType;
@@ -560,9 +560,12 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                                 game.sendAction(shuffleCard);
                                 break;
                             case 8:
-                                /*PlayFavorCard favorCard =
-                                        new PlayFavorCard(this);
-                                game.sendAction(favorCard);*/
+                                int rand =
+                                        (int)(Math.random()*state.getPlayerHand(tradePlayer).size());
+                                PlayFavorCard favorCard =
+                                        new PlayFavorCard(this, tradePlayer,
+                                                rand);
+                                game.sendAction(favorCard);
                                 break;
                             case 9:
                                 PlaySkipCard skipCard = new PlaySkipCard(this);
