@@ -13,6 +13,7 @@ import edu.up.cs301.ExplodingKittens.EKActions.DrawCardAction;
 import edu.up.cs301.ExplodingKittens.EKActions.PlayAttackCard;
 import edu.up.cs301.ExplodingKittens.EKActions.PlayDefuseCard;
 import edu.up.cs301.ExplodingKittens.EKActions.PlayFavorCard;
+import edu.up.cs301.ExplodingKittens.EKActions.PlayFutureCard;
 import edu.up.cs301.ExplodingKittens.EKActions.PlayNopeCard;
 import edu.up.cs301.ExplodingKittens.EKActions.PlayShuffleCard;
 import edu.up.cs301.ExplodingKittens.EKActions.PlaySkipCard;
@@ -167,7 +168,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
      * display the top 3 cards of the draw pile in place of the players hand
      */
     public void seeTheFuture() {
-        card1.setImageResource(R.drawable.blankcard);
+        card4.setImageResource(R.drawable.blankcard);
         card5.setImageResource(R.drawable.blankcard);
         for (int i = 0; i < 3; i++) {
             switch (state.getDeck().get(i).getCardType()) {
@@ -580,6 +581,8 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                                 break;
                             case 10:
                                 seeTheFutHand = true;
+                                PlayFutureCard futureCard = new PlayFutureCard(this);
+                                game.sendAction(futureCard);
                                 seeTheFuture();
                                 break;
                             case 11:
