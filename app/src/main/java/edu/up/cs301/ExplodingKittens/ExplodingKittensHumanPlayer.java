@@ -124,12 +124,13 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         /*
         set the imagesHand array to the correct image buttons for the GUI
          */
+        /*
         imagesHand[0] = card1;
         imagesHand[1] = card2;
         imagesHand[2] = card3;
         imagesHand[3] = card4;
         imagesHand[4] = card5;
-
+        */
         /*
         initialize the allCards array with all cards (except exploding kitten
          card)
@@ -253,7 +254,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         card indexes for the given array */
 
 
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 4; i++) {
                 int cardType;
             /*
             determine what deck the player is looking at to set the switch
@@ -426,6 +427,12 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         player3.setOnClickListener(this);
         player4.setOnClickListener(this);
         discardPileBtn.setOnClickListener(this);
+
+        imagesHand[0] = card1;
+        imagesHand[1] = card2;
+        imagesHand[2] = card3;
+        imagesHand[3] = card4;
+        imagesHand[4] = card5;
     } //setAsGui method
 
     /**
