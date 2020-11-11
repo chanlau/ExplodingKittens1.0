@@ -60,6 +60,7 @@ public class EKGameState extends GameState {
         this.numPlayers = numOfPlayers;
         populateDeck();
         populateDeck();
+        makeTestHand();
         populateHands();
     }
 
@@ -217,7 +218,7 @@ public class EKGameState extends GameState {
     }
 
     //sets all players hands to be able to do each action once
-/*
+
     public void makeTestHand() {
         int i, j;
         for (i = 0; i < this.getNumPlayers(); i++) {
@@ -237,7 +238,7 @@ public class EKGameState extends GameState {
 
     }
 
- */
+
 
     public void setNumPlayers(int val){
         this.numPlayers = val;

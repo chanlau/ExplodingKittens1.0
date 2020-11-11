@@ -144,7 +144,7 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
                 }
             }
         }
-        
+
  */
     }
 

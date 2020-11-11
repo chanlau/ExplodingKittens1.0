@@ -146,7 +146,8 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         for (int y = 0; y < 12; y++) {
             allCards[y] = new Card(y+1);
         }
-
+        //set tradePlayer to 1
+        this.tradePlayer = 1;
     } //ExplodingKittensHumanPlayer method
 
     //This returns the top level surface view of main GUI
@@ -232,19 +233,19 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         update each player so that if the current player selects another
         person it does not keep the previously selected player
          */
-        if (tradePlayer == 2) {
+        if (tradePlayer == 1) {
             player2.setImageResource(R.drawable.selectcardback);
         }
         else {
             player2.setImageResource(R.drawable.cardback);
         }
-        if (tradePlayer == 3) {
+        if (tradePlayer == 2) {
             player3.setImageResource(R.drawable.selectcardback);
         }
         else {
             player3.setImageResource(R.drawable.cardback);
         }
-        if (tradePlayer == 4) {
+        if (tradePlayer == 3) {
             player4.setImageResource(R.drawable.selectcardback);
         }
         else {
@@ -407,6 +408,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         player2CardCount.setText("Card Count: " + state.getPlayerHand(2).size());
         player3CardCount.setText("Card Count: " + state.getPlayerHand(3).size());
         turnText.setText("Player " + state.getWhoseTurn() + "'s Turn");
+        otherPlayerHands();
     } //updateDisplay method
 
     public void setAsGui(GameMainActivity activity) {
@@ -740,7 +742,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                     state.getPlayerHand(this.playerNum).get(a).setSelected(false);
                 }
                 // deselect all allCards cards
-                for (int b = 0; b < state.getPlayerHand(this.playerNum).size(); b++) {
+                for (int b = 0; b < 11; b++) {
                     allCards[b].setSelected(false);
                 }
                 // deselect all cards in the discard pile array
@@ -1014,36 +1016,18 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             } // player hand button 5
 
             else if (button == player2) {
-                /*
-                check to see if trade 2
-                 or 3 is happening
-                 */
-                if (trade2 == true || trade3 == true) {
-                    tradePlayer = 2;
+                    tradePlayer = 1;
                     otherPlayerHands();
-                }
             } // player2 button
 
             else if (button == player3) {
-                /*
-                check to see if trade 2
-                 or 3 is happening
-                 */
-                if (trade2 == true || trade3 == true) {
-                    tradePlayer = 3;
+                    tradePlayer = 2;
                     otherPlayerHands();
-                }
             } // player3 button
 
             else if (button == player4) {
-                /*
-                check to see if trade 2
-                 or 3 is happening
-                 */
-                if (trade2 == true || trade3 == true) {
-                    tradePlayer = 4;
+                    tradePlayer = 3;
                     otherPlayerHands();
-                }
             } // player4 button
         } // image buttons
         updateDisplay();
