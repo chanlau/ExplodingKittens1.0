@@ -583,7 +583,9 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                                 seeTheFutHand = true;
                                 PlayFutureCard futureCard = new PlayFutureCard(this);
                                 game.sendAction(futureCard);
-                                seeTheFuture();
+                                if(state.getWhoseTurn() == this.playerNum) {
+                                    seeTheFuture();
+                                }
                                 break;
                             case 11:
                                 PlayNopeCard nopeCard = new PlayNopeCard(this);
