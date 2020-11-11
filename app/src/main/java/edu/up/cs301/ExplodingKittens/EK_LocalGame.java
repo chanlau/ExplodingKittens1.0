@@ -34,11 +34,8 @@ public class EK_LocalGame extends LocalGame {
 
     public EK_LocalGame() {
         //crashes here
-        currState = new EKGameState();
-        //currState.setNumPlayers(this.players.length);
+        currState = new EKGameState(4);
         //call method to set currState playerNum
-
-        //currState = new EKGameState(this.players.length);
         this.previousState = null;
     }
 
@@ -46,6 +43,7 @@ public class EK_LocalGame extends LocalGame {
     //send updated state to a given player
     @Override
     protected void sendUpdatedStateTo(GamePlayer p) {
+       // currState.setNumPlayers(this.players.length);
         EKGameState gameCopy = new EKGameState(currState);
         p.sendInfo(gameCopy);
     }//sendUpdatedState
