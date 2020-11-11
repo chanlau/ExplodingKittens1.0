@@ -298,9 +298,8 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                             imagesHand[i].setImageResource(R.drawable.tacocatcard);
                             break;
                         case 2:
-                            imagesHand[i].setImageResource(R.drawable.beardcatcard);
-                            //beardcat hairypcat, rainbowralph, cattermelon,
-                            // attack, c the future, nope,
+                            imagesHand[i].setImageResource(R.drawable.skipcard);
+                            //beardcat hairypcat, rainbowralph,
                             break;
                         case 3:
                             imagesHand[i].setImageResource(R.drawable.hairypotatocatcard);
@@ -478,7 +477,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                             cardHand[i] = cardHand[i] + 1;
                         }
                     } else {
-                        if (cardHand[i] + 1 >= state.getDiscardPile().size()) {
+                        if (cardHand[4] + 1 >= state.getPlayerHand(this.playerNum).size()) {
                             break;
                         } else {
                             cardHand[i] = cardHand[i] + 1;
