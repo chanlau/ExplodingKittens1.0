@@ -254,7 +254,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         card indexes for the given array */
 
 
-            for (int i = 0; i < 4; i++) {
+            for (int i = 0; i < 5; i++) {
                 int cardType;
             /*
             determine what deck the player is looking at to set the switch
@@ -299,6 +299,8 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                             break;
                         case 2:
                             imagesHand[i].setImageResource(R.drawable.beardcatcard);
+                            //beardcat hairypcat, rainbowralph, cattermelon,
+                            // attack, c the future, nope,
                             break;
                         case 3:
                             imagesHand[i].setImageResource(R.drawable.hairypotatocatcard);
