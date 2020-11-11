@@ -59,6 +59,7 @@ public class EKGameState extends GameState {
         this.cardsToDraw = 1;
         this.numPlayers = numOfPlayers;
         populateDeck();
+        populateDeck();
         populateHands();
     }
 
@@ -105,7 +106,7 @@ public class EKGameState extends GameState {
             ArrayList<Card> temp = new ArrayList<Card>();
             this.playerHands.add(temp);
             for (int d = 0; d < gamestate.playerHands.get(c).size(); d++){
-                Card tempCard = new Card(gamestate.getTargetPlayerHand(c).get(d));
+                Card tempCard = new Card(gamestate.getPlayerHand(c).get(d));
                 this.playerHands.get(c).add(tempCard);
             }
         }
@@ -140,13 +141,6 @@ public class EKGameState extends GameState {
     }
 
     public ArrayList<Card> getCurrentPlayerHand() {return this.playerHands.get(this.whoseTurn);}
-
-    public ArrayList<Card> getTargetPlayerHand(int targetPlayerIdx){
-        if(playerHands.size() < targetPlayerIdx){
-            return null;
-        }
-        return playerHands.get(targetPlayerIdx);
-    }
 
     public ArrayList<Card> getDiscardPile(){
         return this.discardPile;
@@ -191,7 +185,7 @@ public class EKGameState extends GameState {
                 this.getDeck().add(new Card(i));
             }
         }
-        //Collections.shuffle(this.deck);
+        Collections.shuffle(this.deck);
     }
 
     //adds appropriate amt. of cards to all players hands
@@ -204,6 +198,22 @@ public class EKGameState extends GameState {
             }
             this.playerHands.get(i).add(new Card(12));
         }
+    }
+
+    //adds defuse and explode cards to deck
+    public void populateDefuseExplode() {
+        int i;
+        int j;
+        //puts 3 Exploding Kittens into deck
+        for (i = 0; i < 3; i++) {
+            this.deck.add(new Card(0));
+        }
+
+        //Puts 2 defuse into deck
+        for (i = 0; i < 2; i++) {
+            this.deck.add(new Card(12));
+        }
+        Collections.shuffle(this.deck);
     }
 
     //sets all players hands to be able to do each action once
@@ -224,7 +234,6 @@ public class EKGameState extends GameState {
                 this.getPlayerHand(i).add(new Card(j));
             }
         }
-
     }
 
     public void setNumPlayers(int val){

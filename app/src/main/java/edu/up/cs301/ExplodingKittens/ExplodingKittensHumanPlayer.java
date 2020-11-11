@@ -302,6 +302,8 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                             break;
                         case 2:
                             imagesHand[i].setImageResource(R.drawable.beardcatcard);
+                            //beardcat hairypcat, rainbowralph, cattermelon,
+                            // attack, c the future, nope,
                             break;
                         case 3:
                             imagesHand[i].setImageResource(R.drawable.hairypotatocatcard);
@@ -722,7 +724,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                     state.getPlayerHand(this.playerNum).get(a).setSelected(false);
                 }
                 // deselect all allCards cards
-                for (int b = 0; b < allCards.length; b++) {
+                for (int b = 0; b < state.getPlayerHand(this.playerNum).size(); b++) {
                     allCards[b].setSelected(false);
                 }
                 // deselect all cards in the discard pile array

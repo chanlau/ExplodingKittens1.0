@@ -162,9 +162,11 @@ public class EK_LocalGame extends LocalGame {
         }
         currState.getDiscardPile().add(currState.getCurrentPlayerHand().get(card));
         currState.getCurrentPlayerHand().remove(card);
-        //increment cards to draw counter and change turn
-        currState.setCardsToDraw(currState.getCardsToDraw()+1);
+        //This player doesn't have to draw and the next player has to take two cards
+        int tempCardsToDraw = currState.getCardsToDraw();
+        currState.setCardsToDraw(0);
         nextTurn();
+        currState.setCardsToDraw(tempCardsToDraw+1);
         return true;
     }
 
@@ -194,11 +196,11 @@ public class EK_LocalGame extends LocalGame {
             return false;
         }
         //copy selected card from target player to current player
-        currState.getCurrentPlayerHand().add(currState.getTargetPlayerHand(target).get(card));
+        currState.getCurrentPlayerHand().add(currState.getPlayerHand(target).get(targCardPos));
         //move the played favor card to the discard pile and remove it from
         // the players hand
-        currState.getDiscardPile().add(currState.getCurrentPlayerHand().get(targCardPos));
-        currState.getTargetPlayerHand(target).remove(targCardPos);
+        currState.getDiscardPile().add(currState.getCurrentPlayerHand().get(card));
+        currState.getPlayerHand(target).remove(targCardPos);
         return true;
     }
 
@@ -254,11 +256,10 @@ public class EK_LocalGame extends LocalGame {
         currState.getDiscardPile().add(currState.getCurrentPlayerHand().get(card));
         currState.getCurrentPlayerHand().remove(card);
         //call the nextTurn method to move to the next player
+        currState.setCardsToDraw(currState.getCardsToDraw()-1);
         if(currState.getCardsToDraw() > 1){
-            currState.setCardsToDraw(currState.getCardsToDraw()-1);
             return true;
         }
-
         nextTurn();
         return true;
     }
@@ -289,16 +290,19 @@ public class EK_LocalGame extends LocalGame {
         if (currState.getDeck().get(0) == null || player == null) {
             return false;
         }
+        if (currState.getCardsToDraw() == 0){
+            nextTurn();
+            return true;
+        }
         //add top card of deck to hand and remove it from deck
         currState.getPlayerHands().get(this.currState.getWhoseTurn()).add(currState.getDeck().get(0));
         currState.getDeck().remove(0);
         currState.setCardsToDraw(currState.getCardsToDraw()-1);
 
         //Check if the player drew an Exploding Kitten and they can't defuse it, then they lose
-        if(currState.getCurrentPlayerHand().get(currState.getCurrentPlayerHand().size()-1).getCardType() == 0){
+        if(checkHand(currState.getCurrentPlayerHand(),0) != -1){
             if(!(Defuse(player))){
-                currState.setCardsToDraw(1);
-                Card temp = currState.getCurrentPlayerHand().get(currState.getCurrentPlayerHand().size()-1);
+                Card temp = new Card(0);
                 currState.getCurrentPlayerHand().clear();
                 currState.getCurrentPlayerHand().add(temp);
                 nextTurn();
@@ -322,13 +326,22 @@ public class EK_LocalGame extends LocalGame {
         Card trade2 = currState.getCurrentPlayerHand().get(b);
         if (trade1.getCardType() == trade2.getCardType()) {
             //update the players hand
-            currState.getCurrentPlayerHand().remove(b);
-            currState.getCurrentPlayerHand().remove(a);
+            if(b > a){
+                currState.getCurrentPlayerHand().remove(b);
+                currState.getCurrentPlayerHand().remove(a);
+            }
+            else if (a > b){
+                currState.getCurrentPlayerHand().remove(a);
+                currState.getCurrentPlayerHand().remove(b);
+            }
+            else if(a == b){
+                return false;
+            }
             //copy the new card from the target player into the player hand
-            int randomPos = (int)(Math.random()*(currState.getTargetPlayerHand(targ).size()));
-            currState.getCurrentPlayerHand().add(currState.getTargetPlayerHand(targ).get(randomPos));
+            int randomPos = (int)(Math.random()*(currState.getPlayerHand(targ).size()));
+            currState.getCurrentPlayerHand().add(currState.getPlayerHand(targ).get(randomPos));
             //remove the target player card that was stolen
-            currState.getTargetPlayerHand(targ).remove(randomPos);
+            currState.getPlayerHand(targ).remove(randomPos);
             return true;
         }
 
@@ -348,12 +361,12 @@ public class EK_LocalGame extends LocalGame {
             currState.getCurrentPlayerHand().remove(b);
             currState.getCurrentPlayerHand().remove(a);
             //check to see if the target player has the desired card
-            int targCardPos = checkHand(currState.getTargetPlayerHand(targ), targCard);
+            int targCardPos = checkHand(currState.getPlayerHand(targ), targCard);
                 if (targCardPos != -1){
                     //add the desired card to the player hand and remove it
                     // from the target player hand
-                    currState.getCurrentPlayerHand().add(currState.getTargetPlayerHand(targ).get(targCardPos));
-                    currState.getTargetPlayerHand(targ).remove(targCardPos);
+                    currState.getCurrentPlayerHand().add(currState.getPlayerHand(targ).get(targCardPos));
+                    currState.getPlayerHand(targ).remove(targCardPos);
                 }
 
             return true;
@@ -396,17 +409,18 @@ public class EK_LocalGame extends LocalGame {
         if(currState.getCardsToDraw() == 0){
             currState.setWhoseTurn((currState.getWhoseTurn()+1)%(currState.getPlayerHands().size()));
         }
-        currState.setWhoseTurn((currState.getWhoseTurn()+1)%(currState.getPlayerHands().size()));
         while (currState.getCurrentPlayerHand().get(0).getCardType() == 0) {
             currState.setWhoseTurn((currState.getWhoseTurn()+1)%(currState.getPlayerHands().size()));
         }
+        currState.setCardsToDraw(1);
     }
 
 
-    //check the arraylist for a certain card value
+    //check to see if the card type exists in the players hand, if it
+    // does, return the position of the card.
+    //If it doesn't return -1
     public int checkHand(ArrayList<Card> hand, int cardTypeValue) {
-        //check to see if the card type exists in the players hand, if it
-        // does return the position of the card
+
         for (int i = 0; i < hand.size(); i++) {
             if (hand.get(i).getCardType() == cardTypeValue) {
                 return i;
@@ -414,23 +428,6 @@ public class EK_LocalGame extends LocalGame {
         }
         return -1;
     }
-
-
-    //adds defuse and explode cards to deck
-    public void populateDefuseExplode() {
-        int i;
-        int j;
-        //puts 3 Exploding Kittens into deck
-        for (i = 0; i < 3; i++) {
-            currState.getDeck().add(new Card(0));
-        }
-
-        //Puts 2 defuse into deck
-        for (i = 0; i < 2; i++) {
-            currState.getDeck().add(new Card(12));
-        }
-    }
-
 
     public EKGameState getCurrState(){
         return this.currState;
