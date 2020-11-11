@@ -58,6 +58,7 @@ public class EKGameState extends GameState {
         this.whoseTurn = 0;
         this.cardsToDraw = 1;
         this.numPlayers = numOfPlayers;
+        deck.add(0, new Card(9));
         populateDeck();
         populateHands();
         discardPile.add(new Card(1));
