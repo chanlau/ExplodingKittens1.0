@@ -39,7 +39,7 @@ public class EKGameState extends GameState {
     public EKGameState() {
         this.discardPile = new ArrayList<Card>();
         this.deck = new ArrayList<Card>();
-        this.whoseTurn = 1;
+        this.whoseTurn = 0;
         this.cardsToDraw = 1;
         this.playerHands = new ArrayList<>();
         for(int i = 0; i < 4; i++){
@@ -55,7 +55,7 @@ public class EKGameState extends GameState {
         for(int i = 0; i < numOfPlayers; i++){
             this.playerHands.add(new ArrayList<Card>());
         }
-        this.whoseTurn = 1;
+        this.whoseTurn = 0;
         this.cardsToDraw = 1;
         this.numPlayers = numOfPlayers;
         populateDeck();
