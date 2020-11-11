@@ -71,7 +71,7 @@ public class EKGameState extends GameState {
 
         this.discardPile = new ArrayList<Card>();
         this.deck = new ArrayList<Card>();
-        //this.players = new ArrayList<Player>();
+        this.numPlayers = gamestate.numPlayers;
         //copy of whose turn it is
         this.whoseTurn = gamestate.getWhoseTurn();
         //Copy of # of cards to draw
@@ -95,9 +95,9 @@ public class EKGameState extends GameState {
         }
 
         //deep copy for array of player hands
-        for(int c = 0; c < numPlayers; c++){
-            
-            this.playerHands.add(new ArrayList<Card>());
+        for(int c = 0; c < gamestate.numPlayers; c++){
+            ArrayList<Card> temp = new ArrayList<Card>();
+            this.playerHands.add(temp);
             for (int d = 0; d < gamestate.playerHands.get(c).size(); d++){
                 this.playerHands.get(c).add(gamestate.playerHands.get(c).get(d));
             }

@@ -20,11 +20,9 @@ import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
 public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
 
     int random;
-    ArrayList<Card> playerHand;
 
     public ExplodingKittensComputerPlayer(String name) {
         super(name);
-        this.playerHand = new ArrayList<Card>();
 
     }
 
@@ -48,9 +46,9 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
             }
             //if 1 then play a card
             else if(random == 1){
-                if(playerHand != null){
+                if(computerState.getTargetPlayerHand(this.playerNum) != null){
                     //Play the first card in your hand and send the appropriate action
-                    switch (playerHand.get(0).getCardType()){
+                    switch (computerState.getTargetPlayerHand(this.playerNum).get(0).getCardType()){
                         case 6:
                             PlayAttackCard attack = new PlayAttackCard(this);
                             this.game.sendAction(attack);
