@@ -26,6 +26,7 @@ import static java.sql.Types.NULL;
 
 public class EK_LocalGame extends LocalGame {
 
+    //Instance variable representing the current state
     private EKGameState currState;
     //Instance variable representing the previous state of the game
     private EKGameState previousState;
@@ -34,7 +35,7 @@ public class EK_LocalGame extends LocalGame {
 
     public EK_LocalGame() {
         //crashes here
-        currState = new EKGameState(4);
+        this.currState = new EKGameState(4);
         //call method to set currState playerNum
         this.previousState = null;
     }
@@ -43,7 +44,6 @@ public class EK_LocalGame extends LocalGame {
     //send updated state to a given player
     @Override
     protected void sendUpdatedStateTo(GamePlayer p) {
-       // currState.setNumPlayers(this.players.length);
         EKGameState gameCopy = new EKGameState(currState);
         p.sendInfo(gameCopy);
     }//sendUpdatedState
