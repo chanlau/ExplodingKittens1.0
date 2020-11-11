@@ -720,7 +720,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 DrawCardAction drawCard = new DrawCardAction(this);
                 game.sendAction(drawCard);
             } // endTurn button
-            //updateDisplay();
+            updateDisplay();
 
         } // if statement for instance of button
 

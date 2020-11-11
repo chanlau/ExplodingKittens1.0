@@ -38,8 +38,10 @@ public class EKGameState extends GameState {
         this.deck = new ArrayList<Card>();
         this.whoseTurn = 1;
         this.cardsToDraw = 1;
-        populateDeck();
-        populateHands();
+        this.playerHands = new ArrayList<>();
+        for(int i = 0; i < 4; i++){
+            this.playerHands.add(new ArrayList<Card>());
+        }
     }
 
     //constructor
