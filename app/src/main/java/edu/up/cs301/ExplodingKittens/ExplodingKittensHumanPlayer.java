@@ -722,7 +722,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                     state.getPlayerHand(this.playerNum).get(a).setSelected(false);
                 }
                 // deselect all allCards cards
-                for (int b = 0; b < state.getPlayerHand(this.playerNum).size(); b++) {
+                for (int b = 0; b < allCards.length; b++) {
                     allCards[b].setSelected(false);
                 }
                 // deselect all cards in the discard pile array
