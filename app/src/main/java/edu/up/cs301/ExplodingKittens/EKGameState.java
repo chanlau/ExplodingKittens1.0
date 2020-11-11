@@ -59,11 +59,6 @@ public class EKGameState extends GameState {
         this.cardsToDraw = 1;
         this.numPlayers = numOfPlayers;
         populateDeck();
-        this.deck.add(0, new Card(1));
-        this.deck.add(0, new Card(1));
-        this.deck.add(0, new Card(4));
-        this.deck.add(0, new Card(1));
-        this.deck.add(0, new Card(1));
         populateHands();
     }
 
@@ -196,7 +191,7 @@ public class EKGameState extends GameState {
                 this.getDeck().add(new Card(i));
             }
         }
-        Collections.shuffle(this.deck);
+        //Collections.shuffle(this.deck);
     }
 
     //adds appropriate amt. of cards to all players hands
