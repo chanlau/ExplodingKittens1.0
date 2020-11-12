@@ -336,10 +336,24 @@ public class EK_LocalGame extends LocalGame {
 
         //Check if the player drew an Exploding Kitten and they can't defuse it, then they lose
         if(checkHand(currState.getCurrentPlayerHand(),0) != -1){
-            if(!(Defuse(player))){
-                Card temp = new Card(0);
+            if(checkHand(currState.getCurrentPlayerHand(), 12) != -1){
+                //find position of defuse and remove from player hand
+                int defusePos = checkHand(currState.getCurrentPlayerHand(), 12);
+                currState.getCurrentPlayerHand().remove(defusePos);
+
+                //find position of EK and removes from hand;Exploding Kitten
+                // added back to deck
+                int EKPosition = checkHand(currState.getCurrentPlayerHand(),0);
+                //currState.getCurrentPlayerHand().remove(EKPosition);
+                currState.getDeck().add(new Card(0));
+                Collections.shuffle(currState.getDeck());
+                //increments turn
+                nextTurn();
+                return true;
+            }
+            else{
                 currState.getCurrentPlayerHand().clear();
-                currState.getCurrentPlayerHand().add(temp);
+                currState.getCurrentPlayerHand().add(new Card(0));
                 nextTurn();
                 return true;
             }

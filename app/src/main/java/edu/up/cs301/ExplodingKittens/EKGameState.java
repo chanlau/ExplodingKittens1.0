@@ -59,9 +59,9 @@ public class EKGameState extends GameState {
         this.cardsToDraw = 1;
         this.numPlayers = numOfPlayers;
         populateDeck();
-        populateDeck();
-        makeTestHand();
         populateHands();
+        deck.add(0, new Card(0));
+        this.getPlayerHand(0).remove(7);
     }
 
     //constructor to copy the given gamestate
