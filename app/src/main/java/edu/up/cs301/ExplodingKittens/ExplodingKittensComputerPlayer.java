@@ -65,6 +65,7 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
                 //if it is, then the computer can't play a card
                 if(computerState.getCurrentPlayerHand() != null){
                     //Play the first functional card in your hand and send the appropriate action
+                    //It sets the position of that card to playThisCard
                     int playThisCard = 0;
                     for(int i = 0; i < computerState.getCurrentPlayerHand().size(); i++){
                         if(computerState.getCurrentPlayerHand().get(i).getCardType() >= 6 &&
@@ -73,7 +74,7 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
                             break;
                         }
                     }
-
+                    //Check to see which card was selected by the card selection process
                     switch (computerState.getCurrentPlayerHand().get(playThisCard).getCardType()){
                         case 6:
                             PlayAttackCard attack = new PlayAttackCard(this);

@@ -181,7 +181,7 @@ public class EKGameState extends GameState {
             }
         }
         // puts 5 See the Future and Nope Cards into deck
-        for (i = 10; i <= 11; i++) {
+        for (i = 10; i <= 10; i++) {
             for (j = 0; j < 5; j++) {
                 this.getDeck().add(new Card(i));
             }
