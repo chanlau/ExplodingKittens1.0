@@ -239,7 +239,12 @@ public class EKGameState extends GameState {
 
     }
 
-
+    public boolean hasPlayerLost(int index){
+        if(this.playerHands.get(index).get(0).getCardType() == 0){
+            return true;
+        }
+        return false;
+    }
 
     public void setNumPlayers(int val){
         this.numPlayers = val;
