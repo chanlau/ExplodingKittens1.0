@@ -61,14 +61,11 @@ public class EKGameState extends GameState {
         this.numPlayers = numOfPlayers;
         populateDeck();
         populateDeck();
-        deck.add(0, new Card(6));
-        deck.add(0, new Card(7));
-        deck.add(0, new Card(8));
-        deck.add(0, new Card(9));
-        deck.add(0, new Card(10));
         populateHands();
-        this.getPlayerHand(0).remove(7);
-        this.deck.add(0,new Card(0));
+        this.deck.add(0, new Card(0));
+        this.deck.add(0, new Card(0));
+        this.deck.add(0, new Card(0));
+        this.playerHands.get(0).add(new Card(9));
     }
 
     //constructor to copy the given gamestate
@@ -188,7 +185,7 @@ public class EKGameState extends GameState {
             }
         }
         // puts 5 See the Future and Nope Cards into deck
-        for (i = 10; i <= 10; i++) {
+        for (i = 10; i <= 11; i++) {
             for (j = 0; j < 5; j++) {
                 this.getDeck().add(new Card(i));
             }
