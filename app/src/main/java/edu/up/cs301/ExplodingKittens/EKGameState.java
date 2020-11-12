@@ -67,6 +67,7 @@ public class EKGameState extends GameState {
         deck.add(0, new Card(9));
         deck.add(0, new Card(10));
         populateHands();
+        this.getPlayerHand(0).remove(7);
         this.deck.add(0,new Card(0));
     }
 

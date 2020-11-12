@@ -168,6 +168,9 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         }
         else{
             this.state = new EKGameState((EKGameState) info);
+                for(int i = 0; i < 5; i++){
+                 this.cardHand[i] = i;
+                }
             updateDisplay();
             }
     } // receiveInfo method
