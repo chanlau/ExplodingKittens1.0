@@ -51,6 +51,27 @@ public class EK_LocalGame extends LocalGame {
         return playerIdx == currState.getWhoseTurn();
     }
 
+
+    @Override
+    protected String checkIfGameOver() {
+        //See how many players have lost the game
+        int playersLost = 0;
+        for(int i = 0; i < players.length; i++){
+            if(checkHand(currState.getPlayerHands().get(i),0) != -1){
+                playersLost++;
+            }
+        }
+        if(playersLost == (currState.getNumPlayers()-1)) {
+            for(int i = 0; i < currState.getNumPlayers(); i++){
+                if(checkHand(currState.getPlayerHands().get(i),0) == -1){
+                    return "Congratulations, " + playerNames[i] + "! You won";
+                }
+            }
+
+        }
+        return null;
+    }
+
     @Override
     protected boolean makeMove(GameAction action) {
         //check which action is being taken
@@ -108,26 +129,6 @@ public class EK_LocalGame extends LocalGame {
         return false;
     }
 
-
-    @Override
-    protected String checkIfGameOver() {
-        //See how many players have lost the game
-        int playersLost = 0;
-        for(int i = 0; i < players.length; i++){
-            if(checkHand(currState.getPlayerHands().get(i),0) != -1){
-                playersLost++;
-            }
-        }
-        if(playersLost == (currState.getPlayerHands().size()-2)) {
-            for(int i = 0; i < currState.getPlayerHands().size(); i++){
-                if(checkHand(currState.getPlayerHands().get(i),0) == -1){
-                    return "Congratulations, " + playerNames[i] + "! You won";
-                }
-            }
-
-        }
-            return null;
-    }
 
 
     /****************************************************************************
@@ -194,7 +195,7 @@ public class EK_LocalGame extends LocalGame {
 
     //Favor card
     //current player selects a target player and target player gives current
-    //player a card of target players choosing
+    //player a card (randomly))
     public boolean Favor(GamePlayer p, int target, int targCardPos) {
         int card = checkHand(currState.getCurrentPlayerHand(), 8);
         if(card == -1){
@@ -346,7 +347,6 @@ public class EK_LocalGame extends LocalGame {
         //Progress the turn count
         if(currState.getCardsToDraw() == 0){
             nextTurn();
-            currState.setCardsToDraw(1);
         }
         else{
             drawCard(player);
