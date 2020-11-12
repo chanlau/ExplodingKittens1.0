@@ -26,8 +26,23 @@ import edu.up.cs301.game.GameFramework.GameMainActivity;
 import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
 import edu.up.cs301.game.R;
 
+/**
+ * GUI for a human to play the game. Handles all interactions between Human
+ * player and game buttons.
+ *
+ * Known bug: Occasionally the program will crash with an error about lack of
+ * memory. We believe this is due to certain images that are being used for the
+ * image buttons that are "too big" for android studio. We are aware of this
+ * bug and are working on a fix.
+ * buttons
+ *
+ * @authors Chandler Lau, Ka'ulu Ng, Samuel Warrick
+ * @version 11/11/2020
+ */
+
 public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View.OnClickListener {
 
+    //gamestate variable
     private EKGameState state;
 
     private GameMainActivity myActivity;
@@ -56,7 +71,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
     // yet, 1 for first stage, 2 for second stage
     private int trade3Stage = 0;
     /*
-    buttons
+    buttons on the left side of the screen for carrying out actions
      */
     private Button leftScroll = null;
     private Button rightScroll = null;
@@ -132,16 +147,6 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             cardHand[i] = i;
         }
         /*
-        set the imagesHand array to the correct image buttons for the GUI
-         */
-        /*
-        imagesHand[0] = card1;
-        imagesHand[1] = card2;
-        imagesHand[2] = card3;
-        imagesHand[3] = card4;
-        imagesHand[4] = card5;
-        */
-        /*
         initialize the allCards array with all cards (except exploding kitten
          card)
          */
@@ -176,6 +181,9 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             }
     } // receiveInfo method
 
+    /**
+     * updates the discard imagebutton with the most recently discarded card
+     */
     public void updateDiscard() {
         if (state.getDiscardPile().size() == 0) {
             return;
@@ -286,7 +294,8 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
     }
 
     /**
-     * changes the other players hands when they are selected
+     * changes the other players hands when they are selected to
+     * selectedcardback instead of the normal cardback
      */
     public void otherPlayerHands() {
         /*
@@ -321,7 +330,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         the onClick method depending on whether the players hand is being
         viewed or the discard pile is being viewed and is updated with the
         card indexes for the given array */
-            int query = 0;
+
         //if targeted player has lost, set target to a different player
         if(state.hasPlayerLost(tradePlayer)){
             while(state.hasPlayerLost(tradePlayer)){
@@ -419,6 +428,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                             break;
                     } //switch statement
                 } // if statement for selectingCard
+
                 // now for cases when selecting a card is true
                 else if (!seeTheFutHand) {
                     switch (cardType) {
@@ -467,6 +477,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                     } //switch statement
                 } // else statement for selectingCard
             } //for loop
+        //set textviews
         player0CardCount.setText("Your Card Count: " + state.getPlayerHand(0).size());
         player1CardCount.setText("Card Count: " + state.getPlayerHand(1).size());
         player2CardCount.setText("Card Count: " + state.getPlayerHand(2).size());
@@ -478,6 +489,11 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         updateDiscard();
     } //updateDisplay method
 
+    /**
+     * method for when our game is chosen as the GUI, called from the GUI thread
+     * @param activity
+     *      the activity under which we are running
+     */
     public void setAsGui(GameMainActivity activity) {
         myActivity = activity;
 
@@ -535,6 +551,9 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         player4.setOnClickListener(this);
         discardPileBtn.setOnClickListener(this);
 
+         /*
+        initialize the imagesHand array with the now initialized image buttons
+         */
         imagesHand[0] = card1;
         imagesHand[1] = card2;
         imagesHand[2] = card3;
@@ -542,6 +561,16 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         imagesHand[4] = card5;
     } //setAsGui method
 
+    /**
+     * There are 17 different buttons that can be selected. They are grouped
+     * into instances of buttons and instances of image buttons. To help you
+     * find the button you are looking for quickly here are them in order
+     * button: leftScroll, rightScroll, trade2Btn, trade3Btn, trade5Btn,
+     * playBtn, enterBtn
+     * imageButtons: discardPileBtn, card1, card2, card3, card4, card5,
+     * player2, player3, player4
+     * @param button
+     */
     @Override
     public void onClick(View button) {
         if (button instanceof Button) {
@@ -594,6 +623,10 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 }
             } //right scroll button
 
+            /*
+            trade 2 button sets the trade booleans and resets the play hand
+            for selecting the cards to trade
+             */
             else if (button == trade2Btn) {
                 if (trade2) { trade2 = false; }
                 else { trade2 = true; }
@@ -605,6 +638,10 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 }
             } // trade2 button
 
+             /*
+            trade 3 button sets the trade booleans and resets the play hand
+            for selecting the cards to trade
+             */
             else if (button == trade3Btn) {
                 trade2 = false;
                 if (trade3) {
@@ -622,6 +659,10 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 }
             } // trade3 button
 
+             /*
+            trade 5 button sets the trade booleans and resets the play hand
+            for selecting the cards to trade
+             */
             else if (button == trade5Btn) {
                 trade2 = false;
                 trade3 = false;
@@ -636,6 +677,11 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 }
             } // trade5 button
 
+            /*
+            play button requires that 1 card is selected and it then executes
+             the action for that card. Certain cards have no action and are
+             used for trading only.
+             */
             else if(button == playBtn) {
                 // check to make sure that this is not a trade or discard pile
                 if (trade2 == false && trade3 == false && trade5 == false && switchedDiscard == false) {
@@ -709,15 +755,19 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 }
             }
 
+            /*
+            enter button is pressed when the player has already selected a
+            trade button and is submitting their selections for trading.
+             */
             else if (button == enterBtn) {
                 int numSelected = 0;
                 int c = 0;
                 for(int i = 0; i < 5; i++){
                     cardHand[i] = i;
                 }
-                //for trade 2
                 /*
-                check to make sure that only two cards are selected then send the action
+                trade 2, check to make sure that only two cards are selected
+                then sends the action
                  */
                 if (switchedDiscard == false && trade2 == true && trade3 == false && trade5 == false && seeTheFutHand == false) {
                     // find the cards to be traded
@@ -738,7 +788,14 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                         tradeCards[p] = 0;
                     }
                 }
-                //trade3
+               /*
+                trade 3 happens in two parts, when the player is selecting
+                the cards to trade and the target player and when the player
+                is selecting the target card. The first part when trade3Stage
+                 = 1 remembers what cards the player will trade. The second
+                 part when trade3Stage = 2 remembers what card the player
+                 would like to steal and then sends the game action of trade 3
+                 */
                 else if (switchedDiscard == false && trade2 == false && trade3 == true && trade5 == false && trade3Stage == 1 && seeTheFutHand == false) {
                     for (int i = 0; i < state.getPlayerHand(this.playerNum).size(); i++) {
                         if (state.getPlayerHand(this.playerNum).get(i).getSelected() == true) {
@@ -782,7 +839,10 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                     }
                 }
 
-                //trade5
+                /*
+                trade 5, select the 5 cards to trade and the discard pile
+                card to receive and send the trade 5 action to the game
+                 */
                 else if (switchedDiscard == false && trade2 == false && trade3 == false && trade5 == true && seeTheFutHand == false) {
                     // find the cards to be traded
                     for (int i = 0; i < state.getPlayerHand(this.playerNum).size(); i++) {
@@ -818,29 +878,12 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                     seeTheFutHand = false;
                 }
 
-                // deselect all player hand cards
-                //for (int a = 0; a < state.getPlayerHand(this.playerNum)
-                // .size(); a++) {
-                //    state.getPlayerHand(this.playerNum).get(a).setSelected
-                //    (false);
-                //}
-                // deselect all allCards cards
-                /*for (int b = 0; b < 11; b++) {
-                    allCards[b].setSelected(false);
-                }
-                // deselect all cards in the discard pile array
-                for (int d = 0; d < state.getDiscardPile().size(); d++) {
-                    state.getDiscardPile().get(d).setSelected(false);
-                }
-                // reset the cardHands array
-                if (state.getPlayerHand(this.playerNum).size() < 5) {
-                    for (int q = 0; q < 5; q++) {
-                        cardHand[q] = q;
-                    }
-                }*/
-
             } // enter button
 
+            /*
+            end turn button that resets all of the selected cards to not
+            selected and sends the draw card action to the game
+             */
             else if (button == endTurn) {
                 // deselect all player hand cards
                 for (int a = 0; a < state.getPlayerHand(this.playerNum).size(); a++) {
@@ -863,6 +906,9 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         // for all image buttons
         else if (button instanceof ImageButton) {
 
+            /*
+            discard pile button sets the switchedDiscard boolean to true or not
+             */
             if (button == discardPileBtn) {
                 /*
                 check to see if the player wants to view the discard pile
@@ -893,6 +939,11 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 updateDisplay();
             } //discard pile button
 
+            /*
+            card 1 image button that selects or deselcts the card object in
+            the correct arralist, either the playershand, discardPile, or the
+             allCards array
+             */
             else if (button == card1) {
                 /*
                 check to see if the player hand previously selected the image
@@ -941,6 +992,11 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
 
             } // player hand button 1
 
+            /*
+            card 2 image button that selects or deselcts the card object in
+            the correct arralist, either the playershand, discardPile, or the
+             allCards array
+             */
             else if (button == card2) {
                 /*
                 check to see if the player hand previously selected the image
@@ -988,6 +1044,11 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 }
             } // player hand button 2
 
+            /*
+            card 3 image button that selects or deselcts the card object in
+            the correct arralist, either the playershand, discardPile, or the
+             allCards array
+             */
             else if (button == card3) {
                 /*
                 check to see if the player hand previously selected the image
@@ -1035,6 +1096,11 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 }
             } // player hand button 3
 
+            /*
+            card 4 image button that selects or deselcts the card object in
+            the correct arralist, either the playershand, discardPile, or the
+             allCards array
+             */
             else if (button == card4) {
                 /*
                 check to see if the player hand previously selected the image
@@ -1082,6 +1148,11 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 }
             } // player hand button 4
 
+            /*
+            card 5 image button that selects or deselcts the card object in
+            the correct arralist, either the playershand, discardPile, or the
+             allCards array
+             */
             else if (button == card5) {
                 /*
                 check to see if the player hand previously selected the image
@@ -1129,6 +1200,11 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 }
             } // player hand button 5
 
+            /*
+            player 2 image button that can be selected but only if player 2
+            has not lost the game yet, if they have find the next player that
+             is still in the game and set to them
+             */
             else if (button == player2) {
                 if (state.hasPlayerLost(1)) {
                     tradePlayer = 2;
@@ -1142,6 +1218,11 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 }
             } // player2 button
 
+            /*
+            player 3 image button that can be selected but only if player 2
+            has not lost the game yet, if they have find the next player that
+             is still in the game and set to them
+             */
             else if (button == player3) {
                 if (state.hasPlayerLost(2)) {
                     tradePlayer = 3;
@@ -1155,6 +1236,11 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 }
             } // player3 button
 
+            /*
+            player 4 image button that can be selected but only if player 2
+            has not lost the game yet, if they have find the next player that
+             is still in the game and set to them
+             */
             else if (button == player4) {
                 if (state.hasPlayerLost(3)) {
                     tradePlayer = 1;
