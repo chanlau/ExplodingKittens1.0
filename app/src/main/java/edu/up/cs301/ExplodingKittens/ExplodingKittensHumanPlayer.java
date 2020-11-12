@@ -173,6 +173,9 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 }
             updateDisplay();
             }
+
+        Card cattermelon = new Card(5);
+        state.getDiscardPile().add(cattermelon);
     } // receiveInfo method
 
     public void updateDiscard() {
@@ -790,16 +793,16 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                     }
                     // find the discard pile card to take
                     int once = 0;
-                    int cardVal = 0;
+                    int cardPos = 0;
                     for (int a = 0; a < state.getDiscardPile().size(); a++) {
                         if (state.getDiscardPile().get(a).getSelected() && once == 0) {
                             once++;
-                            cardVal = state.getDiscardPile().get(a).getCardType();
+                            cardPos = a;
                         }
                     }
                     Trade5Action trade5Act = new Trade5Action(this,
                             tradeCards[0], tradeCards[1], tradeCards[2],
-                            tradeCards[3], tradeCards[4], cardVal);
+                            tradeCards[3], tradeCards[4], cardPos);
                     game.sendAction(trade5Act);
                     trade5 = false;
                     for (int p = 0; p < 5; p++) {
@@ -880,9 +883,9 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                         cardHand[i] = i;
                     }
                     // deselect all cards in the discard pile array
-                    for (int a = 0; a < state.getDiscardPile().size(); a++) {
+                    /*for (int a = 0; a < state.getDiscardPile().size(); a++) {
                         state.getDiscardPile().get(a).setSelected(false);
-                    }
+                    }*/
                 }
                 updateDisplay();
             } //discard pile button
