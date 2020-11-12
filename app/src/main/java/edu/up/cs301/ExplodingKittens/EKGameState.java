@@ -194,6 +194,9 @@ public class EKGameState extends GameState {
             }
         }
         Collections.shuffle(this.deck);
+
+        Card cattermelon = new Card(5);
+        this.getDiscardPile().add(cattermelon);
     }
 
     //adds appropriate amt. of cards to all players hands
