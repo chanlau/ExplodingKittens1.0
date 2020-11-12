@@ -29,7 +29,10 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
      * Receives information (hopefully the gamestate) and decides the best
      * actions from there
      * @param info
-     *     information, presumably the gamestate
+     * recieves info sent to this player class
+     * and makes a random move, either it will draw,
+     * play a card, or try and trade a card.
+     * If any of the actions fails, then it will draw a card
      */
     @Override
     protected void receiveInfo(GameInfo info) {
@@ -43,15 +46,24 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
             return;
         }
         if(computerState.getWhoseTurn() == this.playerNum){
+            //Generates a number between 0 and 9 to determine
+            //what the computer will do
+            // 40% chance to draw a card
+            // 40% to play a card
+            // 20% chance to do a trade action
+            // and will draw if it fails
             int random = (int)(Math.random()*10);
-            //if 0 then draw a card
+
+            //if random is 0,1,2,3 then draw a card
             if(random < 4){
                 DrawCardAction draw = new DrawCardAction(this);
                 this.game.sendAction(draw);
             }
-            //if 1 then play a card
+            //if 4,5,6,7 then play a card
             else if(random >= 4 && random < 8){
-                if(computerState.getPlayerHand(this.playerNum) != null){
+                //Checks to see if the computer's hand is empty
+                //if it is, then the computer can't play a card
+                if(computerState.getCurrentPlayerHand() != null){
                     //Play the first functional card in your hand and send the appropriate action
                     int playThisCard = 0;
                     for(int i = 0; i < computerState.getCurrentPlayerHand().size(); i++){
@@ -61,6 +73,7 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
                             break;
                         }
                     }
+
                     switch (computerState.getCurrentPlayerHand().get(playThisCard).getCardType()){
                         case 6:
                             PlayAttackCard attack = new PlayAttackCard(this);
@@ -71,16 +84,17 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
                             this.game.sendAction(shuffle);
                             break;
                         case 8:
-                            int holder = (int)(Math.random()*computerState.getNumPlayers());
-                            if(computerState.hasPlayerLost(holder) || holder == this.playerNum){
-                                while(computerState.hasPlayerLost(holder) || holder == this.playerNum){
-                                    holder = (int)(Math.random()*computerState.getNumPlayers());
+                            //Finds a random player that is the game and sets the index of that
+                            //player to the targetPlayer variable
+                            int targetPlayer = (int)(Math.random()*computerState.getNumPlayers());
+                            if(computerState.hasPlayerLost(targetPlayer) || targetPlayer == this.playerNum){
+                                while(computerState.hasPlayerLost(targetPlayer) || targetPlayer == this.playerNum){
+                                    targetPlayer = (int)(Math.random()*computerState.getNumPlayers());
                                 }
                             }
-                            //Find the first player hand that is actually playing and isn't this player's hand
-
-                            int randomCardPos = (int)(Math.random()*computerState.getPlayerHand(holder).size());
-                            PlayFavorCard favor = new PlayFavorCard(this, holder, randomCardPos);
+                            //Selects a random card from the target player's hand
+                            int randomCardPos = (int)(Math.random()*computerState.getPlayerHand(targetPlayer).size());
+                            PlayFavorCard favor = new PlayFavorCard(this, targetPlayer, randomCardPos);
                             this.game.sendAction(favor);
                             break;
                         case 9:
@@ -91,24 +105,18 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
                             PlayFutureCard future = new PlayFutureCard(this);
                             this.game.sendAction(future);
                             break;
-                            /*
-                        case 11:
-                            PlayNopeCard nope = new PlayNopeCard(this);
-                            this.game.sendAction(nope);
-                            break;
-
-                             */
                         default:
                             DrawCardAction draw = new DrawCardAction(this);
                             this.game.sendAction(draw);
                     }
                 }
                 else{
+                    //If this player's hand is null then draw
                     DrawCardAction draw = new DrawCardAction(this);
                     this.game.sendAction(draw);
                 }
             }
-            //If 2, do one of the trade actions based on another random number
+            //If 8 or 9 do one of the trade actions based on another random number
             else if(random >= 8){
                 int decider = (int)(Math.random()*3);
                 int playerSelected = (int)(Math.random()*computerState.getNumPlayers());
@@ -174,7 +182,7 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
                 }
             }
         }
-    }
+    }//recieveInfo
 
     /**
      * Update the display with actions that the computer player is taking.
