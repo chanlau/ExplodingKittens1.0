@@ -509,14 +509,22 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                     check to see if we are using the discard pile or the
                     player hand array so we know what array size as upper bound
                      */
-                    if (!switchedDiscard) {
+                    if (!switchedDiscard && trade3Stage != 2) {
                         if (cardHand[4] + 1 >= state.getPlayerHand(this.playerNum).size()) {
                             break;
                         } else {
                             cardHand[i] = cardHand[i] + 1;
                         }
-                    } else {
+                    }
+                    else if (switchedDiscard && trade3Stage != 2) {
                         if (cardHand[4] + 1 >= state.getDiscardPile().size()) {
+                            break;
+                        } else {
+                            cardHand[i] = cardHand[i] + 1;
+                        }
+                    }
+                    else if (trade3Stage == 2) {
+                        if (cardHand[4] + 1 >= allCards.length) {
                             break;
                         } else {
                             cardHand[i] = cardHand[i] + 1;
@@ -638,9 +646,6 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             }
 
             else if (button == enterBtn) {
-                for (int p = 0; p < 5; p++) {
-                    tradeCards[p] = 0;
-                }
                 int numSelected = 0;
                 int c = 0;
                 //for trade 2
@@ -662,6 +667,9 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                             tradePlayer, tradeCards[0], tradeCards[1]);
                     game.sendAction(trade2Act);
                     trade2 = false;
+                    for (int p = 0; p < 5; p++) {
+                        tradeCards[p] = 0;
+                    }
                 }
                 //trade3
                 else if (switchedDiscard == false && trade2 == false && trade3 == true && trade5 == false && trade3Stage == 1 && seeTheFutHand == false) {
@@ -688,12 +696,10 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                         }
                     }
                     // find the cards to be traded
-                    int tradeCards[] = new int[3];
                     int count = 0;
                     for (int a = 0; a < state.getPlayerHand(this.playerNum).size(); a++) {
                         if (state.getPlayerHand(this.playerNum).get(a).getSelected() && count < 3) {
-                            tradeCards[count] =
-                                    state.getPlayerHand(this.playerNum).get(a).getCardType();
+                            tradeCards[count] = a;
                             count++;
                         }
                     }
@@ -702,8 +708,11 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                             tradePlayer, tradeCards[0], tradeCards[1],
                             tradeCards[2], targCard);
                     game.sendAction(trade3Act);
-
+                    trade3 = false;
                     trade3Stage = 0;
+                    for (int p = 0; p < 5; p++) {
+                        tradeCards[p] = 0;
+                    }
                 }
 
                 //trade5
@@ -732,6 +741,9 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                             tradeCards[3], tradeCards[4], cardVal);
                     game.sendAction(trade5Act);
                     trade5 = false;
+                    for (int p = 0; p < 5; p++) {
+                        tradeCards[p] = 0;
+                    }
                 }
 
                 //see the future card ticked
@@ -843,10 +855,10 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                  to steal from another player, set the booleans in the allCards
                  */
                 else if (switchedDiscard == false && trade3Stage == 2) {
-                    if (allCards[0].getSelected() == true) {
-                        allCards[0].setSelected(false);
+                    if (allCards[cardHand[0]].getSelected() == true) {
+                        allCards[cardHand[0]].setSelected(false);
                     } else {
-                        allCards[0].setSelected(true);
+                        allCards[cardHand[0]].setSelected(true);
                     }
                 }
                 // base case do nothing with the booleans
@@ -885,10 +897,10 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                  to steal from another player, set the booleans in the allCards
                  */
                 else if (switchedDiscard == false && trade3Stage == 2) {
-                    if (allCards[1].getSelected() == true) {
-                        allCards[1].setSelected(false);
+                    if (allCards[cardHand[1]].getSelected() == true) {
+                        allCards[cardHand[1]].setSelected(false);
                     } else {
-                        allCards[1].setSelected(true);
+                        allCards[cardHand[1]].setSelected(true);
                     }
                 }
                 // base case do nothing with the booleans
@@ -926,10 +938,10 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                  to steal from another player, set the booleans in the allCards
                  */
                 else if (switchedDiscard == false && trade3Stage == 2) {
-                    if (allCards[2].getSelected() == true) {
-                        allCards[2].setSelected(false);
+                    if (allCards[cardHand[2]].getSelected() == true) {
+                        allCards[cardHand[2]].setSelected(false);
                     } else {
-                        allCards[2].setSelected(true);
+                        allCards[cardHand[2]].setSelected(true);
                     }
                 }
                 // base case do nothing with the booleans
@@ -967,10 +979,10 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                  to steal from another player, set the booleans in the allCards
                  */
                 else if (switchedDiscard == false && trade3Stage == 2) {
-                    if (allCards[3].getSelected() == true) {
-                        allCards[3].setSelected(false);
+                    if (allCards[cardHand[3]].getSelected() == true) {
+                        allCards[cardHand[3]].setSelected(false);
                     } else {
-                        allCards[3].setSelected(true);
+                        allCards[cardHand[3]].setSelected(true);
                     }
                 }
                 // base case do nothing with the booleans
@@ -1008,10 +1020,10 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                  to steal from another player, set the booleans in the allCards
                  */
                 else if (switchedDiscard == false && trade3Stage == 2) {
-                    if (allCards[4].getSelected() == true) {
-                        allCards[4].setSelected(false);
+                    if (allCards[cardHand[4]].getSelected() == true) {
+                        allCards[cardHand[4]].setSelected(false);
                     } else {
-                        allCards[4].setSelected(true);
+                        allCards[cardHand[4]].setSelected(true);
                     }
                 }
                 // base case do nothing with the booleans
