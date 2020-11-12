@@ -41,7 +41,7 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
             return;
         }
         if(computerState.getWhoseTurn() == this.playerNum){
-            random = (int)(Math.random()*3);
+            random = (int)(Math.random()*1);
             //if 0 then draw a card
             if(random == 0){
                 DrawCardAction draw = new DrawCardAction(this);
@@ -61,12 +61,14 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
                             this.game.sendAction(shuffle);
                             break;
                         case 8:
-                            int holder = 0;
+                            int holder = this.playerNum;
                             //Find the first player hand that isn't null and isn't this player's hand
                             for(int i = 0; i < computerState.getNumPlayers(); i++){
                                 if(computerState.getPlayerHands().get(i) != null && i != this.playerNum){
                                     holder = i;
-                                    break;
+                                    if(!computerState.hasPlayerLost(holder)) {
+                                        break;
+                                    }
                                 }
                             }
                             int randomCardPos = (int)(Math.random()*computerState.getPlayerHand(holder).size());
@@ -144,8 +146,6 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
                 }
             }
         }
-
-
     }
 
     /**

@@ -62,7 +62,10 @@ public class EKGameState extends GameState {
         populateDeck();
         populateDeck();
         populateHands();
-        this.deck.add(0,new Card(0));
+        this.deck.add(0, new Card(0));
+        this.deck.add(0, new Card(0));
+        this.deck.add(0, new Card(0));
+        this.playerHands.get(0).add(new Card(9));
     }
 
     //constructor to copy the given gamestate
@@ -206,7 +209,7 @@ public class EKGameState extends GameState {
                 this.playerHands.get(i).add(this.getDeck().get(0));
                 this.deck.remove(0);
             }
-            //this.playerHands.get(i).add(new Card(12));
+            this.playerHands.get(i).add(new Card(12));
         }
     }
 
@@ -247,6 +250,9 @@ public class EKGameState extends GameState {
 
     }
 
+    //Checks to see if a player has lost the game
+    //returns true if they have lost the game
+    //returns false if they haven't
     public boolean hasPlayerLost(int index){
         if(this.playerHands.get(index).get(0).getCardType() == 0){
             return true;

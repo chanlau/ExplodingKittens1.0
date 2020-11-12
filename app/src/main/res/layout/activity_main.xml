@@ -291,7 +291,7 @@
                     android:background="#FFFFFF"
                     android:minHeight="100dip"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/explodingkittencard"
+                    android:src="@drawable/blankcard"
                     android:text="EXPLODE!" />
 
                 <ImageButton
@@ -303,7 +303,7 @@
                     android:background="#FFFFFF"
                     android:minHeight="100dip"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/shufflecard"
+                    android:src="@drawable/blankcard"
                     android:text="Shuffle" />
 
                 <ImageButton
@@ -315,7 +315,7 @@
                     android:background="#FFFFFF"
                     android:minHeight="100dip"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/skipcard"
+                    android:src="@drawable/blankcard"
                     android:text="Skip" />
 
                 <ImageButton
@@ -327,7 +327,7 @@
                     android:background="#FFFFFF"
                     android:minHeight="100dip"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/favorcard"
+                    android:src="@drawable/blankcard"
                     android:text="Attack" />
 
                 <ImageButton
@@ -339,7 +339,7 @@
                     android:background="#FFFFFF"
                     android:minHeight="100dip"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/skipcard"
+                    android:src="@drawable/blankcard"
                     android:text="Skip" />
 
                 <Button
