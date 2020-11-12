@@ -30,8 +30,6 @@ public class EK_LocalGame extends LocalGame {
     private EKGameState currState;
     //Instance variable representing the previous state of the game
     private EKGameState previousState;
-    private EKGameState newState;
-    int test;
 
     public EK_LocalGame() {
         //crashes here
