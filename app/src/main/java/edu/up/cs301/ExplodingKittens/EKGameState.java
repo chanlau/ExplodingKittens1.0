@@ -60,7 +60,6 @@ public class EKGameState extends GameState {
         this.cardsToDraw = 1;
         this.numPlayers = numOfPlayers;
         populateDeck();
-        populateDeck();
         populateHands();
         populateDefuseExplode();
     }
