@@ -142,9 +142,27 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
                 else if(decider == 2){
                     //Make a Trade5Action and draw if you can't
                     if(computerState.getPlayerHand(this.playerNum).size() >= 5) {
-                        int cardSelected = (int) ((Math.random() * 12) + 1);
-                        Trade5Action trade5 = new Trade5Action(this, 0, 1, 2, 3, 4, cardSelected);
-                        this.game.sendAction(trade5);
+                        int cardDesired;
+                        int cardPos = 999;
+                        while(cardPos == 999) {
+                            //Decide what random card to get
+                            cardDesired = (int) ((Math.random() * 12) + 1);
+                            //Find it and set it's position to cardPos
+                            for (int i = 0; i < computerState.getDiscardPile().size(); i++) {
+                                if(computerState.getDiscardPile().get(i).getCardType() == cardDesired){
+                                    cardPos = i;
+                                    break;
+                                }
+                            }
+                        }
+                        if(cardPos == 999) {
+                            Trade5Action trade5 = new Trade5Action(this, 0, 1, 2, 3, 4, cardPos);
+                            this.game.sendAction(trade5);
+                        }
+                        else{
+                            DrawCardAction draw = new DrawCardAction(this);
+                            this.game.sendAction(draw);
+                        }
                     }
                     else {
                         DrawCardAction draw = new DrawCardAction(this);
