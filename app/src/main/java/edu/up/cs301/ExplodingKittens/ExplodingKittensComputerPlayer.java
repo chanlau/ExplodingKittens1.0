@@ -36,8 +36,11 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
      */
     @Override
     protected void receiveInfo(GameInfo info) {
+        //Making sure that the info variable is
+        //able to be type casted into a EKGameState
         if(!(info instanceof EKGameState)){ return;}
         EKGameState computerState = (EKGameState) info;
+
         //check to see if it's this player's turn
         if(computerState.getWhoseTurn() != this.playerNum){
             return;
@@ -116,9 +119,11 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
             }
             //If 8 or 9 do one of the trade actions based on another random number
             else if(random >= 8){
+                //Decide which trade action to do randomly
                 int decider = (int)(Math.random()*3);
+                //Finds a random player that is the game and sets the index of that
+                //player to the targetPlayer variable
                 int playerSelected = (int)(Math.random()*computerState.getNumPlayers());
-                //Find the first player hand that isn't null and isn't this player's hand
                 if(computerState.hasPlayerLost(playerSelected) || playerSelected == this.playerNum){
                     while(computerState.hasPlayerLost(playerSelected) || playerSelected == this.playerNum){
                         playerSelected = (int)(Math.random()*computerState.getNumPlayers());
@@ -152,8 +157,9 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
                     //Make a Trade5Action and draw if you can't
                     if(computerState.getPlayerHand(this.playerNum).size() >= 5) {
                         int cardDesired;
-                        int cardPos = 999;
-                        while(cardPos == 999) {
+                        //Set cardPos to an unreachable number
+                        int cardPos = 99;
+                        while(cardPos == 99) {
                             //Decide what random card to get
                             cardDesired = (int) ((Math.random() * 12) + 1);
                             //Find it and set it's position to cardPos
@@ -164,7 +170,9 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
                                 }
                             }
                         }
-                        if(cardPos == 999) {
+                        //If cardPos was set then make a trade 5 action
+                        //do a draw card action if it wasn't set
+                        if(cardPos != 99) {
                             Trade5Action trade5 = new Trade5Action(this, 0, 1, 2, 3, 4, cardPos);
                             this.game.sendAction(trade5);
                         }
@@ -180,7 +188,7 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
                 }
             }
         }
-    }//recieveInfo
+    }//receiveInfo
 
     /**
      * Update the display with actions that the computer player is taking.
