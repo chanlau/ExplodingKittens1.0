@@ -62,11 +62,12 @@ public class EKGameState extends GameState {
         populateDeck();
         populateDeck();
         deck.add(0, new Card(6));
-        deck.add(0, new Card(7));
-        deck.add(0, new Card(8));
-        deck.add(0, new Card(9));
-        deck.add(0, new Card(10));
+        deck.add(0, new Card(6));
+        deck.add(0, new Card(6));
+        deck.add(0, new Card(6));
+        deck.add(0, new Card(6));
         populateHands();
+        populateDefuseExplode();
         this.getPlayerHand(0).remove(7);
         this.deck.add(0,new Card(0));
     }

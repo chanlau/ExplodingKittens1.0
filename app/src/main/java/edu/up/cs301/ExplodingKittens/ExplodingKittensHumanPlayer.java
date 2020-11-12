@@ -175,6 +175,56 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             }
     } // receiveInfo method
 
+    public void updateDiscard() {
+        if (state.getDiscardPile().size() == 0) {
+            return;
+        } else {
+            switch (state.getDiscardPile().get(state.getDiscardPile().size()-1).getCardType()) {
+                case 0:
+                    discardPileBtn.setImageResource(R.drawable.explodingkittencard);
+                    break;
+                case 1:
+                    discardPileBtn.setImageResource(R.drawable.tacocatcard);
+                    break;
+                case 2:
+                    discardPileBtn.setImageResource(R.drawable.beardcatcard);
+                    break;
+                case 3:
+                    discardPileBtn.setImageResource(R.drawable.hairypotatocatcard);
+                    break;
+                case 4:
+                    discardPileBtn.setImageResource(R.drawable.rainbowralphingcatcard);
+                    break;
+                case 5:
+                    discardPileBtn.setImageResource(R.drawable.cattermeloncard);
+                    break;
+                case 6:
+                    discardPileBtn.setImageResource(R.drawable.attackcard);
+                    break;
+                case 7:
+                    discardPileBtn.setImageResource(R.drawable.shufflecard);
+                    break;
+                case 8:
+                    discardPileBtn.setImageResource(R.drawable.favorcard);
+                    break;
+                case 9:
+                    discardPileBtn.setImageResource(R.drawable.skipcard);
+                    break;
+                case 10:
+                    discardPileBtn.setImageResource(R.drawable.seethefuturecard);
+                    break;
+                case 11:
+                    discardPileBtn.setImageResource(R.drawable.nopecard);
+                    break;
+                case 12:
+                    discardPileBtn.setImageResource(R.drawable.defusecard);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
     /**
      * display the top 3 cards of the draw pile in place of the players hand
      */
@@ -411,6 +461,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         player3CardCount.setText("Card Count: " + state.getPlayerHand(3).size());
         turnText.setText("Player " + state.getWhoseTurn() + "'s Turn");
         otherPlayerHands();
+        updateDiscard();
     } //updateDisplay method
 
     public void setAsGui(GameMainActivity activity) {
