@@ -91,6 +91,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
     private TextView player2CardCount = null;
     private TextView player3CardCount = null;
     private TextView turnText = null;
+    private TextView cardsToDraw = null;
     /*
     booleans to keep track of which trade is currently selected
      */
@@ -162,7 +163,6 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
      *     information, presumably the gamestate
      */
     public void receiveInfo(GameInfo info) {
-
         if(!(info instanceof EKGameState)){
             flash(Color.RED, 500);
         }
@@ -314,8 +314,13 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         the onClick method depending on whether the players hand is being
         viewed or the discard pile is being viewed and is updated with the
         card indexes for the given array */
-
             int query = 0;
+        //if targeted player has lost, set target to a different player
+        if(state.hasPlayerLost(tradePlayer)){
+            while(state.hasPlayerLost(tradePlayer)){
+                tradePlayer = (tradePlayer + 1) % state.getNumPlayers();
+            }
+        }
             for (int i = 0; i < 5; i++) {
                 int cardType;
             /*
@@ -460,6 +465,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         player2CardCount.setText("Card Count: " + state.getPlayerHand(2).size());
         player3CardCount.setText("Card Count: " + state.getPlayerHand(3).size());
         turnText.setText("Player " + state.getWhoseTurn() + "'s Turn");
+        cardsToDraw.setText("Cards to Draw This Turn: " + state.getCardsToDraw());
         otherPlayerHands();
         updateDiscard();
     } //updateDisplay method
@@ -498,6 +504,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         this.player3CardCount =
                 (TextView)activity.findViewById(R.id.player3cards);
         this.turnText = (TextView)activity.findViewById(R.id.turntext);
+        this.cardsToDraw = (TextView)activity.findViewById(R.id.cardstodraw);
 
 
         // listen for button presses
@@ -699,6 +706,9 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             else if (button == enterBtn) {
                 int numSelected = 0;
                 int c = 0;
+                for(int i = 0; i < 5; i++){
+                    cardHand[i] = i;
+                }
                 //for trade 2
                 /*
                 check to make sure that only two cards are selected then send the action
