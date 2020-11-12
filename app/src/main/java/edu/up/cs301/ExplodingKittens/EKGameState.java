@@ -6,6 +6,7 @@
 
 package edu.up.cs301.ExplodingKittens;
 
+import java.security.CryptoPrimitive;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -59,9 +60,9 @@ public class EKGameState extends GameState {
         this.cardsToDraw = 1;
         this.numPlayers = numOfPlayers;
         populateDeck();
+        populateDeck();
         populateHands();
-        deck.add(0, new Card(0));
-        this.getPlayerHand(0).remove(7);
+        this.deck.add(0,new Card(0));
     }
 
     //constructor to copy the given gamestate
@@ -197,7 +198,7 @@ public class EKGameState extends GameState {
                 this.playerHands.get(i).add(this.getDeck().get(0));
                 this.deck.remove(0);
             }
-            this.playerHands.get(i).add(new Card(12));
+            //this.playerHands.get(i).add(new Card(12));
         }
     }
 
