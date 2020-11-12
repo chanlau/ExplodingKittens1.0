@@ -1016,8 +1016,20 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             } // player hand button 5
 
             else if (button == player2) {
-                    tradePlayer = 1;
-                    otherPlayerHands();
+                boolean p1LostGame = false;
+
+                    for (int i = 0; i < state.getPlayerHand(1).size(); i++) {
+                        if (state.getPlayerHand(1).get(i).getCardType() == 0){
+                            p1LostGame = true;
+                        }
+                    }
+                    if (!p1LostGame) {
+                        tradePlayer = 1;
+                        otherPlayerHands();
+                    }
+                    else {
+                        tradePlayer = 2;
+                    }
             } // player2 button
 
             else if (button == player3) {
