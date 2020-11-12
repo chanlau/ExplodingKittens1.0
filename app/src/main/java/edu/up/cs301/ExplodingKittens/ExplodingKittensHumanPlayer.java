@@ -92,6 +92,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
     private TextView player3CardCount = null;
     private TextView turnText = null;
     private TextView cardsToDraw = null;
+    private TextView cardsInDeck = null;
     /*
     booleans to keep track of which trade is currently selected
      */
@@ -469,6 +470,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         player3CardCount.setText("Card Count: " + state.getPlayerHand(3).size());
         turnText.setText("Player " + state.getWhoseTurn() + "'s Turn");
         cardsToDraw.setText("Cards to Draw This Turn: " + state.getCardsToDraw());
+        cardsInDeck.setText("Cards Left In Deck: " + state.getDeck().size());
         otherPlayerHands();
         updateDiscard();
     } //updateDisplay method
@@ -508,6 +510,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 (TextView)activity.findViewById(R.id.player3cards);
         this.turnText = (TextView)activity.findViewById(R.id.turntext);
         this.cardsToDraw = (TextView)activity.findViewById(R.id.cardstodraw);
+        this.cardsInDeck = (TextView)activity.findViewById(R.id.cardsindeck);
 
 
         // listen for button presses
