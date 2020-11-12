@@ -28,7 +28,13 @@ import edu.up.cs301.game.R;
 
 /**
  * GUI for a human to play the game. Handles all interactions between Human
- * player and game buttons
+ * player and game buttons.
+ *
+ * Known bug: Occasionally the program will crash with an error about lack of
+ * memory. We believe this is due to certain images that are being used for the
+ * image buttons that are "too big" for android studio. We are aware of this
+ * bug and are working on a fix.
+ * buttons
  *
  * @authors Chandler Lau, Ka'ulu Ng, Samuel Warrick
  * @version 11/11/2020
