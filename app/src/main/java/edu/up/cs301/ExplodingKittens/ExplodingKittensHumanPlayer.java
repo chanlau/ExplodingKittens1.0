@@ -317,8 +317,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                             break;
                         case 2:
                             imagesHand[i].setImageResource(R.drawable.beardcatcard);
-                            //beardcat hairypcat, rainbowralph, cattermelon,
-                            // attack, c the future, nope,
+
                             break;
                         case 3:
                             imagesHand[i].setImageResource(R.drawable.hairypotatocatcard);
