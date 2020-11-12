@@ -207,7 +207,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="47dip"
                         android:layout_marginTop="20dip"
-                        android:layout_marginRight="47dip"
+                        android:layout_marginRight="10dip"
                         android:layout_marginBottom="20dip"
                         android:layout_weight="1"
                         android:adjustViewBounds="true"
@@ -217,6 +217,13 @@
                         android:scaleType="fitCenter"
                         app:srcCompat="@drawable/cardback"
                         tools:srcCompat="@drawable/cardback" />
+
+                    <TextView
+                        android:id="@+id/cardsindeck"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="TextView" />
 
 
                 </LinearLayout>
@@ -260,6 +267,12 @@
 
             <TextView
                 android:id="@+id/player0cards"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/cardstodraw"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="TextView" />

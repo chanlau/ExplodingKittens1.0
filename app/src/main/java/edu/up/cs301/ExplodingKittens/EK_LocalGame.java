@@ -437,10 +437,10 @@ public class EK_LocalGame extends LocalGame {
             currState.getCurrentPlayerHand().remove(cardPos2);
             currState.getCurrentPlayerHand().remove(cardPos1);
             //copy the desired card to the players hand
-            int targCardPos = checkHand(currState.getDiscardPile(), target);
-            currState.getCurrentPlayerHand().add(currState.getDiscardPile().get(targCardPos));
+            //int targCardPos = checkHand(currState.getDiscardPile(), target);
+            currState.getCurrentPlayerHand().add(currState.getDiscardPile().get(target));
             //remove the card from the discard pile
-            currState.getDiscardPile().remove(targCardPos);
+            currState.getDiscardPile().remove(target);
 
             //Sending a message to the log
             Log.d("Log Trade 5", playerNames[currState.getWhoseTurn()] + " traded 5 cards ");
