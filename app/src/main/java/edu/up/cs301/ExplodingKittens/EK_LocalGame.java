@@ -298,9 +298,10 @@ public class EK_LocalGame extends LocalGame {
         int explodePos = checkHand(currState.getCurrentPlayerHand(), 0);
         if(defusePos != -1 && explodePos != -1){
             currState.getDiscardPile().add(currState.getCurrentPlayerHand().get(defusePos));
+            int randPos = (int)(Math.random()*(currState.getDeck().size()));
+            currState.getDeck().add(randPos,currState.getCurrentPlayerHand().get(explodePos));
+            currState.getCurrentPlayerHand().remove(explodePos);
             currState.getCurrentPlayerHand().remove(defusePos);
-            int randPos = (int)(Math.random()*currState.getDeck().size());
-            currState.getDeck().add(randPos, currState.getCurrentPlayerHand().get(explodePos));
 
             //Sending a message to the log
             Log.d("Log Played Defuse", playerNames[currState.getWhoseTurn()] + " defused an ExplodingKitten ");
