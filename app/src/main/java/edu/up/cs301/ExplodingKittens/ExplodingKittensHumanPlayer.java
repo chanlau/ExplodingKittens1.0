@@ -181,7 +181,11 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
     public void seeTheFuture() {
         card4.setImageResource(R.drawable.blankcard);
         card5.setImageResource(R.drawable.blankcard);
-        for (int i = 0; i < 3; i++) {
+        int seeTop = 3;
+        if(state.getDeck().size() < 3){
+            seeTop = state.getDeck().size()-1;
+        }
+        for (int i = 0; i < seeTop; i++) {
             switch (state.getDeck().get(i).getCardType()) {
                 case 0:
                     imagesHand[i].setImageResource(R.drawable.explodingkittencard);
