@@ -61,8 +61,14 @@ public class EKGameState extends GameState {
         this.numPlayers = numOfPlayers;
         populateDeck();
         populateDeck();
+        this.deck.add(0, new Card(2));
+        this.deck.add(0,new Card(2));
+        this.deck.add(0,new Card(2));
+        this.deck.add(0,new Card(2));
+        this.deck.add(0,new Card(2));
         populateHands();
         populateDefuseExplode();
+
     }
 
     //constructor to copy the given gamestate

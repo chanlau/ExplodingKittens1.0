@@ -174,9 +174,6 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 }
             updateDisplay();
             }
-
-        Card cattermelon = new Card(5);
-        state.getDiscardPile().add(cattermelon);
     } // receiveInfo method
 
     public void updateDiscard() {
@@ -633,6 +630,9 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             else if (button == trade5Btn) {
                 trade2 = false;
                 trade3 = false;
+                if(state.getDiscardPile().size() == 0){
+                    return;
+                }
                 if (trade5) { trade5 = false; }
                 else { trade5 = true; }
                 // deselect all player hand cards
