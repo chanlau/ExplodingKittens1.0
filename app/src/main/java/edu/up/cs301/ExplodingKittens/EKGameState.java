@@ -60,6 +60,7 @@ public class EKGameState extends GameState {
         this.cardsToDraw = 1;
         this.numPlayers = numOfPlayers;
         populateDeck();
+        populateDeck();
         populateHands();
         populateDefuseExplode();
     }
@@ -187,6 +188,9 @@ public class EKGameState extends GameState {
             }
         }
         Collections.shuffle(this.deck);
+
+        Card cattermelon = new Card(5);
+        this.getDiscardPile().add(cattermelon);
     }
 
     //adds appropriate amt. of cards to all players hands

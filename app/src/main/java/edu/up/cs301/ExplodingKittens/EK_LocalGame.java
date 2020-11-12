@@ -430,6 +430,9 @@ public class EK_LocalGame extends LocalGame {
                 comp2 == comp3 || comp2 == comp4 || comp2 == comp5 ||
                 comp3 == comp4 || comp3 == comp5 ||
                 comp4 == comp5) {
+            return false;
+        }
+        else {
             //update the players hand
             currState.getCurrentPlayerHand().remove(cardPos5);
             currState.getCurrentPlayerHand().remove(cardPos4);
@@ -443,12 +446,12 @@ public class EK_LocalGame extends LocalGame {
             currState.getDiscardPile().remove(target);
 
             //Sending a message to the log
-            Log.d("Log Trade 5", playerNames[currState.getWhoseTurn()] + " traded 5 cards ");
+            Log.d("Log Trade 5", playerNames[currState.getWhoseTurn()] + " " +
+                    "traded 5 cards ");
 
             return true;
         }
-        return false;
-    }
+    } // trade5
 
     //increments turn and wraps around from the last player to the first player
     //skips over player if they have an exploding kitten

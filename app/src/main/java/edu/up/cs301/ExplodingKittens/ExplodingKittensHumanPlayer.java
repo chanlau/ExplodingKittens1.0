@@ -175,14 +175,13 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             updateDisplay();
             }
 
-        Card cattermelon = new Card(5);
-        state.getDiscardPile().add(cattermelon);
     } // receiveInfo method
 
     public void updateDiscard() {
         if (state.getDiscardPile().size() == 0) {
             return;
-        } else {
+        }
+        else {
             switch (state.getDiscardPile().get(state.getDiscardPile().size()-1).getCardType()) {
                 case 0:
                     discardPileBtn.setImageResource(R.drawable.explodingkittencard);
@@ -915,6 +914,9 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 the discard pile card
                  */
                 else if (switchedDiscard == true) {
+                    if(state.getDiscardPile().size() == 0){
+                        return;
+                    }
                     if (state.getDiscardPile().get(cardHand[0]).getSelected() == true) {
                         state.getDiscardPile().get(cardHand[0]).setSelected(false);
                     } else {
@@ -957,6 +959,9 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 the discard pile card
                  */
                 else if (switchedDiscard == true) {
+                    if(state.getDiscardPile().size() <= 1){
+                        return;
+                    }
                     if (state.getDiscardPile().get(cardHand[1]).getSelected() == true) {
                         state.getDiscardPile().get(cardHand[1]).setSelected(false);
                     } else {
@@ -998,6 +1003,9 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 the discard pile card
                  */
                 else if (switchedDiscard == true) {
+                    if(state.getDiscardPile().size() <= 2){
+                        return;
+                    }
                     if (state.getDiscardPile().get(cardHand[2]).getSelected() == true) {
                         state.getDiscardPile().get(cardHand[2]).setSelected(false);
                     } else {
@@ -1039,6 +1047,9 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 the discard pile card
                  */
                 else if (switchedDiscard == true) {
+                    if(state.getDiscardPile().size() <= 3){
+                        return;
+                    }
                     if (state.getDiscardPile().get(cardHand[3]).getSelected() == true) {
                         state.getDiscardPile().get(cardHand[3]).setSelected(false);
                     } else {
@@ -1080,6 +1091,9 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 the discard pile card
                  */
                 else if (switchedDiscard == true) {
+                    if(state.getDiscardPile().size() <= 4){
+                        return;
+                    }
                     if (state.getDiscardPile().get(cardHand[4]).getSelected() == true) {
                         state.getDiscardPile().get(cardHand[4]).setSelected(false);
                     } else {
