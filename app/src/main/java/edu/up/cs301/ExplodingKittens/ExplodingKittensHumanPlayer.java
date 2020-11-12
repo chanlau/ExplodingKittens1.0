@@ -279,6 +279,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                     imagesHand[i].setImageResource(R.drawable.defusecard);
                     break;
                 default:
+                    imagesHand[i].setImageResource(R.drawable.blankcard);
                     break;
             } //switch statement
         }
@@ -540,12 +541,6 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         imagesHand[3] = card4;
         imagesHand[4] = card5;
     } //setAsGui method
-
-    /**
-     * Method to change the imagebuttons of the player hand when the left arrow
-     * button is pressed to scroll through the players hand
-     * @param button
-     */
 
     @Override
     public void onClick(View button) {
@@ -905,6 +900,9 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                  the card
                  */
                 if (switchedDiscard == false && trade3Stage != 2) {
+                    if(state.getCurrentPlayerHand().size() <= 0){
+                        return;
+                    }
                     if (state.getPlayerHand(this.playerNum).get(cardHand[0]).getSelected() == true) {
                         state.getPlayerHand(this.playerNum).get(cardHand[0]).setSelected(false);
                     } else {
@@ -950,6 +948,9 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                  the card
                  */
                 if (switchedDiscard == false && trade3Stage != 2) {
+                    if(state.getCurrentPlayerHand().size() <= 1){
+                        return;
+                    }
                     if (state.getPlayerHand(this.playerNum).get(cardHand[1]).getSelected() == true) {
                         state.getPlayerHand(this.playerNum).get(cardHand[1]).setSelected(false);
                     } else {
@@ -994,6 +995,9 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                  the card
                  */
                 if (switchedDiscard == false && trade3Stage != 2) {
+                    if(state.getCurrentPlayerHand().size() <= 2){
+                        return;
+                    }
                     if (state.getPlayerHand(this.playerNum).get(cardHand[2]).getSelected() == true) {
                         state.getPlayerHand(this.playerNum).get(cardHand[2]).setSelected(false);
                     } else {
@@ -1038,6 +1042,9 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                  the card
                  */
                 if (switchedDiscard == false && trade3Stage != 2) {
+                    if(state.getCurrentPlayerHand().size() <= 3){
+                        return;
+                    }
                     if (state.getPlayerHand(this.playerNum).get(cardHand[3]).getSelected() == true) {
                         state.getPlayerHand(this.playerNum).get(cardHand[3]).setSelected(false);
                     } else {
@@ -1082,6 +1089,9 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                  the card
                  */
                 if (switchedDiscard == false && trade3Stage != 2) {
+                    if(state.getCurrentPlayerHand().size() <= 4){
+                        return;
+                    }
                     if (state.getPlayerHand(this.playerNum).get(cardHand[4]).getSelected() == true) {
                         state.getPlayerHand(this.playerNum).get(cardHand[4]).setSelected(false);
                     } else {

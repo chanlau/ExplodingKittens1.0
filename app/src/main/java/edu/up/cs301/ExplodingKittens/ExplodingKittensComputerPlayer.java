@@ -26,7 +26,7 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
     }
 
     /**
-     * Receives information (hopefully the gamestate) and decides the best
+     * Receives information (gamestate) and decides the best
      * actions from there
      * @param info
      *     information, presumably the gamestate

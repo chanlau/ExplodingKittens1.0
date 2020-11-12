@@ -1,17 +1,22 @@
-/**
- * Date: 10/20/2020
- * Authors: Chandler Lau, Ka'ulu Ng, Samuel Warrick
- * Version: Project #d Final
- */
-
 package edu.up.cs301.ExplodingKittens;
 
 import java.security.CryptoPrimitive;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-
 import edu.up.cs301.game.GameFramework.infoMessage.GameState;
+
+/**
+ *An Exploding Kittens Game State Class
+ * Holds all the information about the current game (ex: whose turn, player
+ * hand, etc.)
+ * Sent to players to inform them about the current state of the game
+ *
+ * @author Samuel Warrick
+ * @author Kaulu Ng
+ * @author Chandler Lau
+ * @version November 2020
+ */
 
 
 public class EKGameState extends GameState {
@@ -37,18 +42,7 @@ public class EKGameState extends GameState {
     private int numPlayers;
 
 
-    public EKGameState() {
-        this.discardPile = new ArrayList<Card>();
-        this.deck = new ArrayList<Card>();
-        this.whoseTurn = 0;
-        this.cardsToDraw = 1;
-        this.playerHands = new ArrayList<>();
-        for(int i = 0; i < 4; i++){
-            this.playerHands.add(new ArrayList<Card>());
-        }
-    }
-
-    //constructor
+    //initial EKGameState constructor
     public EKGameState(int numOfPlayers) {
         this.discardPile = new ArrayList<Card>();
         this.deck = new ArrayList<Card>();
@@ -60,18 +54,11 @@ public class EKGameState extends GameState {
         this.cardsToDraw = 1;
         this.numPlayers = numOfPlayers;
         populateDeck();
-        populateDeck();
-        this.deck.add(0, new Card(2));
-        this.deck.add(0,new Card(2));
-        this.deck.add(0,new Card(2));
-        this.deck.add(0,new Card(2));
-        this.deck.add(0,new Card(2));
         populateHands();
         populateDefuseExplode();
+    }//EKGameState
 
-    }
-
-    //constructor to copy the given gamestate
+    //copy constructor to copy the given gamestate
     public EKGameState(EKGameState gamestate) {
         /**
          * External Citation
@@ -119,7 +106,7 @@ public class EKGameState extends GameState {
             }
         }
 
-    }
+    }//EKGameState(copy constructor)
 
 
 
@@ -142,42 +129,53 @@ public class EKGameState extends GameState {
                 "\n Player 4 Hand: " + Player3String);
         */
         return "HI this is just a place holder";
-    }
+    }//ToString
 
+    //getter method to return ArrayList of PlayerHands(Arraylists)
     public ArrayList<ArrayList<Card>> getPlayerHands(){
         return this.playerHands;
-    }
+    }//getPlayerHands()
 
+    //getter method to return current player's hand
     public ArrayList<Card> getCurrentPlayerHand() {return this.playerHands.get(this.whoseTurn);}
 
+    //getter method to return current discard pile
     public ArrayList<Card> getDiscardPile(){
         return this.discardPile;
-    }
+    }//getDiscardPile
 
+    //getter method to return current deck
     public ArrayList<Card> getDeck(){
         return this.deck;
-    }
+    }//getDeck
 
+    //getter method to return current turn
     public int getWhoseTurn(){
         return this.whoseTurn;
-    }
+    }//getWhoseTurn
 
+    //setter method to set current turn
     public void setWhoseTurn(int i){
         this.whoseTurn = i;
-    }
+    }//setWhoseTurn
 
+    //getterMethod to get amount of draws required this turn
     public int getCardsToDraw() {return this.cardsToDraw;}
 
+    //setter method to set amount of cards to draw this turn
     public void setCardsToDraw(int i){ this.cardsToDraw = i;}
 
+    //getter method to get specified players hand
     public ArrayList<Card> getPlayerHand(int playerID){
         return this.playerHands.get(playerID);
-    }
+    }//getPlayerHand
 
+    //getter method to get the amount of players
     public int getNumPlayers(){
         return this.numPlayers;
-    }
+    }//getNumPlayers
 
+    //Populates the deck with various cards in the game
     public void populateDeck() {
         int i;
         int j;
@@ -187,19 +185,15 @@ public class EKGameState extends GameState {
                 this.getDeck().add(new Card(i));
             }
         }
-        // puts 5 See the Future and Nope Cards into deck
-        for (i = 10; i <= 11; i++) {
-            for (j = 0; j < 5; j++) {
-                this.getDeck().add(new Card(i));
-            }
+        // puts 5 See the Future Cards into the deck
+        for (j = 0; j < 5; j++) {
+            this.getDeck().add(new Card(10));
         }
+        //shuffles the deck
         Collections.shuffle(this.deck);
+    }//populateDeck
 
-        Card cattermelon = new Card(5);
-        this.getDiscardPile().add(cattermelon);
-    }
-
-    //adds appropriate amt. of cards to all players hands
+    //adds 7 cards to all players hands and a Defuse Card
     public void populateHands() {
         int i, j;
         for (i = 0; i < this.getNumPlayers(); i++) {
@@ -209,7 +203,7 @@ public class EKGameState extends GameState {
             }
             this.playerHands.get(i).add(new Card(12));
         }
-    }
+    }//populateHands
 
     //adds defuse and explode cards to deck
     public void populateDefuseExplode() {
@@ -220,15 +214,15 @@ public class EKGameState extends GameState {
             this.deck.add(new Card(0));
         }
 
-        //Puts 2 defuse into deck
+        //Puts 2 defuse cards into deck
         for (i = 0; i < 2; i++) {
             this.deck.add(new Card(12));
         }
+        //shuffles them into the deck
         Collections.shuffle(this.deck);
-    }
+    }//populateDefuseExplode
 
     //sets all players hands to be able to do each action once
-
     public void makeTestHand() {
         int i, j;
         for (i = 0; i < this.getNumPlayers(); i++) {
@@ -246,7 +240,7 @@ public class EKGameState extends GameState {
             }
         }
 
-    }
+    }//makeTestHand
 
     //Checks to see if a player has lost the game
     //returns true if they have lost the game
@@ -256,8 +250,9 @@ public class EKGameState extends GameState {
             return true;
         }
         return false;
-    }
+    }//hasPlayerLost
 
+    //setter method to set the amount of players in game
     public void setNumPlayers(int val){
         this.numPlayers = val;
     }
