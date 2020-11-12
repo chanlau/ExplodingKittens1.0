@@ -175,8 +175,6 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             updateDisplay();
             }
 
-        Card cattermelon = new Card(5);
-        state.getDiscardPile().add(cattermelon);
     } // receiveInfo method
 
     public void updateDiscard() {
