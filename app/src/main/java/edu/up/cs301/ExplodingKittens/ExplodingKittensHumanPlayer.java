@@ -361,10 +361,10 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                             imagesHand[i].setImageResource(R.drawable.explodingkittencard);
                             break;
                         case 1:
-                            imagesHand[i].setImageResource(R.drawable.cardback);
+                            imagesHand[i].setImageResource(R.drawable.selecttacocatcard);
                             break;
                         case 2:
-                            imagesHand[i].setImageResource(R.drawable.cardback);
+                            imagesHand[i].setImageResource(R.drawable.selectbeardcatcard);
                             break;
                         case 3:
                             imagesHand[i].setImageResource(R.drawable.selecthairypotatocatcard);
@@ -385,7 +385,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                             imagesHand[i].setImageResource(R.drawable.selectfavorcard);
                             break;
                         case 9:
-                            imagesHand[i].setImageResource(R.drawable.cardback);
+                            imagesHand[i].setImageResource(R.drawable.selectskipcard);
                             break;
                         case 10:
                             imagesHand[i].setImageResource(R.drawable.selectseethefuturecard);
@@ -1015,18 +1015,42 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             } // player hand button 5
 
             else if (button == player2) {
+                if (state.hasPlayerLost(1)) {
+                    tradePlayer = 2;
+                    if (state.hasPlayerLost(2)) {
+                        tradePlayer = 3;
+                    }
+                }
+                else {
                     tradePlayer = 1;
                     otherPlayerHands();
+                }
             } // player2 button
 
             else if (button == player3) {
+                if (state.hasPlayerLost(2)) {
+                    tradePlayer = 3;
+                    if (state.hasPlayerLost(3)) {
+                        tradePlayer = 1;
+                    }
+                }
+                else {
                     tradePlayer = 2;
                     otherPlayerHands();
+                }
             } // player3 button
 
             else if (button == player4) {
+                if (state.hasPlayerLost(3)) {
+                    tradePlayer = 1;
+                    if (state.hasPlayerLost(1)) {
+                        tradePlayer = 2;
+                    }
+                }
+                else {
                     tradePlayer = 3;
                     otherPlayerHands();
+                }
             } // player4 button
         } // image buttons
         updateDisplay();
