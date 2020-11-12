@@ -199,6 +199,14 @@ public class EKGameState extends GameState {
 
     //adds appropriate amt. of cards to all players hands
     public void populateHands() {
+        Card cattermelon = new Card(5);
+        this.playerHands.get(0).add(cattermelon);
+        this.playerHands.get(0).add(cattermelon);
+        this.playerHands.get(0).add(cattermelon);
+        Card beardcat = new Card(2);
+        this.playerHands.get(0).add(beardcat);
+        this.playerHands.get(0).add(beardcat);
+
         int i, j;
         for (i = 0; i < this.getNumPlayers(); i++) {
             for (j = 0; j < 7; j++) {

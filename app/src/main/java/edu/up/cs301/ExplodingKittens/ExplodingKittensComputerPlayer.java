@@ -135,7 +135,7 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
                         this.game.sendAction(draw);
                     }
                 }
-                else if(decider ==2){
+                else if(decider == 2){
                     //Make a Trade5Action and draw if you can't
                     if(computerState.getPlayerHand(this.playerNum).size() >= 5) {
                         int cardSelected = (int) ((Math.random() * 12) + 1);
