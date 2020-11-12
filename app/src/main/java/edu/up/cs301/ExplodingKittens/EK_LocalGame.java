@@ -194,6 +194,7 @@ public class EK_LocalGame extends LocalGame {
         if(card == -1){
             return false;
         }
+
         currState.getDiscardPile().add(currState.getCurrentPlayerHand().get(card));
         currState.getCurrentPlayerHand().remove(card);
 
