@@ -196,7 +196,7 @@ public class EK_LocalGame extends LocalGame {
 
     //Favor card
     //current player selects a target player and target player gives current
-    //player a card of target players choosing
+    //player a card (randomly))
     public boolean Favor(GamePlayer p, int target, int targCardPos) {
         int card = checkHand(currState.getCurrentPlayerHand(), 8);
         if(card == -1){
