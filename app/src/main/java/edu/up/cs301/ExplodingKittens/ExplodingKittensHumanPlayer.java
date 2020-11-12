@@ -362,10 +362,10 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                             imagesHand[i].setImageResource(R.drawable.explodingkittencard);
                             break;
                         case 1:
-                            imagesHand[i].setImageResource(R.drawable.cardback);
+                            imagesHand[i].setImageResource(R.drawable.selecttacocatcard);
                             break;
                         case 2:
-                            imagesHand[i].setImageResource(R.drawable.cardback);
+                            imagesHand[i].setImageResource(R.drawable.selectbeardcatcard);
                             break;
                         case 3:
                             imagesHand[i].setImageResource(R.drawable.selecthairypotatocatcard);
@@ -386,7 +386,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                             imagesHand[i].setImageResource(R.drawable.selectfavorcard);
                             break;
                         case 9:
-                            imagesHand[i].setImageResource(R.drawable.cardback);
+                            imagesHand[i].setImageResource(R.drawable.selectskipcard);
                             break;
                         case 10:
                             imagesHand[i].setImageResource(R.drawable.selectseethefuturecard);
