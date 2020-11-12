@@ -57,12 +57,18 @@ public class EKGameState extends GameState {
             this.playerHands.add(new ArrayList<Card>());
         }
         this.whoseTurn = 0;
-        this.cardsToDraw = 1;
+        this.cardsToDraw = 2;
         this.numPlayers = numOfPlayers;
         populateDeck();
         populateDeck();
+        deck.add(0, new Card(6));
+        deck.add(0, new Card(7));
+        deck.add(0, new Card(8));
+        deck.add(0, new Card(9));
+        deck.add(0, new Card(10));
         populateHands();
-        this.deck.add(0,new Card(0));
+        //this.deck.add(0,new Card(0));
+        this.getPlayerHand(0).remove(7);
     }
 
     //constructor to copy the given gamestate
@@ -198,7 +204,7 @@ public class EKGameState extends GameState {
                 this.playerHands.get(i).add(this.getDeck().get(0));
                 this.deck.remove(0);
             }
-            //this.playerHands.get(i).add(new Card(12));
+            this.playerHands.get(i).add(new Card(12));
         }
     }
 

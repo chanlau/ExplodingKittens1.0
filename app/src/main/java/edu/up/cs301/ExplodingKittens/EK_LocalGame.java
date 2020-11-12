@@ -451,6 +451,7 @@ public class EK_LocalGame extends LocalGame {
     }
 
     //increments turn and wraps around from the last player to the first player
+    //skips over player if they have an exploding kitten
     public void nextTurn() {
         if(currState.getCardsToDraw() == 0){
             currState.setWhoseTurn((currState.getWhoseTurn()+1)%(currState.getNumPlayers()));
