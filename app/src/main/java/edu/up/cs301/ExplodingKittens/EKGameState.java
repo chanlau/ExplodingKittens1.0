@@ -61,16 +61,8 @@ public class EKGameState extends GameState {
         this.numPlayers = numOfPlayers;
         populateDeck();
         populateDeck();
-        deck.add(0, new Card(6));
-        deck.add(0, new Card(6));
-        deck.add(0, new Card(6));
-        deck.add(0, new Card(6));
-        deck.add(0, new Card(6));
         populateHands();
         populateDefuseExplode();
-        this.getPlayerHand(0).add(new Card(9));
-        this.deck.add(0,new Card(0));
-        this.getPlayerHand(1).remove(7);
     }
 
     //constructor to copy the given gamestate
@@ -203,14 +195,6 @@ public class EKGameState extends GameState {
 
     //adds appropriate amt. of cards to all players hands
     public void populateHands() {
-        Card cattermelon = new Card(5);
-        this.playerHands.get(0).add(cattermelon);
-        this.playerHands.get(0).add(cattermelon);
-        this.playerHands.get(0).add(cattermelon);
-        Card beardcat = new Card(2);
-        this.playerHands.get(0).add(beardcat);
-        this.playerHands.get(0).add(beardcat);
-
         int i, j;
         for (i = 0; i < this.getNumPlayers(); i++) {
             for (j = 0; j < 7; j++) {
