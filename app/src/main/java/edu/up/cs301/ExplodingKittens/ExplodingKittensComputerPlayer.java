@@ -34,9 +34,12 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
      */
     @Override
     protected void receiveInfo(GameInfo info) {
-
+/*
         EKGameState computerState = (EKGameState) info;
         //check to see if it's this player's turn
+        if(computerState.getWhoseTurn() != this.playerNum){
+            return;
+        }
         if(computerState.getWhoseTurn() == this.playerNum){
             random = (int)(Math.random()*3);
             //if 0 then draw a card
@@ -141,6 +144,8 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
                 }
             }
         }
+
+ */
     }
 
     /**

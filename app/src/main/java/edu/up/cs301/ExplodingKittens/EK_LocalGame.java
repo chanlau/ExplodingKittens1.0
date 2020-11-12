@@ -161,7 +161,7 @@ public class EK_LocalGame extends LocalGame {
         currState.getCurrentPlayerHand().remove(card);
 
         //Sending a message to the log
-        Log.d("Log Played Attack", playerNames[currState.getWhoseTurn()] + " played an Attack card --------------------------");
+        Log.d("Log Played Attack", playerNames[currState.getWhoseTurn()] + " played an Attack card ");
 
         //This player doesn't have to draw and the next player has to take two cards
         int tempCardsToDraw = currState.getCardsToDraw();
@@ -185,7 +185,7 @@ public class EK_LocalGame extends LocalGame {
         currState.getCurrentPlayerHand().remove(card);
 
         //Sending a message to the log
-        Log.d("Log Played Nope", playerNames[currState.getWhoseTurn()] + " played a Nope card --------------------------");
+        Log.d("Log Played Nope", playerNames[currState.getWhoseTurn()] + " played a Nope card");
 
         EKGameState temp = new EKGameState(currState);
         currState = previousState;
@@ -204,13 +204,14 @@ public class EK_LocalGame extends LocalGame {
         }
         //copy selected card from target player to current player
         currState.getCurrentPlayerHand().add(currState.getPlayerHand(target).get(targCardPos));
+        currState.getPlayerHand(target).remove(targCardPos);
         //move the played favor card to the discard pile and remove it from
         // the players hand
         currState.getDiscardPile().add(currState.getCurrentPlayerHand().get(card));
-        currState.getPlayerHand(target).remove(targCardPos);
+        currState.getCurrentPlayerHand().remove(card);
 
         //Sending a message to the log
-        Log.d("Log Played Favor", playerNames[currState.getWhoseTurn()] + " played a Favor card --------------------------");
+        Log.d("Log Played Favor", playerNames[currState.getWhoseTurn()] + " played a Favor card ");
 
         return true;
     }
@@ -226,7 +227,7 @@ public class EK_LocalGame extends LocalGame {
         currState.getCurrentPlayerHand().remove(card);
 
         //Sending a message to the log
-        Log.d("Log Played SeeTheFuture", playerNames[currState.getWhoseTurn()] + " played a SeeTheFuture card --------------------------");
+        Log.d("Log Played SeeTheFuture", playerNames[currState.getWhoseTurn()] + " played a SeeTheFuture card ");
 
         return true;
     }
@@ -258,7 +259,7 @@ public class EK_LocalGame extends LocalGame {
         Collections.shuffle(currState.getDeck());
 
         //Sending a message to the log
-        Log.d("Log Played Shuffle", playerNames[currState.getWhoseTurn()] + " played a Shuffle card --------------------------");
+        Log.d("Log Played Shuffle", playerNames[currState.getWhoseTurn()] + " played a Shuffle card ");
 
         return true;
     }
@@ -275,7 +276,7 @@ public class EK_LocalGame extends LocalGame {
         currState.getCurrentPlayerHand().remove(card);
 
         //Sending a message to the log
-        Log.d("Log Played Skip", playerNames[currState.getWhoseTurn()] + " played a Skip card --------------------------");
+        Log.d("Log Played Skip", playerNames[currState.getWhoseTurn()] + " played a Skip card ");
 
         //call the nextTurn method to move to the next player
         currState.setCardsToDraw(currState.getCardsToDraw()-1);
@@ -302,13 +303,13 @@ public class EK_LocalGame extends LocalGame {
             currState.getDeck().add(randPos, currState.getCurrentPlayerHand().get(explodePos));
 
             //Sending a message to the log
-            Log.d("Log Played Defuse", playerNames[currState.getWhoseTurn()] + " defused an ExplodingKitten --------------------------");
+            Log.d("Log Played Defuse", playerNames[currState.getWhoseTurn()] + " defused an ExplodingKitten ");
 
             return true;
         }
 
         //Sending a message to the log
-        Log.d("Log Failed to Defuse", playerNames[currState.getWhoseTurn()] + " failed to defuse an Exploding Kitten --------------------------");
+        Log.d("Log Failed to Defuse", playerNames[currState.getWhoseTurn()] + " failed to defuse an Exploding Kitten ");
 
         return false;
     }
@@ -331,7 +332,7 @@ public class EK_LocalGame extends LocalGame {
         currState.setCardsToDraw(currState.getCardsToDraw()-1);
 
         //Sending a message to the log
-        Log.d(" Log Draw Card", playerNames[currState.getWhoseTurn()] + " drew a card --------------------------");
+        Log.d(" Log Draw Card", playerNames[currState.getWhoseTurn()] + " drew a card ");
 
         //Check if the player drew an Exploding Kitten and they can't defuse it, then they lose
         if(checkHand(currState.getCurrentPlayerHand(),0) != -1){
@@ -378,7 +379,7 @@ public class EK_LocalGame extends LocalGame {
             currState.getPlayerHand(targ).remove(randomPos);
 
             //Sending a message to the log
-            Log.d("Log Trade 2", playerNames[currState.getWhoseTurn()] + " traded 2 cards --------------------------");
+            Log.d("Log Trade 2", playerNames[currState.getWhoseTurn()] + " traded 2 cards ");
 
             return true;
         }
@@ -408,7 +409,7 @@ public class EK_LocalGame extends LocalGame {
                 }
 
             //Sending a message to the log
-            Log.d("Log Trade 3", playerNames[currState.getWhoseTurn()] + " traded 3 cards --------------------------");
+            Log.d("Log Trade 3", playerNames[currState.getWhoseTurn()] + " traded 3 cards ");
 
             return true;
         }
@@ -443,7 +444,7 @@ public class EK_LocalGame extends LocalGame {
             currState.getDiscardPile().remove(targCardPos);
 
             //Sending a message to the log
-            Log.d("Log Trade 5", playerNames[currState.getWhoseTurn()] + " traded 5 cards --------------------------");
+            Log.d("Log Trade 5", playerNames[currState.getWhoseTurn()] + " traded 5 cards ");
 
             return true;
         }
