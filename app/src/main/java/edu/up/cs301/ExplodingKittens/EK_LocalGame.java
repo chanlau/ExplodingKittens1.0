@@ -1,3 +1,4 @@
+
 package edu.up.cs301.ExplodingKittens;
 
 import android.util.Log;
@@ -21,8 +22,18 @@ import edu.up.cs301.game.GameFramework.GamePlayer;
 import edu.up.cs301.game.GameFramework.LocalGame;
 import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
 import edu.up.cs301.game.GameFramework.infoMessage.GameState;
-
 import static java.sql.Types.NULL;
+
+/**
+ *An Exploding Kittens Local Game class
+ * Holds majority of the logic of different game actions and cards.
+ * Modifies the gamestates of the game
+ *
+ * @author Samuel Warrick
+ * @author Kaulu Ng
+ * @author Chandler Lau
+ * @version November 2020
+ */
 
 public class EK_LocalGame extends LocalGame {
 
@@ -31,10 +42,10 @@ public class EK_LocalGame extends LocalGame {
     //Instance variable representing the previous state of the game
     private EKGameState previousState;
 
+    //constructor
     public EK_LocalGame() {
-        //crashes here
+        //creates a game with 4 players
         this.currState = new EKGameState(4);
-        //call method to set currState playerNum
         this.previousState = null;
     }
 
@@ -46,12 +57,13 @@ public class EK_LocalGame extends LocalGame {
         p.sendInfo(gameCopy);
     }//sendUpdatedState
 
+    //checks if player can move
     @Override
     protected boolean canMove(int playerIdx) {
         return playerIdx == currState.getWhoseTurn();
-    }
+    }//canMove
 
-
+    //checks if game is over
     @Override
     protected String checkIfGameOver() {
         //See how many players have lost the game
@@ -70,8 +82,10 @@ public class EK_LocalGame extends LocalGame {
 
         }
         return null;
-    }
+    }//checkIfGameOver
 
+    //Takes in an instance of GameAction and acts according to the action
+    // taken in
     @Override
     protected boolean makeMove(GameAction action) {
         //check which action is being taken
@@ -127,7 +141,7 @@ public class EK_LocalGame extends LocalGame {
         Log.d("Invalid Action",
                 "Action provided was an invalid action");
         return false;
-    }
+    }//makeMove
 
 
 
@@ -169,7 +183,7 @@ public class EK_LocalGame extends LocalGame {
         currState.setCardsToDraw(tempCardsToDraw+1);
 
         return true;
-    }
+    }//Attack()
 
 
     //Nope card
@@ -192,7 +206,7 @@ public class EK_LocalGame extends LocalGame {
         previousState = temp;
 
         return true;
-    }
+    }//Nope()
 
     //Favor card
     //current player selects a target player and target player gives current
@@ -214,7 +228,7 @@ public class EK_LocalGame extends LocalGame {
         Log.d("Log Played Favor", playerNames[currState.getWhoseTurn()] + " played a Favor card ");
 
         return true;
-    }
+    }//Favor()
 
     //See the Future card
     //current player looks at the top three cards of the deck
@@ -230,7 +244,7 @@ public class EK_LocalGame extends LocalGame {
         Log.d("Log Played SeeTheFuture", playerNames[currState.getWhoseTurn()] + " played a SeeTheFuture card ");
 
         return true;
-    }
+    }//SeeTheFuture()
 
     //Shuffle card
     //shuffles the deck randomly
@@ -441,7 +455,6 @@ public class EK_LocalGame extends LocalGame {
             currState.getCurrentPlayerHand().remove(cardPos2);
             currState.getCurrentPlayerHand().remove(cardPos1);
             //copy the desired card to the players hand
-            //int targCardPos = checkHand(currState.getDiscardPile(), target);
             currState.getCurrentPlayerHand().add(currState.getDiscardPile().get(target));
             //remove the card from the discard pile
             currState.getDiscardPile().remove(target);
@@ -464,7 +477,7 @@ public class EK_LocalGame extends LocalGame {
             currState.setWhoseTurn((currState.getWhoseTurn()+1)%(currState.getPlayerHands().size()));
         }
         currState.setCardsToDraw(1);
-    }
+    }//nextTurn
 
 
     //check to see if the card type exists in the players hand, if it
@@ -478,10 +491,11 @@ public class EK_LocalGame extends LocalGame {
             }
         }
         return -1;
-    }
+    }//checkHand
 
+    //Getter method to return local game's instance of EKGameState
     public EKGameState getCurrState(){
         return this.currState;
     }
 
-}
+}//EK_LocalGame

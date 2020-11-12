@@ -1,21 +1,25 @@
 package edu.up.cs301.ExplodingKittens;
 
-
 import java.util.ArrayList;
-
-//import edu.up.cs301.counter.CounterComputerPlayer1;
-//import edu.up.cs301.counter.CounterComputerPlayer2;
-//import edu.up.cs301.counter.CounterHumanPlayer;
 import edu.up.cs301.game.GameFramework.GameMainActivity;
 import edu.up.cs301.game.GameFramework.GamePlayer;
 import edu.up.cs301.game.GameFramework.LocalGame;
 import edu.up.cs301.game.GameFramework.gameConfiguration.GameConfig;
 import edu.up.cs301.game.GameFramework.gameConfiguration.GamePlayerType;
 
+/**
+ *Main Activity of Exploding Kittens Game
+ * Initializes Config screen and creates an Exploding Kittens Local Game
+ *
+ * @author Samuel Warrick
+ * @author Kaulu Ng
+ * @author Chandler Lau
+ * @version November 2020
+ */
 public class EK_MainActivity extends GameMainActivity {
 
     // the port number that this game will use when playing over the network
-    private static final int PORT_NUMBER = 6969;
+    private static final int PORT_NUMBER = 7513;
 
     @Override
     public GameConfig createDefaultConfig() {
@@ -34,21 +38,14 @@ public class EK_MainActivity extends GameMainActivity {
                 return new ExplodingKittensComputerPlayer(name);
             }});
 
-        // a computer player type (player type 2)
-        playerTypes.add(new GamePlayerType("Computer Player (GUI)") {
-            public GamePlayer createPlayer(String name) {
-                return null; //new CounterComputerPlayer2(2, name);
-            }});
-
-
 
         // Create a game configuration class for Counter:
         // - player types as given above
         // - from 1 to 2 players
         // - name of game is "Counter Game"
         // - port number as defined above
-        GameConfig defaultConfig = new GameConfig(playerTypes, 1, 4, "Counter" +
-                " Game",
+        GameConfig defaultConfig = new GameConfig(playerTypes, 1, 4,
+                "Exploding Kittens" + " Game",
                 PORT_NUMBER);
 
         // Add the default players to the configuration
@@ -68,19 +65,10 @@ public class EK_MainActivity extends GameMainActivity {
         return defaultConfig;
     }
 
+    //creates instance of EKLocalGame
     @Override
     public LocalGame createLocalGame() {
         return new EK_LocalGame();
     }
-
-/*
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        //cardView = (SurfaceView) findViewById(R.id.surfaceview);
-    }
-*/
 
 }

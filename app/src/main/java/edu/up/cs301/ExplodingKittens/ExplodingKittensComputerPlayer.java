@@ -26,7 +26,7 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
     }
 
     /**
-     * Receives information (hopefully the gamestate) and decides the best
+     * Receives information (gamestate) and decides the best
      * actions from there
      * @param info
      * recieves info sent to this player class
@@ -36,10 +36,7 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
      */
     @Override
     protected void receiveInfo(GameInfo info) {
-
-        if(!(info instanceof EKGameState)){
-            return;
-        }
+        if(!(info instanceof EKGameState)){ return;}
         EKGameState computerState = (EKGameState) info;
         //check to see if it's this player's turn
         if(computerState.getWhoseTurn() != this.playerNum){
