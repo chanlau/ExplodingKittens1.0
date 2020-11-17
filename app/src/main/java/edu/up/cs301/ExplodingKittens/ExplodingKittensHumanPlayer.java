@@ -305,20 +305,29 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         update each player so that if the current player selects another
         person it does not keep the previously selected player
          */
-        if (tradePlayer == 1) {
+        if (tradePlayer == 1 && state.getPlayerHand(1).get(0).getCardType() != 0) {
             player2.setImageResource(R.drawable.selectcardback);
+        }
+        else if (state.getPlayerHand(1).get(0).getCardType() == 0){
+            player2.setImageResource(R.drawable.cardbacklost);
         }
         else {
             player2.setImageResource(R.drawable.cardback);
         }
-        if (tradePlayer == 2) {
+        if (tradePlayer == 2 && state.getPlayerHand(2).get(0).getCardType() != 0) {
             player3.setImageResource(R.drawable.selectcardback);
+        }
+        else if (state.getPlayerHand(2).get(0).getCardType() == 0){
+            player2.setImageResource(R.drawable.cardbacklost);
         }
         else {
             player3.setImageResource(R.drawable.cardback);
         }
-        if (tradePlayer == 3) {
+        if (tradePlayer == 3 && state.getPlayerHand(3).get(0).getCardType() != 0) {
             player4.setImageResource(R.drawable.selectcardback);
+        }
+        else if (state.getPlayerHand(3).get(0).getCardType() == 0){
+            player2.setImageResource(R.drawable.cardbacklost);
         }
         else {
             player4.setImageResource(R.drawable.cardback);
