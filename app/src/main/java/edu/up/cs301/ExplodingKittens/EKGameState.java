@@ -255,8 +255,14 @@ public class EKGameState extends GameState {
     }//hasPlayerLost
 
     public void addToPlayerLog(String addString){
+        this.playerLog.add(addString);
+    }//addToPlayerLog
 
-    }
+    public void clearPlayerLog(boolean endTurnPressed){
+        if(endTurnPressed){
+            this.playerLog.clear();
+        }
+    }//clearPlayerLog
 
     //setter method to set the amount of players in game
     public void setNumPlayers(int val){
