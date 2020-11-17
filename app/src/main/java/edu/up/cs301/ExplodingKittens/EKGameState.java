@@ -55,6 +55,7 @@ public class EKGameState extends GameState {
         this.whoseTurn = 0;
         this.cardsToDraw = 1;
         this.numPlayers = numOfPlayers;
+        this.playerLog.add(" ");
         populateDeck();
         populateHands();
         populateDefuseExplode();
@@ -263,6 +264,10 @@ public class EKGameState extends GameState {
             this.playerLog.clear();
         }
     }//clearPlayerLog
+
+    public ArrayList<String> getPlayerLog() {
+        return this.playerLog;
+    }
 
     //setter method to set the amount of players in game
     public void setNumPlayers(int val){

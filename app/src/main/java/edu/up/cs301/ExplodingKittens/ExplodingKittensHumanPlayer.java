@@ -174,12 +174,25 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         }
         else{
             this.state = new EKGameState((EKGameState) info);
-                for(int i = 0; i < 5; i++){
-                 this.cardHand[i] = i;
-                }
+            for(int i = 0; i < 5; i++){
+              this.cardHand[i] = i;
+            }
+            printPlayerLog();
             updateDisplay();
             }
     } // receiveInfo method
+
+
+    public void printPlayerLog() {
+        if (state.getPlayerLog() != null) {
+            for (int i = 0; i < state.getPlayerLog().size(); i++) {
+                turnText.setText(state.getPlayerLog().get(i));
+            }
+        }
+        else {
+            turnText.setText(" ");
+        }
+    }
 
     /**
      * updates the discard imagebutton with the most recently discarded card
@@ -494,7 +507,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         player1CardCount.setText("Card Count: " + state.getPlayerHand(1).size());
         player2CardCount.setText("Card Count: " + state.getPlayerHand(2).size());
         player3CardCount.setText("Card Count: " + state.getPlayerHand(3).size());
-        turnText.setText("Player " + state.getWhoseTurn() + "'s Turn");
+        //turnText.setText("Player " + state.getWhoseTurn() + "'s Turn");
         cardsToDraw.setText("Cards to Draw This Turn: " + state.getCardsToDraw());
         cardsInDeck.setText("Cards Left In Deck: " + state.getDeck().size());
         otherPlayerHands();
@@ -898,7 +911,9 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
              */
             else if (button == endTurn) {
                 // reset the textView of player actions
-                
+                if (state.getPlayerLog() != null) {
+                    state.clearPlayerLog(true);
+                }
                 // deselect all player hand cards
                 for (int a = 0; a < state.getPlayerHand(this.playerNum).size(); a++) {
                     state.getPlayerHand(this.playerNum).get(a).setSelected(false);
