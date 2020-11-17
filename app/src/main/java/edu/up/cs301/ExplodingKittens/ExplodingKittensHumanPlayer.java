@@ -174,12 +174,25 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         }
         else{
             this.state = new EKGameState((EKGameState) info);
-                for(int i = 0; i < 5; i++){
-                 this.cardHand[i] = i;
-                }
+            for(int i = 0; i < 5; i++){
+              this.cardHand[i] = i;
+            }
+            printPlayerLog();
             updateDisplay();
             }
     } // receiveInfo method
+
+
+    public void printPlayerLog() {
+        if (state.getPlayerLog() != null) {
+            for (int i = 0; i < state.getPlayerLog().size(); i++) {
+                turnText.setText(state.getPlayerLog().get(i));
+            }
+        }
+        else {
+            turnText.setText(" ");
+        }
+    }
 
     /**
      * updates the discard imagebutton with the most recently discarded card
@@ -243,7 +256,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         card5.setImageResource(R.drawable.blankcard);
         int seeTop = 3;
         if(state.getDeck().size() < 3){
-            seeTop = state.getDeck().size()-1;
+            seeTop = state.getDeck().size();
         }
         for (int i = 0; i < seeTop; i++) {
             switch (state.getDeck().get(i).getCardType()) {
@@ -291,6 +304,9 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                     break;
             } //switch statement
         }
+        for(int j = seeTop; j < 3; j++){
+            imagesHand[j].setImageResource(R.drawable.blankcard);
+        }
     }
 
     /**
@@ -302,20 +318,29 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         update each player so that if the current player selects another
         person it does not keep the previously selected player
          */
-        if (tradePlayer == 1) {
+        if (tradePlayer == 1 && state.getPlayerHand(1).get(0).getCardType() != 0) {
             player2.setImageResource(R.drawable.selectcardback);
+        }
+        else if (state.getPlayerHand(1).get(0).getCardType() == 0){
+            player2.setImageResource(R.drawable.cardbacklost);
         }
         else {
             player2.setImageResource(R.drawable.cardback);
         }
-        if (tradePlayer == 2) {
+        if (tradePlayer == 2 && state.getPlayerHand(2).get(0).getCardType() != 0) {
             player3.setImageResource(R.drawable.selectcardback);
+        }
+        else if (state.getPlayerHand(2).get(0).getCardType() == 0){
+            player2.setImageResource(R.drawable.cardbacklost);
         }
         else {
             player3.setImageResource(R.drawable.cardback);
         }
-        if (tradePlayer == 3) {
+        if (tradePlayer == 3 && state.getPlayerHand(3).get(0).getCardType() != 0) {
             player4.setImageResource(R.drawable.selectcardback);
+        }
+        else if (state.getPlayerHand(3).get(0).getCardType() == 0){
+            player2.setImageResource(R.drawable.cardbacklost);
         }
         else {
             player4.setImageResource(R.drawable.cardback);
@@ -482,7 +507,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         player1CardCount.setText("Card Count: " + state.getPlayerHand(1).size());
         player2CardCount.setText("Card Count: " + state.getPlayerHand(2).size());
         player3CardCount.setText("Card Count: " + state.getPlayerHand(3).size());
-        turnText.setText("Player " + state.getWhoseTurn() + "'s Turn");
+        //turnText.setText("Player " + state.getWhoseTurn() + "'s Turn");
         cardsToDraw.setText("Cards to Draw This Turn: " + state.getCardsToDraw());
         cardsInDeck.setText("Cards Left In Deck: " + state.getDeck().size());
         otherPlayerHands();
@@ -885,6 +910,10 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             selected and sends the draw card action to the game
              */
             else if (button == endTurn) {
+                // reset the textView of player actions
+                if (state.getPlayerLog() != null) {
+                    state.clearPlayerLog(true);
+                }
                 // deselect all player hand cards
                 for (int a = 0; a < state.getPlayerHand(this.playerNum).size(); a++) {
                     state.getPlayerHand(this.playerNum).get(a).setSelected(false);
