@@ -293,7 +293,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:text="scroll left" />
+                    android:text="<" />
 
                 <ImageButton
                     android:id="@+id/imageButton5"
