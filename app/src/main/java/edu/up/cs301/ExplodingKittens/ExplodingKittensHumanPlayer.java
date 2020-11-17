@@ -243,7 +243,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         card5.setImageResource(R.drawable.blankcard);
         int seeTop = 3;
         if(state.getDeck().size() < 3){
-            seeTop = state.getDeck().size()-1;
+            seeTop = state.getDeck().size();
         }
         for (int i = 0; i < seeTop; i++) {
             switch (state.getDeck().get(i).getCardType()) {
@@ -290,6 +290,9 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                     imagesHand[i].setImageResource(R.drawable.blankcard);
                     break;
             } //switch statement
+        }
+        for(int j = seeTop; j < 3; j++){
+            imagesHand[j].setImageResource(R.drawable.blankcard);
         }
     }
 
