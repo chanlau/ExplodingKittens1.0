@@ -293,7 +293,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:text="Left" />
+                    android:text="Scroll Left" />
 
                 <ImageButton
                     android:id="@+id/imageButton5"
@@ -361,7 +361,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:text="Right" />
+                    android:text=">" />
             </LinearLayout>
 
         </LinearLayout>

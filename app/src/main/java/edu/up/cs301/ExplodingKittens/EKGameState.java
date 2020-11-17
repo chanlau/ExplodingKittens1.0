@@ -40,6 +40,7 @@ public class EKGameState extends GameState {
     private int whoseTurn;
     private int cardsToDraw;
     private int numPlayers;
+    private ArrayList<String> playerLog;
 
 
     //initial EKGameState constructor
@@ -47,6 +48,7 @@ public class EKGameState extends GameState {
         this.discardPile = new ArrayList<Card>();
         this.deck = new ArrayList<Card>();
         this.playerHands = new ArrayList<ArrayList<Card>>();
+        this.playerLog = new ArrayList<String>();
         for(int i = 0; i < numOfPlayers; i++){
             this.playerHands.add(new ArrayList<Card>());
         }
@@ -251,6 +253,16 @@ public class EKGameState extends GameState {
         }
         return false;
     }//hasPlayerLost
+
+    public void addToPlayerLog(String addString){
+        this.playerLog.add(addString);
+    }//addToPlayerLog
+
+    public void clearPlayerLog(boolean endTurnPressed){
+        if(endTurnPressed){
+            this.playerLog.clear();
+        }
+    }//clearPlayerLog
 
     //setter method to set the amount of players in game
     public void setNumPlayers(int val){
