@@ -435,6 +435,12 @@ public class EK_LocalGame extends LocalGame {
             currState.getCurrentPlayerHand().remove(c);
             currState.getCurrentPlayerHand().remove(b);
             currState.getCurrentPlayerHand().remove(a);
+
+            //Send to the log that they traded 3 cards
+            String logMessage = playerNames[currState.getWhoseTurn()] + " traded 3 cards ";
+            currState.addToPlayerLog(logMessage);
+            Log.d("Log Trade 3", logMessage);
+
             //check to see if the target player has the desired card
             int targCardPos = checkHand(currState.getPlayerHand(targ), targCard);
                 if (targCardPos != -1){
@@ -442,12 +448,15 @@ public class EK_LocalGame extends LocalGame {
                     // from the target player hand
                     currState.getCurrentPlayerHand().add(currState.getPlayerHand(targ).get(targCardPos));
                     currState.getPlayerHand(targ).remove(targCardPos);
+                    //Sending a message to the log
+                    logMessage = playerNames[currState.getWhoseTurn()] + "'s chosen card was found ";
                 }
-
-            //Sending a message to the log
-            String logMessage = playerNames[currState.getWhoseTurn()] + " traded 3 cards ";
+                else{
+                    //Sending a message to the log
+                    logMessage = playerNames[currState.getWhoseTurn()] + "'s chosen card was not found ";
+                }
             currState.addToPlayerLog(logMessage);
-            Log.d("Log Trade 3", logMessage);
+            Log.d("Log Trade 3 card found/not found", logMessage);
 
             return true;
         }
