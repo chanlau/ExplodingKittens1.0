@@ -58,6 +58,7 @@ public class EKGameState extends GameState {
         this.playerLog.add(" ");
         populateDeck();
         populateHands();
+        this.getPlayerHand(0).add(new Card(11));
         populateDefuseExplode();
     }//EKGameState
 
@@ -108,6 +109,10 @@ public class EKGameState extends GameState {
                 this.playerHands.get(c).add(tempCard);
             }
         }
+
+        //create deep copy
+        this.playerLog.add(" ");
+
 
     }//EKGameState(copy constructor)
 
@@ -272,6 +277,17 @@ public class EKGameState extends GameState {
     //setter method to set the amount of players in game
     public void setNumPlayers(int val){
         this.numPlayers = val;
+    }
+
+    //getter method to get the amount of EK in deck
+    public int getEKCount(){
+        int count = 0;
+        for(int i = 0; i < this.getDeck().size(); i++){
+            if(this.getDeck().get(i).getCardType() == 0){
+                count++;
+            }
+        }
+        return count;
     }
 
 }
