@@ -177,21 +177,37 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             for(int i = 0; i < 5; i++){
               this.cardHand[i] = i;
             }
-            printPlayerLog();
+            if (state.getWhoseTurn() == 0) {
+                try {
+                    printPlayerLog();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
             updateDisplay();
             }
     } // receiveInfo method
 
-
-    public void printPlayerLog() {
-        if (state.getPlayerLog() != null) {
-            for (int i = 0; i < state.getPlayerLog().size(); i++) {
-                turnText.setText(state.getPlayerLog().get(i));
-            }
+    /**
+     * Prints out the player log.
+     * @throws InterruptedException
+     */
+    public void printPlayerLog() throws InterruptedException {
+        /**
+         * External Citation
+         * Date: 18 November 2020
+         * Problem: Could not figure out how to print the message log to the
+         * textview and display each log
+         * Resource:
+         * https://stackoverflow.com/questions/35751444/how-to-display-an-arraylist-in-a-textview-when-a-button-is-clicked
+         * Solution: Used the example code to create a StringBuilder and set
+         * the textview to multiline as well
+         */
+        StringBuilder logMessages = new StringBuilder();
+        for (String s : state.getPlayerLog()) {
+            logMessages.append(s + "\n");
         }
-        else {
-            turnText.setText(" ");
-        }
+        turnText.setText(logMessages.toString());
     }
 
     /**
@@ -555,7 +571,6 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         this.turnText = (TextView)activity.findViewById(R.id.turntext);
         this.cardsToDraw = (TextView)activity.findViewById(R.id.cardstodraw);
         this.cardsInDeck = (TextView)activity.findViewById(R.id.cardsindeck);
-
 
         // listen for button presses
         leftScroll.setOnClickListener(this);
@@ -937,6 +952,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 if (state.getPlayerLog() != null) {
                     state.clearPlayerLog(true);
                 }
+                turnText.setText(" ");
                 // deselect all player hand cards
                 for (int a = 0; a < state.getPlayerHand(this.playerNum).size(); a++) {
                     state.getPlayerHand(this.playerNum).get(a).setSelected(false);
