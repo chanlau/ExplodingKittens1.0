@@ -174,12 +174,25 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         }
         else{
             this.state = new EKGameState((EKGameState) info);
-                for(int i = 0; i < 5; i++){
-                 this.cardHand[i] = i;
-                }
+            for(int i = 0; i < 5; i++){
+              this.cardHand[i] = i;
+            }
+            printPlayerLog();
             updateDisplay();
             }
     } // receiveInfo method
+
+
+    public void printPlayerLog() {
+        if (state.getPlayerLog() != null) {
+            for (int i = 0; i < state.getPlayerLog().size(); i++) {
+                turnText.setText(state.getPlayerLog().get(i));
+            }
+        }
+        else {
+            turnText.setText(" ");
+        }
+    }
 
     /**
      * updates the discard imagebutton with the most recently discarded card
@@ -494,7 +507,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         player1CardCount.setText("Card Count: " + state.getPlayerHand(1).size());
         player2CardCount.setText("Card Count: " + state.getPlayerHand(2).size());
         player3CardCount.setText("Card Count: " + state.getPlayerHand(3).size());
-        turnText.setText("Player " + state.getWhoseTurn() + "'s Turn");
+        //turnText.setText("Player " + state.getWhoseTurn() + "'s Turn");
         cardsToDraw.setText("Cards to Draw This Turn: " + state.getCardsToDraw());
         cardsInDeck.setText("Cards Left In Deck: " + state.getDeck().size());
         otherPlayerHands();
@@ -640,10 +653,18 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             for selecting the cards to trade
              */
             else if (button == trade2Btn) {
-                if (trade2) { trade2 = false; }
-                else { trade2 = true; }
+                if (trade2) {
+                    trade2 = false;
+                    trade2Btn.setText("Trade 2 Off");
+                }
+                else {
+                    trade2 = true;
+                    trade2Btn.setText("Trade 2 On");
+                }
                 trade3 = false;
+                trade3Btn.setText("Trade 3 Off");
                 trade5 = false;
+                trade5Btn.setText("Trade 5 Off");
                 // deselect all player hand cards
                 for (int a = 0; a < state.getPlayerHand(this.playerNum).size(); a++) {
                     state.getPlayerHand(this.playerNum).get(a).setSelected(false);
@@ -656,15 +677,19 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
              */
             else if (button == trade3Btn) {
                 trade2 = false;
+                trade2Btn.setText("Trade 2 Off");
                 if (trade3) {
                     trade3 = false;
+                    trade3Btn.setText("Trade 3 Off");
                     trade3Stage = 0;
                 }
                 else {
                     trade3 = true;
+                    trade3Btn.setText("Trade 3 On");
                     trade3Stage = 1;
                 }
                 trade5 = false;
+                trade5Btn.setText("Trade 5 Off");
                 // deselect all player hand cards
                 for (int a = 0; a < state.getPlayerHand(this.playerNum).size(); a++) {
                     state.getPlayerHand(this.playerNum).get(a).setSelected(false);
@@ -677,12 +702,20 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
              */
             else if (button == trade5Btn) {
                 trade2 = false;
+                trade2Btn.setText("Trade 2 Off");
                 trade3 = false;
+                trade3Btn.setText("Trade 3 Off");
                 if(state.getDiscardPile().size() == 0){
                     return;
                 }
-                if (trade5) { trade5 = false; }
-                else { trade5 = true; }
+                if (trade5) {
+                    trade5 = false;
+                    trade5Btn.setText("Trade 5 Off");
+                }
+                else {
+                    trade5 = true;
+                    trade5Btn.setText("Trade 5 On");
+                }
                 // deselect all player hand cards
                 for (int a = 0; a < state.getPlayerHand(this.playerNum).size(); a++) {
                     state.getPlayerHand(this.playerNum).get(a).setSelected(false);
@@ -796,6 +829,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                             tradePlayer, tradeCards[0], tradeCards[1]);
                     game.sendAction(trade2Act);
                     trade2 = false;
+                    trade2Btn.setText("Trade 2 Off");
                     for (int p = 0; p < 5; p++) {
                         tradeCards[p] = 0;
                     }
@@ -845,6 +879,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                             tradeCards[2], targCard);
                     game.sendAction(trade3Act);
                     trade3 = false;
+                    trade3Btn.setText("Trade 3 Off");
                     trade3Stage = 0;
                     for (int p = 0; p < 5; p++) {
                         tradeCards[p] = 0;
@@ -880,6 +915,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                             tradeCards[3], tradeCards[4], cardPos);
                     game.sendAction(trade5Act);
                     trade5 = false;
+                    trade5Btn.setText("Trade 5 Off");
                     for (int p = 0; p < 5; p++) {
                         tradeCards[p] = 0;
                     }
@@ -897,6 +933,10 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             selected and sends the draw card action to the game
              */
             else if (button == endTurn) {
+                // reset the textView of player actions
+                if (state.getPlayerLog() != null) {
+                    state.clearPlayerLog(true);
+                }
                 // deselect all player hand cards
                 for (int a = 0; a < state.getPlayerHand(this.playerNum).size(); a++) {
                     state.getPlayerHand(this.playerNum).get(a).setSelected(false);
@@ -909,6 +949,13 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 for (int c = 0; c < state.getDiscardPile().size(); c++) {
                     state.getDiscardPile().get(c).setSelected(false);
                 }
+                // reset the trade booleans
+                trade2 = false;
+                trade3 = false;
+                trade5 = false;
+                trade2Btn.setText("Trade 2 Off");
+                trade3Btn.setText("Trade 3 Off");
+                trade5Btn.setText("Trade 5 Off");
                 DrawCardAction drawCard = new DrawCardAction(this);
                 game.sendAction(drawCard);
             } // endTurn button
