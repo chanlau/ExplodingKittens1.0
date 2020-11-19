@@ -197,9 +197,6 @@ public class EK_LocalGame extends LocalGame {
             return false;
         }
 
-        currState.getDiscardPile().add(currState.getCurrentPlayerHand().get(card));
-        currState.getCurrentPlayerHand().remove(card);
-
         //Sending a message to the log
         String logMessage = playerNames[currState.getWhoseTurn()] + " played a Nope card";
         currState.addToPlayerLog(logMessage);
@@ -208,6 +205,9 @@ public class EK_LocalGame extends LocalGame {
         EKGameState temp = new EKGameState(currState);
         currState = previousState;
         previousState = temp;
+
+        currState.getDiscardPile().add(currState.getCurrentPlayerHand().get(card));
+        currState.getCurrentPlayerHand().remove(card);
 
         return true;
     }//Nope()
