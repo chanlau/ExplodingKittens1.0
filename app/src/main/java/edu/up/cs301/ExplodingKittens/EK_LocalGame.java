@@ -418,7 +418,7 @@ public class EK_LocalGame extends LocalGame {
                 currState.getCurrentPlayerHand().remove(a);
                 currState.getCurrentPlayerHand().remove(b);
             }
-            else if(a == b){
+            else {
                 return false;
             }
             //copy the new card from the target player into the player hand

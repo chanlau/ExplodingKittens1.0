@@ -77,6 +77,7 @@ public class EKGameState extends GameState {
         this.discardPile = new ArrayList<Card>();
         this.deck = new ArrayList<Card>();
         this.playerHands = new ArrayList<ArrayList<Card>>();
+        this.playerLog = new ArrayList<String>();
         this.numPlayers = gamestate.numPlayers;
         //copy of whose turn it is
         this.whoseTurn = gamestate.getWhoseTurn();
@@ -110,9 +111,10 @@ public class EKGameState extends GameState {
             }
         }
 
-        //create deep copy
-        this.playerLog.add(" ");
-
+        //deep copy for player log arraylist
+        for(int e = 0; e < gamestate.getPlayerLog().size(); e++){
+            this.playerLog.add(gamestate.getPlayerLog().get(e));
+        }
 
     }//EKGameState(copy constructor)
 
@@ -138,6 +140,12 @@ public class EKGameState extends GameState {
         */
         return "HI this is just a place holder";
     }//ToString
+
+
+    //getter method to return ArrayList<String> which is the playerLog
+    public ArrayList<String> getPlayerLog(){
+        return this.playerLog;
+    }
 
     //getter method to return ArrayList of PlayerHands(Arraylists)
     public ArrayList<ArrayList<Card>> getPlayerHands(){
