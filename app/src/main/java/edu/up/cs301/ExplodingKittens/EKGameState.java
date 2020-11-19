@@ -141,6 +141,12 @@ public class EKGameState extends GameState {
         return "HI this is just a place holder";
     }//ToString
 
+    //getter method to return Arraylist of player actions
+
+
+    public ArrayList<String> getPlayerLog() {
+        return playerLog;
+    }
 
     //getter method to return ArrayList of PlayerHands(Arraylists)
     public ArrayList<ArrayList<Card>> getPlayerHands(){
