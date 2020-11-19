@@ -278,10 +278,6 @@ public class EKGameState extends GameState {
         }
     }//clearPlayerLog
 
-    public ArrayList<String> getPlayerLog() {
-        return this.playerLog;
-    }
-
     //setter method to set the amount of players in game
     public void setNumPlayers(int val){
         this.numPlayers = val;
