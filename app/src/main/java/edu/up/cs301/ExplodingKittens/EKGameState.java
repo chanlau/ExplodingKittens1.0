@@ -141,11 +141,6 @@ public class EKGameState extends GameState {
     }//ToString
 
 
-    //getter method to return ArrayList<String> which is the playerLog
-    public ArrayList<String> getPlayerLog(){
-        return this.playerLog;
-    }
-
     //getter method to return ArrayList of PlayerHands(Arraylists)
     public ArrayList<ArrayList<Card>> getPlayerHands(){
         return this.playerHands;
