@@ -115,51 +115,39 @@
                     android:id="@+id/player2_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginBottom="10dp"
                     android:layout_weight="1"
                     android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/textView3"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:text="Player 2" />
 
-                        <TextView
-                            android:id="@+id/textView3"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_weight="1"
-                            android:text="Player 2" />
+                    <TextView
+                        android:id="@+id/player2cards"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_weight="1"
+                        android:text="TextView" />
 
-                        <TextView
-                            android:id="@+id/player2cards"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="TextView" />
-
-                    </LinearLayout>
-
+                    <ImageButton
+                        android:id="@+id/player3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:adjustViewBounds="true"
+                        android:background="#FFFFFF"
+                        android:maxHeight="120dip"
+                        android:minHeight="100dip"
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/cardback"
+                        tools:srcCompat="@drawable/cardback" />
                 </LinearLayout>
-
-                <ImageButton
-                    android:id="@+id/player3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:adjustViewBounds="true"
-                    android:background="#FFFFFF"
-                    android:maxHeight="120dip"
-                    android:minHeight="100dip"
-                    android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/cardback"
-                    tools:srcCompat="@drawable/cardback" />
             </LinearLayout>
 
             <LinearLayout
@@ -172,9 +160,8 @@
 
                 <LinearLayout
                     android:id="@+id/player1_layout"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -184,12 +171,12 @@
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:orientation="vertical">
 
                             <TextView
-                                android:id="@+id/player1_textView"
-                                android:layout_width="match_parent"
+                                android:id="@+id/textView4"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:text="Player 1" />
@@ -205,7 +192,6 @@
 
                     </LinearLayout>
 
-
                     <ImageButton
                         android:id="@+id/player2"
                         android:layout_width="match_parent"
@@ -218,16 +204,15 @@
                         android:scaleType="fitCenter"
                         app:srcCompat="@drawable/cardback"
                         tools:srcCompat="@drawable/cardback" />
+
                 </LinearLayout>
-
-
 
                 <LinearLayout
                     android:id="@+id/cardpile_and_deck"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:background="@drawable/customborder"
                     android:gravity="center"
                     android:orientation="horizontal">
@@ -278,35 +263,41 @@
 
                 <LinearLayout
                     android:id="@+id/player3_layout"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
-
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:orientation="horizontal">
 
-                        <TextView
-                            android:id="@+id/player3_label"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Player 3" />
+                            android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/player3cards"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="TextView" />
+                            <TextView
+                                android:id="@+id/textView5"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Player 3" />
+
+                            <TextView
+                                android:id="@+id/player3cards"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="TextView" />
+
+                        </LinearLayout>
+
                     </LinearLayout>
 
                     <ImageButton
                         android:id="@+id/player4"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:adjustViewBounds="true"
@@ -317,8 +308,8 @@
                         app:srcCompat="@drawable/cardback"
                         tools:src="@drawable/cardback" />
 
-                </LinearLayout>
 
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -349,7 +340,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:text="Left" />
+                    android:text="Scroll Left" />
 
                 <ImageButton
                     android:id="@+id/imageButton5"
@@ -417,7 +408,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:text="Right" />
+                    android:text="Scroll Right" />
             </LinearLayout>
 
         </LinearLayout>
@@ -426,4 +417,3 @@
     </LinearLayout>
 
 </LinearLayout>
-

@@ -359,7 +359,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         }
         else if (state.hasPlayerLost(3)){
             player4.setImageResource(R.drawable.cardbacklost);
-            player2CardCount.setText(allPlayerNames[3]+" has lost the game");
+            player3CardCount.setText(allPlayerNames[3]+" has lost the game");
         }
         else {
             player4.setImageResource(R.drawable.cardback);
@@ -523,8 +523,6 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             } //for loop
         //set textviews of the other players
         setPlayersText();
-        //turnText.setText("Player " + state.getWhoseTurn() + "'s Turn");
-        cardsToDraw.setText("Cards to Draw This Turn: " + state.getCardsToDraw());
         cardsInDeck.setText("Cards Left In Deck: " + state.getDeck().size());
         otherPlayerHands();
         updateDiscard();
@@ -951,8 +949,9 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 // reset the textView of player actions
                 if (state.getPlayerLog() != null) {
                     state.clearPlayerLog(true);
+                    turnText.setText(" ");
                 }
-                turnText.setText(" ");
+
                 // deselect all player hand cards
                 for (int a = 0; a < state.getPlayerHand(this.playerNum).size(); a++) {
                     state.getPlayerHand(this.playerNum).get(a).setSelected(false);
@@ -1337,7 +1336,14 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
 
      */
     protected void setPlayersText(){
-        player0CardCount.setText("Your Card Count: " + state.getPlayerHand(0).size());
+        if(!state.hasPlayerLost(0)){
+            player0CardCount.setText("Your Card Count: " + state.getPlayerHand(0).size());
+            cardsToDraw.setText("Cards to Draw This Turn: " + state.getCardsToDraw());
+        }
+        else{
+            player0CardCount.setText("You Lost");
+            cardsToDraw.setText("");
+        }
         if(!state.hasPlayerLost(1)) {
             player1CardCount.setText("Card Count: " + state.getPlayerHand(1).size());
         }
