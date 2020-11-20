@@ -949,11 +949,6 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             selected and sends the draw card action to the game
              */
             else if (button == endTurn) {
-                // reset the textView of player actions
-                if (state.getPlayerLog() != null) {
-                    state.clearPlayerLog(true);
-                    turnText.setText(" ");
-                }
 
                 // deselect all player hand cards
                 for (int a = 0; a < state.getPlayerHand(this.playerNum).size(); a++) {
