@@ -197,7 +197,7 @@ public class EKGameState extends GameState {
         int i;
         int j;
         //puts 4 of each cat card, attack, shuffle, favor, skip cards
-        for (i = 1; i <= 9; i++) {
+        for (i = 1; i <= 11; i++) {
             for (j = 0; j < 4; j++) {
                 this.getDeck().add(new Card(i));
             }
@@ -205,6 +205,7 @@ public class EKGameState extends GameState {
         // puts 5 See the Future Cards into the deck
         for (j = 0; j < 5; j++) {
             this.getDeck().add(new Card(10));
+            this.getDeck().add(new Card(11));
         }
         //shuffles the deck
         Collections.shuffle(this.deck);

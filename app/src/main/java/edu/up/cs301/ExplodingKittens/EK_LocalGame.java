@@ -191,38 +191,23 @@ public class EK_LocalGame extends LocalGame {
     //Nope card
     public boolean Nope(GamePlayer p) {
         int card = checkHand(currState.getCurrentPlayerHand(), 11);
-
+        //move the played nope card to the discard pile and remove it from
+        //the players hand
         if(card == -1){
             return false;
         }
-
-        //move the played nope card to the discard pile and remove it from
-        //the players hand
-        currState.getDiscardPile().add(currState.getCurrentPlayerHand().get(card));
-        currState.getCurrentPlayerHand().remove(card);
 
         //Sending a message to the log
         String logMessage = playerNames[currState.getWhoseTurn()] + " played a Nope card";
         currState.addToPlayerLog(logMessage);
         Log.d("Log Played Nope", logMessage);
 
-        //sets the previous states discard pile and hand to the previous
-        // states discard pile and hand
-        previousState.getDiscardPile().clear();
-        previousState.getDiscardPile().addAll(currState.getDiscardPile());
-        previousState.getPlayerHands().clear();
-        previousState.getPlayerHands().addAll(currState.getPlayerHands());
-
-        /*
-        Collections.copy(previousState.getDiscardPile(),
-                currState.getDiscardPile());
-        Collections.copy(previousState.getPlayerHands(), previousState.getPlayerHands());
-        */
-
-        //sets current state to previous state
         EKGameState temp = new EKGameState(currState);
         currState = previousState;
         previousState = temp;
+
+        currState.getDiscardPile().add(currState.getCurrentPlayerHand().get(card));
+        currState.getCurrentPlayerHand().remove(card);
 
         return true;
     }//Nope()
