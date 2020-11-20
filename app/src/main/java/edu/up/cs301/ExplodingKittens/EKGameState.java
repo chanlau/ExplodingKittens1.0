@@ -274,8 +274,8 @@ public class EKGameState extends GameState {
         this.playerLog.add(addString);
     }//addToPlayerLog
 
-    public void clearPlayerLog(boolean endTurnPressed){
-        if(endTurnPressed){
+    public void clearPlayerLog(boolean confirmClearLog){
+        if(confirmClearLog){
             this.playerLog.clear();
         }
     }//clearPlayerLog
