@@ -53,6 +53,7 @@ public class EK_LocalGame extends LocalGame {
     //send updated state to a given player
     @Override
     protected void sendUpdatedStateTo(GamePlayer p) {
+
         EKGameState gameCopy = new EKGameState(currState);
         p.sendInfo(gameCopy);
     }//sendUpdatedState
@@ -88,6 +89,16 @@ public class EK_LocalGame extends LocalGame {
     // taken in
     @Override
     protected boolean makeMove(GameAction action) {
+
+        /*
+         * check to see if it's about to be the
+         *human player's turn and clear the log
+         * it that is true
+         */
+        if(currState.getWhoseTurn() == 0){
+            currState.clearPlayerLog(true);
+        }
+
         //check which action is being taken
         if (action instanceof PlayNopeCard) {
             return Nope(action.getPlayer());
@@ -97,6 +108,7 @@ public class EK_LocalGame extends LocalGame {
             if (action instanceof DrawCardAction) {
 
                 return drawCard(action.getPlayer());
+
             } else if (action instanceof PlayFavorCard) {
                 return Favor(action.getPlayer(),
                         ((PlayFavorCard) action).getTarget(),
