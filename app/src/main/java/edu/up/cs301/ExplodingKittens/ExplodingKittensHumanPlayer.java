@@ -108,6 +108,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
     private TextView turnText = null;
     private TextView cardsToDraw = null;
     private TextView cardsInDeck = null;
+    private TextView playerTurn = null;
     /*
     booleans to keep track of which trade is currently selected
      */
@@ -185,7 +186,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 }
             }
             updateDisplay();
-            }
+        }
     } // receiveInfo method
 
     /**
@@ -371,7 +372,8 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         the onClick method depending on whether the players hand is being
         viewed or the discard pile is being viewed and is updated with the
         card indexes for the given array */
-
+        // update whose turn it is
+        this.playerTurn.setText("Player " + state.getWhoseTurn() + " Turn");
         //if targeted player has lost, set target to a different player
         if(state.hasPlayerLost(tradePlayer)){
             while(state.hasPlayerLost(tradePlayer)){
@@ -571,6 +573,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         this.turnText = (TextView)activity.findViewById(R.id.turntext);
         this.cardsToDraw = (TextView)activity.findViewById(R.id.cardstodraw);
         this.cardsInDeck = (TextView)activity.findViewById(R.id.cardsindeck);
+        this.playerTurn = (TextView)activity.findViewById(R.id.playerTurn);
 
         // listen for button presses
         leftScroll.setOnClickListener(this);
