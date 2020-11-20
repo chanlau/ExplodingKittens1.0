@@ -118,6 +118,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginBottom="10dp"
                     android:layout_weight="5"
+                    android:gravity="center"
                     android:orientation="vertical">
 
                     <TextView
@@ -323,6 +324,13 @@
                 android:id="@+id/cardstodraw"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/displayCards"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="TextView" />
 
             <LinearLayout
