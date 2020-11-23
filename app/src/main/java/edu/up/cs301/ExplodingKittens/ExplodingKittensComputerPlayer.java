@@ -60,7 +60,7 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
                 this.game.sendAction(draw);
             }
             //if 4,5,6,7 then play a card
-            else if(random >= 4 && random < 8){
+            else if(random < 8){
                 //Checks to see if the computer's hand is empty
                 //if it is, then the computer can't play a card
                 if(computerState.getCurrentPlayerHand() != null){
@@ -118,7 +118,7 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
                 }
             }
             //If 8 or 9 do one of the trade actions based on another random number
-            else if(random >= 8){
+            else {
                 //Decide which trade action to do randomly
                 int decider = (int)(Math.random()*3);
                 //Finds a random player that is the game and sets the index of that
