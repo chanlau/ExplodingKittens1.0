@@ -190,17 +190,23 @@ public class EK_LocalGame extends LocalGame {
         currState.addToPlayerLog(logMessage);
         Log.d("Log Played Attack", logMessage);
 
+        //adds attack action to array
+        currState.addActionsPerformed(6);
+        currState.addWhoPerformed();
+
         //This player doesn't have to draw and the next player has to take two cards
         int tempCardsToDraw = currState.getCardsToDraw();
         currState.setCardsToDraw(0);
         nextTurn();
         currState.setCardsToDraw(tempCardsToDraw+1);
 
+
         return true;
     }//Attack()
 
 
     //Nope card
+    /*
     public boolean Nope(GamePlayer p) {
         //If this is the first move of the game, the move is invalid
         if(previousState == null){
@@ -227,6 +233,134 @@ public class EK_LocalGame extends LocalGame {
 
         return true;
     }//Nope()
+    */
+
+    public boolean Nope(GamePlayer p) {
+        int actionTracker = currState.getActionsPerformed().size() - 1;
+        //find position of nope in hand
+        int card = checkHand(currState.getCurrentPlayerHand(), 11);
+        //check if player has nope in hand
+        if (card == -1) {
+            return false;
+        }
+        if (currState.getActionsPerformed().size() == 0) {
+            return false;
+        }
+        //check if last action was attack, skip, or nope, otherwise return false
+        if (currState.getActionsPerformed().get(actionTracker) == 6 || currState.getActionsPerformed().get(actionTracker) == 9 ||
+                currState.getActionsPerformed().get(actionTracker) == 11) {
+
+            //adds nope action to array
+            currState.addActionsPerformed(11);
+            currState.addWhoPerformed();
+
+            //add nope to discard and remove it from hand
+            currState.getDiscardPile().add(currState.getCurrentPlayerHand().get(card));
+            currState.getCurrentPlayerHand().remove(card);
+
+            //Sending a message to the log
+            String logMessage = playerNames[currState.getWhoseTurn()] + " played a Nope card";
+            currState.addToPlayerLog(logMessage);
+            Log.d("Log Played Nope", logMessage);
+
+        //check if last player who acted was the last player else return false
+        if (currState.getWhoPerformed().get(actionTracker) != lastTurn()) {
+            return false;
+        }
+        //if last action was skip undo skip
+        if (currState.getActionsPerformed().get(actionTracker) == 9) {
+            decrementTurn();
+        }
+        //if last action was attack undo attack
+        else if (currState.getActionsPerformed().get(actionTracker) == 6) {
+            decrementTurn();
+            currState.setCardsToDraw(currState.getCardsToDraw() - 1);
+        }
+        //if last card was nope, check for more nopes
+        else if (currState.getActionsPerformed().get(actionTracker) == 11) {
+            //while the current value in the actions array is nope, go back 1
+            while (currState.getActionsPerformed().get(actionTracker) == 11) {
+                actionTracker = actionTracker - 1;
+            }
+            //if action (not nope) wasn't performed by this player undo it
+            if (currState.getWhoPerformed().get(actionTracker) != currState.getWhoseTurn()) {
+                if (currState.getActionsPerformed().get(actionTracker) == 6) {
+                    //undo attaack
+                    decrementTurn();
+                    currState.setCardsToDraw(currState.getCardsToDraw() - 1);
+                } else if (currState.getActionsPerformed().get(actionTracker) == 9) {
+                    decrementTurn();
+                }
+            }
+            //if action (not nope) was performed by this player redo it
+            else if (currState.getWhoPerformed().get(actionTracker) == currState.getWhoseTurn()) {
+                //do skip or attack
+                if (currState.getActionsPerformed().get(actionTracker) == 6) {
+                    incrementTurn();
+                    currState.setCardsToDraw(currState.getCardsToDraw() + 1);
+                } else if (currState.getActionsPerformed().get(actionTracker) == 9) {
+                    incrementTurn();
+                }
+            }
+        }
+
+        return true;
+    }
+       else{
+           return false;
+        }
+    }
+
+    //returns the value of the last player who made a move
+    public int lastTurn(){
+        int last = currState.getWhoseTurn();
+        if(last == 0){
+            last = currState.getNumPlayers() - 1;
+        }
+        else{
+            last = last - 1;
+        }
+        if(currState.getPlayerHand(last).size() != 0) {
+            while (currState.getPlayerHand(last).get(0).getCardType() == 0) {
+                if (last == 0) {
+                    last = currState.getNumPlayers();
+                } else {
+                    last = last - 1;
+                }
+            }
+        }
+        return last;
+    }//lastTurn()
+
+    //decrements turn
+    public void decrementTurn(){
+        if(currState.getWhoseTurn() == 0){
+            currState.setWhoseTurn(currState.getNumPlayers() - 1);
+        }
+        else{
+            currState.setWhoseTurn(currState.getWhoseTurn() - 1);
+        }
+        while(currState.getCurrentPlayerHand().get(0).getCardType() == 0){
+            if(currState.getWhoseTurn() == 0){
+                currState.setWhoseTurn(currState.getNumPlayers() - 1);
+            }
+            else{
+                currState.setWhoseTurn(currState.getWhoseTurn() - 1);
+            }
+        }
+    }//decrementTurn()
+
+    //increments turn but doesn't set cards to draw to 1
+    public void incrementTurn(){
+        //sets whose turn to next turn
+        currState.setWhoseTurn((currState.getWhoseTurn()+1)%(currState.getNumPlayers()));
+        if(currState.getCurrentPlayerHand() != null) {
+            while (currState.getCurrentPlayerHand().get(0).getCardType() == 0) {
+                currState.setWhoseTurn((currState.getWhoseTurn() + 1) % (currState.getPlayerHands().size()));
+            }
+        }
+    }
+
 
     //Favor card
     //current player selects a target player and target player gives current
@@ -234,6 +368,9 @@ public class EK_LocalGame extends LocalGame {
     public boolean Favor(GamePlayer p, int target, int targCardPos) {
         int card = checkHand(currState.getCurrentPlayerHand(), 8);
         if(card == -1){
+            return false;
+        }
+        if(currState.getPlayerHand(target).size() == 0){
             return false;
         }
         //copy selected card from target player to current player
@@ -325,6 +462,11 @@ public class EK_LocalGame extends LocalGame {
         if(currState.getCardsToDraw() > 1){
             return true;
         }
+
+        //adds attack action to array
+        currState.addActionsPerformed(9);
+        currState.addWhoPerformed();
+
         nextTurn();
 
         return true;

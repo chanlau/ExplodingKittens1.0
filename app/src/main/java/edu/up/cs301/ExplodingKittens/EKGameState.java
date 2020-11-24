@@ -42,6 +42,10 @@ public class EKGameState extends GameState {
     private int numPlayers;
     private ArrayList<String> playerLog;
 
+    //trying to set up nope
+    private ArrayList<Integer> actionsPerformed;
+    private ArrayList<Integer> whoPerformed;
+
 
     //initial EKGameState constructor
     public EKGameState(int numOfPlayers) {
@@ -56,8 +60,13 @@ public class EKGameState extends GameState {
         this.cardsToDraw = 1;
         this.numPlayers = numOfPlayers;
         this.playerLog.add(" ");
+        this.actionsPerformed = new ArrayList<Integer>();
+        this.whoPerformed = new ArrayList<Integer>();
         populateDeck();
         populateHands();
+        this.getPlayerHand(0).add(new Card(11));
+        this.getPlayerHand(0).add(new Card(11));
+        this.getPlayerHand(0).add(new Card(11));
         populateDefuseExplode();
     }//EKGameState
 
@@ -141,6 +150,7 @@ public class EKGameState extends GameState {
     }//ToString
 
     //getter method to return Arraylist of player actions
+
 
     public ArrayList<String> getPlayerLog() {
         return playerLog;
@@ -295,6 +305,22 @@ public class EKGameState extends GameState {
             }
         }
         return count;
+    }
+
+    public ArrayList<Integer> getActionsPerformed(){
+        return this.actionsPerformed;
+    }
+
+    public ArrayList<Integer> getWhoPerformed(){
+        return this.whoPerformed;
+    }
+
+    public void addActionsPerformed(int action){
+        this.actionsPerformed.add(action);
+    }
+
+    public void addWhoPerformed(){
+        this.whoPerformed.add(this.getWhoseTurn());
     }
 
 }
