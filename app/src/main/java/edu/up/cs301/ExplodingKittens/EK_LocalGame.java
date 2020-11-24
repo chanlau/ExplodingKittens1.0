@@ -202,6 +202,10 @@ public class EK_LocalGame extends LocalGame {
 
     //Nope card
     public boolean Nope(GamePlayer p) {
+        //If this is the first move of the game, the move is invalid
+        if(previousState == null){
+            return false;
+        }
         int card = checkHand(currState.getCurrentPlayerHand(), 11);
         //move the played nope card to the discard pile and remove it from
         //the players hand

@@ -58,7 +58,6 @@ public class EKGameState extends GameState {
         this.playerLog.add(" ");
         populateDeck();
         populateHands();
-        this.getPlayerHand(0).add(new Card(11));
         populateDefuseExplode();
     }//EKGameState
 
@@ -142,7 +141,6 @@ public class EKGameState extends GameState {
     }//ToString
 
     //getter method to return Arraylist of player actions
-
 
     public ArrayList<String> getPlayerLog() {
         return playerLog;
