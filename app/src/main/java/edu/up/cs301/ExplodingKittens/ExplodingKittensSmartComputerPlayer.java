@@ -16,12 +16,12 @@ import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
 
 public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
 
-    int probability;
-    int random;
-    int STFDeckSize = 0;
-    int cardToPlayPos;
-    ArrayList<Integer> STFArray;
-    EKGameState computerState;
+    private double probability;
+    private double random;
+    private int STFDeckSize = 0;
+    private int cardToPlayPos;
+    private ArrayList<Integer> STFArray;
+    private EKGameState computerState;
     /**
      * constructor
      *
@@ -29,35 +29,38 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
      */
     public ExplodingKittensSmartComputerPlayer(String name) {
         super(name);
-        probability = 0;
-        random = 0;
-        cardToPlayPos = 0;
-        STFDeckSize = 0;
-        STFArray = new ArrayList<Integer>();
+        this.probability = 0;
+        this.random = 0;
+        this.cardToPlayPos = 0;
+        this.STFDeckSize = 0;
+        this.STFArray = new ArrayList<Integer>();
     }
 
     @Override
     protected void receiveInfo(GameInfo info) {
 
         if(!(info instanceof EKGameState)){ return;}
-        EKGameState computerState = (EKGameState) info;
+        this.computerState = (EKGameState) info;
 
         //check to see if it's this player's turn
-        if(computerState.getWhoseTurn() != this.playerNum){
+        if(this.computerState.getWhoseTurn() != this.playerNum){
             return;
         }
-        if(computerState.getWhoseTurn() == this.playerNum) {
+       else if(this.computerState.getWhoseTurn() == this.playerNum) {
                 //If next card is EK based on STF play a card
-                if (nextCardEK(info) == true) {
-                    if (checkForPlayableCard(info) == true) {
-                        playCard(info, cardToPlayPos);
+                if (nextCardEK() == true) {
+                    if (checkForPlayableCard() == true) {
+                        playCard(this.computerState, cardToPlayPos);
                     }
                 }
 
                 //generates random number from 0 - 100
-                random = (int) Math.random() * 101;
+                random = (double) Math.random() * 101;
                 probability =
-                        (computerState.getDeck().size() / computerState.getEKCount()) * 100;
+                        (((double)computerState.getEKCount()*computerState.getCardsToDraw()) / (double)computerState.getDeck().size()) * 100;
+                if(checkForDefuse() == false){
+                    probability = probability *1.5;
+                }
 
                 if (random <= probability) {
                     //play a card: Skip, Attack, STF -> Shuffle
@@ -65,8 +68,8 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
                     // (Prioritize Defuse)
                     //else draw a card
                     if (computerState.getCurrentPlayerHand() != null) {
-                        if (checkForPlayableCard(info) == true) {
-                            playCard(info, this.cardToPlayPos);
+                        if (checkForPlayableCard() == true) {
+                            playCard(this.computerState, this.cardToPlayPos);
                         }
                     }
                 }
@@ -80,9 +83,7 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
     }//receive info
 
     private void playCard(EKGameState computerState, int CardPos){
-
-
-        if(checkForPlayableCard(this.computerState) == true) {
+        if(checkForPlayableCard() == true) {
             //Check to see which card was selected by the card selection process
             switch (computerState.getCurrentPlayerHand().get(CardPos).getCardType()) {
                 case 6:
@@ -102,7 +103,7 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
                 case 10:
                     PlayFutureCard future = new PlayFutureCard(this);
                     this.game.sendAction(future);
-                    seeTheFuture(this.computerState);
+                    seeTheFuture();
                     break;
                 default:
                     DrawCardAction drawCard = new DrawCardAction(this);
@@ -112,7 +113,7 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
         }
         else{
             if(getACard(this.computerState) == true){
-                if(checkForPlayableCard(this.computerState) == true) {
+                if(checkForPlayableCard() == true) {
                     playCard(this.computerState, cardToPlayPos);
                 }
             }
@@ -127,10 +128,14 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
     //Updates See the Future array
     //If card is not EK then draw
     //If cars is EK then play card
-    public void seeTheFuture(GameInfo info){
-
+    public void seeTheFuture(){
+        int cardsToAdd = 3;
         //add top 3 cards of deck to STF array
-        for(int i = 0; i < 3; i++) {
+        if(computerState.getDeck().size() < 3){
+            cardsToAdd = computerState.getDeck().size();
+        }
+
+        for(int i = 0; i < cardsToAdd; i++) {
             this.STFArray.add(this.computerState.getDeck().get(i).getCardType());
         }
 
@@ -139,11 +144,11 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
 
         //if next card is an EK attempt to play a card otherwise draw a card
         if(computerState.getDeck().get(0).getCardType() == 0){
-            if(checkForPlayableCard(info) == true){
+            if(checkForPlayableCard() == true){
                 playCard(this.computerState, cardToPlayPos);
             }
             else{
-                if(getACard(info) == true){
+                if(getACard(this.computerState) == true){
                     playCard(this.computerState, cardToPlayPos);
                 }
                 else{
@@ -159,24 +164,23 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
     } //seeTheFuture
 
     public boolean getACard(GameInfo info){
-        if(!(info instanceof EKGameState)){ return false;}
-        EKGameState computerState = (EKGameState) info;
 
         //targets player with lowest amount of cards in hand
         int counter = 100;
         int target = 0;
-        for(int i = 0; i < computerState.getNumPlayers(); i++){
+        for(int i = 0; i < this.computerState.getNumPlayers(); i++){
             if(i != this.playerNum){
-                if(computerState.getPlayerHand(i).size() < counter){
+                if(this.computerState.getPlayerHand(i).size() < counter){
                     target = i;
                 }
             }
         }
 
         //play favor on target if you have it
-        for(int x = 0; x < computerState.getCurrentPlayerHand().size(); x++) {
-            if (computerState.getCurrentPlayerHand().get(x).getCardType() == 4) {
-                int randomCardPos = (int)(Math.random()*computerState.getPlayerHand(target).size());
+        for(int x = 0; x < this.computerState.getCurrentPlayerHand().size(); x++) {
+            if (this.computerState.getCurrentPlayerHand().get(x).getCardType() == 4) {
+                int randomCardPos =
+                        (int)(Math.random()*this.computerState.getPlayerHand(target).size());
                 PlayFavorCard favor = new PlayFavorCard(this, target, randomCardPos);
                 this.game.sendAction(favor);
                 return true;
@@ -184,11 +188,11 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
         }
 
         //play trade 2 if you have 2 of the same card
-        if(checkForMatches(info, 2) != -1){
+        if(checkForMatches(2) != -1){
             int cardPos1 = -1;
             int cardPos2 = -1;
-            for(int i = 0; i < computerState.getCurrentPlayerHand().size(); i++){
-                if(computerState.getCurrentPlayerHand().get(i).getCardType() == checkForMatches(info,2)){
+            for(int i = 0; i < this.computerState.getCurrentPlayerHand().size(); i++){
+                if(this.computerState.getCurrentPlayerHand().get(i).getCardType() == checkForMatches(2)){
                     if (cardPos1 != -1){
                         cardPos2 = i;
                     }
@@ -203,12 +207,12 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
         } //trade 2 cards logic
 
         //Trade 3
-        if(checkForMatches(info, 3) != -1){
+        if(checkForMatches(3) != -1){
             int cardPos1 = -1;
             int cardPos2 = -1;
             int cardPos3 = -1;
-            for(int i = 0; i < computerState.getCurrentPlayerHand().size(); i++){
-                if(computerState.getCurrentPlayerHand().get(i).getCardType() == checkForMatches(info, 3)){
+            for(int i = 0; i < this.computerState.getCurrentPlayerHand().size(); i++){
+                if(this.computerState.getCurrentPlayerHand().get(i).getCardType() == checkForMatches(3)){
                     if(cardPos1 != -1){
                         if(cardPos2 != -1){
                             cardPos3 = i;
@@ -231,7 +235,7 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
         }
 
         //Trade 5
-        if(Trade5(info) == true){
+        if(Trade5() == true){
             return true;
         }
 
@@ -243,12 +247,11 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
     //Checks if there are numOfMatches of the same card in player hand
     //returns -1 if there are less than numOfMatches of a card
     //returns the CardType of a card with the amount of matches
-    public int checkForMatches(GameInfo info, int numOfMatches){
-        EKGameState computerState = (EKGameState) info;
+    public int checkForMatches(int numOfMatches){
         for(int a = 1; a < 12; a++) {
             int counter = 0;
-            for (int i = 0; i < computerState.getCurrentPlayerHand().size(); i++) {
-                if(computerState.getCurrentPlayerHand().get(i).getCardType() == a){
+            for (int i = 0; i < this.computerState.getCurrentPlayerHand().size(); i++) {
+                if(this.computerState.getCurrentPlayerHand().get(i).getCardType() == a){
                     counter++;
                     if(counter >= numOfMatches){
                         return a;
@@ -260,48 +263,46 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
     } //checkForMatches
 
     //Checks if the player has a defuse in hand
-    public boolean checkForDefuse(GameInfo info){
-        EKGameState computerState = (EKGameState) info;
-        for(int i = 0; i < computerState.getCurrentPlayerHand().size(); i++){
-            if(computerState.getCurrentPlayerHand().get(i).getCardType() == 12){
+    public boolean checkForDefuse(){
+        for(int i = 0; i < this.computerState.getCurrentPlayerHand().size(); i++){
+            if(this.computerState.getCurrentPlayerHand().get(i).getCardType() == 12){
                 return true;
             }
         }
         return false;
     }//checkForDefuse
 
-    public boolean nextCardEK(GameInfo info){
-        EKGameState computerState = (EKGameState) info;
+    public boolean nextCardEK(){
         //checks that STF Array isn't empty
-        if(STFArray.size() == 0){
+        if(this.STFArray.size() == 0){
             return false;
         }
-        else if(STFArray.size() != 0) {
+        else if(this.STFArray.size() != 0) {
             //Updating STFArray
             //If deck size changed since STF activated, update array accordingly
-            if (computerState.getDeck().size() < this.STFDeckSize) {
+            if (this.computerState.getDeck().size() < this.STFDeckSize) {
                 //if deck is smaller than STF deck size remove cards from
                 // STFArray accordingly
-                if (STFDeckSize - computerState.getDeck().size() >= 3) {
-                    STFArray.clear();
+                if (this.STFDeckSize - this.computerState.getDeck().size() >= 3) {
+                    this.STFArray.clear();
                     return false;
-                } else if (STFDeckSize - computerState.getDeck().size() < 3) {
-                    if (STFDeckSize - computerState.getDeck().size() != 0) {
-                        for (int i = 0; i < STFDeckSize - computerState.getDeck().size(); i++) {
-                            if(STFArray.size() != 0) {
-                                STFArray.remove(0);
+                } else if (this.STFDeckSize - this.computerState.getDeck().size() < 3) {
+                    if (this.STFDeckSize - this.computerState.getDeck().size() != 0) {
+                        for (int i = 0; i < this.STFDeckSize - this.computerState.getDeck().size(); i++) {
+                            if(this.STFArray.size() != 0) {
+                                this.STFArray.remove(0);
                             }
                         }
-                        this.STFDeckSize = computerState.getDeck().size();
+                        this.STFDeckSize = this.computerState.getDeck().size();
                     }
                 }
             }
 
             //checks to see if deck has been altered since see the future
             //was activated and if STF array still relevant
-            for (int i = 0; i < STFArray.size(); i++) {
-                if (STFArray.get(i) != computerState.getDeck().get(i).getCardType()) {
-                    STFArray.clear();
+            for (int i = 0; i < this.STFArray.size(); i++) {
+                if (this.STFArray.get(i) != this.computerState.getDeck().get(i).getCardType()) {
+                    this.STFArray.clear();
                     return false;
                 }
             }
@@ -317,14 +318,13 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
         return false;
     } //nextCardEK
 
-    public boolean checkForPlayableCard(GameInfo info){
-        EKGameState computerState = (EKGameState) info;
+    public boolean checkForPlayableCard(){
 
         //if you know next card is an Exploding Kitten
-        if(nextCardEK(info) == true){
-            for(int i = 0; i < computerState.getCurrentPlayerHand().size(); i++){
+        if(nextCardEK() == true){
+            for(int i = 0; i < this.computerState.getCurrentPlayerHand().size(); i++){
                 //check for cards SKIP ATTACK SHUFFLE
-                switch(computerState.getCurrentPlayerHand().get(i).getCardType()){
+                switch(this.computerState.getCurrentPlayerHand().get(i).getCardType()){
                     case 6:
                         this.cardToPlayPos = i;
                         return true;
@@ -339,9 +339,9 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
             return false;
         }
         else{
-            for(int i = 0; i < computerState.getCurrentPlayerHand().size(); i++){
+            for(int i = 0; i < this.computerState.getCurrentPlayerHand().size(); i++){
                 //check for cards SKIP ATTACK STF
-                switch(computerState.getCurrentPlayerHand().get(i).getCardType()){
+                switch(this.computerState.getCurrentPlayerHand().get(i).getCardType()){
                     case 6:
                         this.cardToPlayPos = i;
                         return true;
@@ -357,8 +357,7 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
         }
     }//checkForPlayableCard
 
-    public boolean Trade5(GameInfo info){
-        EKGameState computerState = (EKGameState) info;
+    public boolean Trade5(){
 
         int cardPos1 = -1;
         int cardPos2 = -1;
@@ -370,20 +369,20 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
 
         ArrayList<Integer> trade5Array = new ArrayList<Integer>();
         //check to see if there are 5 unique cards in hand to trade
-        if(computerState.getCurrentPlayerHand().size() < 5){
+        if(this.computerState.getCurrentPlayerHand().size() < 5){
             return false;
         }
-        for(int i = 0; i < computerState.getCurrentPlayerHand().size(); i++){
+        for(int i = 0; i < this.computerState.getCurrentPlayerHand().size(); i++){
             boolean uniqueCard = true;
 
             for(int a = 0; a < trade5Array.size(); a++){
-                if(computerState.getCurrentPlayerHand().get(i).getCardType() == trade5Array.get(a)){
+                if(this.computerState.getCurrentPlayerHand().get(i).getCardType() == trade5Array.get(a)){
                     uniqueCard = false;
                 }
             }
 
             if(uniqueCard == true){
-                trade5Array.add(computerState.getCurrentPlayerHand().get(i).getCardType());
+                trade5Array.add(this.computerState.getCurrentPlayerHand().get(i).getCardType());
                 if(cardPos1 != -1){
                     if(cardPos2 != -1){
                         if(cardPos3 != -1){
@@ -420,9 +419,9 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
 
         if(found5Unique == true){
             int discardPos = 0;
-            if(nextCardEK(info)){
-                for(int b = 0; b < computerState.getDiscardPile().size(); b++){
-                    switch(computerState.getDiscardPile().get(b).getCardType()){
+            if(nextCardEK()){
+                for(int b = 0; b < this.computerState.getDiscardPile().size(); b++){
+                    switch(this.computerState.getDiscardPile().get(b).getCardType()){
                         case 6:
                             discardPos = b;
                             break;
@@ -448,9 +447,9 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
                 return true;
             }
 
-            if(checkForDefuse(info) == false){
-                for(int c = 0; c < computerState.getDiscardPile().size(); c++){
-                    if(computerState.getDiscardPile().get(c).getCardType() == 12){
+            if(checkForDefuse() == false){
+                for(int c = 0; c < this.computerState.getDiscardPile().size(); c++){
+                    if(this.computerState.getDiscardPile().get(c).getCardType() == 12){
                         Trade5Action trade = new Trade5Action(this, cardPos1,
                                 cardPos2, cardPos3, cardPos4, cardPos5, c);
                         return true;

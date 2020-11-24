@@ -174,10 +174,10 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
                         //do a draw card action if it wasn't set
                         if(cardPos != 99) {
 
-                         */
+                         */if(computerState.getCurrentPlayerHand().size() >= 5) {
                             Trade5Action trade5 = new Trade5Action(this, 0, 1, 2, 3, 4, cardDesired);
                             this.game.sendAction(trade5);
-
+                        }
                     }
                     else {
                         DrawCardAction draw = new DrawCardAction(this);
