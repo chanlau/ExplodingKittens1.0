@@ -4,8 +4,6 @@ import java.security.CryptoPrimitive;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-
-import edu.up.cs301.game.GameFramework.LocalGame;
 import edu.up.cs301.game.GameFramework.infoMessage.GameState;
 
 /**

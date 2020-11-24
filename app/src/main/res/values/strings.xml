@@ -2,4 +2,39 @@
     <string name="app_name">Exploding Kittens 1.0</string>
     <!--<string name="app_name">Counter</string>-->
     <string name="hello_world">Hello world!</string>
+    <string name="how_to_play">
+        HOW TO PLAY: The objective of the game is to not draw an Exploding Kitten card. During your
+        turn, youcan play any amount of playable cards, trade 2 identical cards, trade 3 identical
+        cards, trade 5 unique cards, or play no cards.When you are done playing cards you can
+        press the "End Turn" button to draw a card.
+        *Every turn, you must draw a card or skip your turn.
+        *The screen will flash red if you make an invalid move.
+    </string>
+    <string name="attackDescription">
+        Skips your turn. Forces the next player to draw two cards. Can be stacked.
+    </string>
+    <string name="shuffleDescription">
+        Shuffles the deck.
+    </string>
+    <string name="favorDescription">
+        Takes a random card from another player.
+    </string>
+    <string name="skipDescription">
+        Skips your turn.
+    </string>
+    <string name="seeTheFutureDescription">
+        Allows you to see the top 3 cards only.
+    </string>
+    <string name="nopeDescription">
+        Cancels a previously played Attack, Skip, or Nope Card.
+    </string>
+    <string name="trade2Description">
+        In the game, you can trade 2 identical cards in order to steal a random card from another
+        player
+    </string>
+    <string name="trade2Directions">
+        First, press the Trade 2 button and select your two cards. Next, select a player to target
+        (represented by a card back). Finally, press the enter button to confirm your action.
+
+    </string>
 </resources>

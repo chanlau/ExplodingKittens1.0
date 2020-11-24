@@ -6,7 +6,8 @@
     android:id="@+id/topGUI"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#228B22">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,7 +20,7 @@
             android:layout_height="wrap_content"
             android:text="Exploding Kittens!"
             android:textAlignment="center"
-            android:textColor="#E91E63"
+            android:textColor="#DC143C"
             android:textSize="40dp" />
     </LinearLayout>
 
@@ -37,11 +38,18 @@
             android:orientation="vertical">
 
             <Button
+                android:id="@+id/help_Button"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Help" />
+
+            <Button
                 android:id="@+id/play"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:text="Play" />
+                android:text="Play Card" />
 
             <Button
                 android:id="@+id/endTurn"
@@ -107,7 +115,8 @@
                         android:layout_weight="8"
                         android:autoSizeTextType="uniform"
                         android:inputType="textMultiLine"
-                        android:text="TextView" />
+                        android:text="TextView"
+                        android:textColor="#FFFFFF"/>
                 </LinearLayout>
 
                 <LinearLayout

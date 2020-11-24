@@ -1,10 +1,16 @@
 package edu.up.cs301.ExplodingKittens;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.media.Image;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 
@@ -81,6 +87,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
     private Button enterBtn = null;
     private Button playBtn = null;
     private Button endTurn = null;
+    private Button helpBtn = null;
     /* image buttons that will be set to the corresponding image buttons for
     he players hand and will be updated as the players hand adds or
     subtracts cards or they scroll through their hand. They will also be
@@ -533,7 +540,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             } //for loop
         //set textviews of the other players
         setPlayersText();
-        cardsInDeck.setText("Cards Left In Deck: " + state.getDeck().size());
+        cardsInDeck.setText("Cards In Deck: " + state.getDeck().size());
         otherPlayerHands();
         updateDiscard();
     } //updateDisplay method
@@ -558,6 +565,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         this.enterBtn = (Button)activity.findViewById(R.id.enter);
         this.playBtn = (Button)activity.findViewById(R.id.play);
         this.endTurn = (Button)activity.findViewById(R.id.endTurn);
+        this.helpBtn = (Button)activity.findViewById(R.id.help_Button);
         this.card1 = (ImageButton)activity.findViewById(R.id.imageButton5);
         this.card2 = (ImageButton)activity.findViewById(R.id.imageButton6);
         this.card3 = (ImageButton)activity.findViewById(R.id.imageButton7);
@@ -591,6 +599,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         enterBtn.setOnClickListener(this);
         playBtn.setOnClickListener(this);
         endTurn.setOnClickListener(this);
+        helpBtn.setOnClickListener(this);
         card1.setOnClickListener(this);
         card2.setOnClickListener(this);
         card3.setOnClickListener(this);
@@ -629,7 +638,40 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             left and update the display. If this would shift the index out of
             bounds (i.e. -1 instead of 0) then do no shift the cards
              */
-            if (button == leftScroll) {
+            if(button == helpBtn){
+
+                /**
+                 * External Citation
+                 * Problem: Wanted to create a popup window for help
+                 * Source: ThreeThirteenTeam help_button code
+                 * Solution: used their code as a framework to create our
+                 * own help window
+                 */
+
+                LayoutInflater inflater = (LayoutInflater)
+                        myActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View popupView = inflater.inflate(R.layout.help_window, null);
+
+
+                // create popup window
+                int width = LinearLayout.LayoutParams.MATCH_PARENT;
+                int height = LinearLayout.LayoutParams.MATCH_PARENT;
+                boolean focusable = true;
+                final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+
+                // show popup window
+                popupWindow.showAtLocation(button, Gravity.CENTER, 0, 0);
+
+                // dismiss the popup window when touched
+                popupView.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        popupWindow.dismiss();
+                        return true;
+                    }
+                });
+            }
+            else if (button == leftScroll) {
                 for (int i = 0; i < 5; i++) {
                     if (cardHand[i] - 1 == -1) {
                         break;
@@ -758,27 +800,15 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                     // check to see that only 1 card is selected
                     int a = 0;
                     int index = 0;
-                    for (int i = 0; i < state.getPlayerHand(this.playerNum).size(); i++) {
-                        if (state.getPlayerHand(this.playerNum).get(i).getSelected()) {
+                    for (int i = 0; i < state.getCurrentPlayerHand().size(); i++) {
+                        if (state.getCurrentPlayerHand().get(i).getSelected()) {
                             a++;
                             index = i;
                         }
                     }
                     if (a == 1) {
                         //find what card is too be played
-                        switch(state.getPlayerHand(this.playerNum).get(index).getCardType()) {
-                            case 0:
-                                break;
-                            case 1:
-                                break;
-                            case 2:
-                                break;
-                            case 3:
-                                break;
-                            case 4:
-                                break;
-                            case 5:
-                                break;
+                        switch(state.getCurrentPlayerHand().get(index).getCardType()) {
                             case 6:
                                 PlayAttackCard attackCard =
                                  new PlayAttackCard(this);
@@ -808,6 +838,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                                 if(state.getWhoseTurn() == this.playerNum) {
                                     seeTheFuture();
                                 }
+
                                 break;
                             case 11:
                                 PlayNopeCard nopeCard = new PlayNopeCard(this);
@@ -823,6 +854,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                         }
                     }
                 }
+                return;
             }
 
             /*
