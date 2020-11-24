@@ -60,7 +60,7 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
                 this.game.sendAction(draw);
             }
             //if 4,5,6,7 then play a card
-            else if(random >= 4 && random < 8){
+            else if(random < 8){
                 //Checks to see if the computer's hand is empty
                 //if it is, then the computer can't play a card
                 if(computerState.getCurrentPlayerHand() != null){
@@ -118,17 +118,15 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
                 }
             }
             //If 8 or 9 do one of the trade actions based on another random number
-            else if(random >= 8){
+            else {
                 //Decide which trade action to do randomly
                 int decider = (int)(Math.random()*3);
                 //Finds a random player that is the game and sets the index of that
                 //player to the targetPlayer variable
                 int playerSelected = (int)(Math.random()*computerState.getNumPlayers());
-                if(computerState.hasPlayerLost(playerSelected) || playerSelected == this.playerNum){
                     while(computerState.hasPlayerLost(playerSelected) || playerSelected == this.playerNum){
                         playerSelected = (int)(Math.random()*computerState.getNumPlayers());
                     }
-                }
                 if(decider == 0) {
                     //Make a Trade2Action and draw if you can't
                     if (computerState.getPlayerHand(this.playerNum).size() >= 2) {
@@ -156,7 +154,9 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
                 else if(decider == 2){
                     //Make a Trade5Action and draw if you can't
                     if(computerState.getPlayerHand(this.playerNum).size() >= 5) {
-                        int cardDesired;
+                        //Select a random card from the discard pile
+                        int cardDesired = (int)(Math.random()*computerState.getDiscardPile().size());
+                        /*
                         //Set cardPos to an unreachable number
                         int cardPos = 99;
                         while(cardPos == 99) {
@@ -173,13 +173,11 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
                         //If cardPos was set then make a trade 5 action
                         //do a draw card action if it wasn't set
                         if(cardPos != 99) {
-                            Trade5Action trade5 = new Trade5Action(this, 0, 1, 2, 3, 4, cardPos);
+
+                         */
+                            Trade5Action trade5 = new Trade5Action(this, 0, 1, 2, 3, 4, cardDesired);
                             this.game.sendAction(trade5);
-                        }
-                        else{
-                            DrawCardAction draw = new DrawCardAction(this);
-                            this.game.sendAction(draw);
-                        }
+
                     }
                     else {
                         DrawCardAction draw = new DrawCardAction(this);

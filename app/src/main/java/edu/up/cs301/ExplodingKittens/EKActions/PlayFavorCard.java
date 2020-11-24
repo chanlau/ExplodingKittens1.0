@@ -11,6 +11,12 @@ import edu.up.cs301.game.GameFramework.GamePlayer;
 import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
 
 public class PlayFavorCard extends GameAction {
+
+    /*Basic PlayFavorCard action
+    p: player that made the action
+    target: index in the playersHands array that is the target of the action
+    choice: index in the target's hand that the player takes
+     */
     private int target;
     private int choice;
 

@@ -264,10 +264,13 @@ public class EKGameState extends GameState {
     //returns true if they have lost the game
     //returns false if they haven't
     public boolean hasPlayerLost(int index){
-        if(this.playerHands.get(index).get(0).getCardType() == 0){
-            return true;
+        //Edge case of the hand of a player completely
+        //running out.
+        if(this.playerHands.get(index) == null){
+            return false;
         }
-        return false;
+        return this.playerHands.get(index).get(0).getCardType() == 0;
+
     }//hasPlayerLost
 
     public void addToPlayerLog(String addString){

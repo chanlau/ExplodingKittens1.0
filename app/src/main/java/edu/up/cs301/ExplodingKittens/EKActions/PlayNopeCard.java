@@ -11,7 +11,8 @@ import edu.up.cs301.game.GameFramework.GamePlayer;
 import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
 
 public class PlayNopeCard extends GameAction {
-
+    //Basic PlayNopeCard action with the player
+    //who takes the action
     public PlayNopeCard(GamePlayer player){
         super(player);
     }

@@ -372,7 +372,8 @@ public class EK_LocalGame extends LocalGame {
             return true;
         }
         //add top card of deck to hand and remove it from deck
-        currState.getPlayerHands().get(this.currState.getWhoseTurn()).add(currState.getDeck().get(0));
+        currState.getCurrentPlayerHand().add(currState.getDeck().get(0));
+        //currState.getPlayerHands().get(this.currState.getWhoseTurn()).add(currState.getDeck().get(0));
         currState.getDeck().remove(0);
         currState.setCardsToDraw(currState.getCardsToDraw()-1);
 

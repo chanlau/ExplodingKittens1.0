@@ -109,6 +109,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
     private TextView cardsToDraw = null;
     private TextView cardsInDeck = null;
     private TextView playerTurn = null;
+    private TextView displayCards = null;
     /*
     booleans to keep track of which trade is currently selected
      */
@@ -321,6 +322,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                     break;
             } //switch statement
         }
+
         for(int j = seeTop; j < 3; j++){
             imagesHand[j].setImageResource(R.drawable.blankcard);
         }
@@ -404,11 +406,13 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                     else {
                         cardType = state.getDiscardPile().get(cardHand[i]).getCardType();
                         selectingCard = state.getDiscardPile().get(cardHand[i]).getSelected();
+                        displayCards.setText("Dicard Pile");
                     }
                 }
                 else if (switchedDiscard == false && trade3 == true && trade3Stage == 2) {
                     cardType = allCards[cardHand[i]].getCardType();
                     selectingCard = allCards[cardHand[i]].getSelected();
+                    displayCards.setText("Select 1 Card to Request");
                 }
                 else {
                     if(state.getPlayerHand(this.playerNum).size() <= i) {
@@ -419,7 +423,11 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                         selectingCard =
                                 state.getPlayerHand(this.playerNum).get(cardHand[i]).getSelected();
                     }
+                    displayCards.setText("Your Hand");
 
+                }
+                if (seeTheFutHand) {
+                    displayCards.setText("Top 3 Cards of the Draw Pile From Left To Right");
                 }
 
                 /*
@@ -572,6 +580,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         this.cardsToDraw = (TextView)activity.findViewById(R.id.cardstodraw);
         this.cardsInDeck = (TextView)activity.findViewById(R.id.cardsindeck);
         this.playerTurn = (TextView)activity.findViewById(R.id.playerTurn);
+        this.displayCards = (TextView)activity.findViewById(R.id.displayCards);
 
         // listen for button presses
         leftScroll.setOnClickListener(this);
