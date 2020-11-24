@@ -265,7 +265,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/help_menu_card_spacing"
+            android:layout_marginLeft="@dimen/help_menu_card_spacing"
+            android:layout_marginRight="@dimen/help_menu_card_spacing"
+            android:layout_marginBottom="@dimen/help_menu_card_spacing"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -278,7 +280,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#FFFFFF"
-                    android:textSize="@dimen/description_text"
+                    android:textSize="@dimen/description_titles"
                     android:text="Trading 2 Cards:"/>
 
                 <TextView
@@ -292,7 +294,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#FFFFFF"
-                    android:textSize="@dimen/description_text"
+                    android:textSize="@dimen/description_titles"
                     android:text="Trade 2 Directions:"/>
 
                 <TextView
@@ -314,7 +316,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#FFFFFF"
-                    android:textSize="@dimen/description_text"
+                    android:textSize="@dimen/description_titles"
                     android:text="Trading 3 Cards:"/>
 
                 <TextView
@@ -328,7 +330,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#FFFFFF"
-                    android:textSize="@dimen/description_text"
+                    android:textSize="@dimen/description_titles"
                     android:text="Trade 3 Directions:"/>
 
                 <TextView
@@ -350,29 +352,29 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#FFFFFF"
-                    android:textSize="@dimen/description_text"
-                    android:text="Trading 2 Cards:"/>
+                    android:textSize="@dimen/description_titles"
+                    android:text="Trading 5 Cards:"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#FFFFFF"
                     android:textSize="@dimen/description_text"
-                    android:text="@string/trade2Description"/>
+                    android:text="@string/trade5Description"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FFFFFF"
+                    android:textSize="@dimen/description_titles"
+                    android:text="Trade 5 Directions:"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#FFFFFF"
                     android:textSize="@dimen/description_text"
-                    android:text="Trade 2 Directions:"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="#FFFFFF"
-                    android:textSize="@dimen/description_text"
-                    android:text="@string/trade2Directions"/>
+                    android:text="@string/trade5Directions"/>
 
             </LinearLayout>
 

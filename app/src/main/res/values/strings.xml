@@ -41,9 +41,18 @@
         player.
     </string>
     <string name="trade3Directions">
-        First, press the "Trade 3" button and select your three cards. Next, select a player to target
+        First, press the "Trade 3" button and select your three  cards. Next, select a player to target
         (represented by a card back). Next, press the "Enter" button. Then, your hand will change
         to all possible cards in the game. Here, choose a card to ask for and press the "Enter"
-        button to confirm.
+        button to confirm your action.
+    </string>
+    <string name="trade5Description">
+        In the game, you can trade 5 unique cards in order to take a chosen card from the
+        discard pile.
+    </string>
+    <string name="trade5Directions">
+        First, press the "Trade 5" button and select your 5 unique cards. Next, select the discard
+        pile and select a card to take. Next, press the discard pile again to exit it. Finally,
+        press the "Enter" button to confirm your action.
     </string>
 </resources>
