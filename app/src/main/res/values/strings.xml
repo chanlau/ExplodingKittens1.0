@@ -42,6 +42,8 @@
     </string>
     <string name="trade3Directions">
         First, press the "Trade 3" button and select your three cards. Next, select a player to target
-        (represented by a card back). Next, press the "Enter" button to confirm your action.
+        (represented by a card back). Next, press the "Enter" button. Then, your hand will change
+        to all possible cards in the game. Here, choose a card to ask for and press the "Enter"
+        button to confirm.
     </string>
 </resources>
