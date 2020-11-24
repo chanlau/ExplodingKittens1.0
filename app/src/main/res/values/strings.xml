@@ -30,11 +30,18 @@
     </string>
     <string name="trade2Description">
         In the game, you can trade 2 identical cards in order to steal a random card from another
-        player
+        player.
     </string>
     <string name="trade2Directions">
-        First, press the Trade 2 button and select your two cards. Next, select a player to target
-        (represented by a card back). Finally, press the enter button to confirm your action.
-
+        First, press the "Trade 2" button and select your two cards. Next, select a player to target
+        (represented by a card back). Finally, press the "Enter" button to confirm your action.
+    </string>
+    <string name="trade3Description">
+        In the game, you can trade 3 identical cards in order to request a specific card from another
+        player.
+    </string>
+    <string name="trade3Directions">
+        First, press the "Trade 3" button and select your three cards. Next, select a player to target
+        (represented by a card back). Next, press the "Enter" button to confirm your action.
     </string>
 </resources>
