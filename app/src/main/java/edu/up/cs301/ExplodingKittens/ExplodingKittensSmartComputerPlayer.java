@@ -308,11 +308,12 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
             }
 
             //if next card is EK return true
-            if (this.STFArray.get(0) == 0) {
-                return true;
-            }
-            else {
-                return false;
+            if(this.STFArray.size() != 0) {
+                if (this.STFArray.get(0) == 0) {
+                    return true;
+                } else {
+                    return false;
+                }
             }
         }
         return false;
