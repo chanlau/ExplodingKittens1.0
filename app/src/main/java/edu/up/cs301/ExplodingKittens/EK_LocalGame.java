@@ -370,6 +370,9 @@ public class EK_LocalGame extends LocalGame {
         if(card == -1){
             return false;
         }
+        if(currState.getPlayerHand(target).size() == 0){
+            return false;
+        }
         //copy selected card from target player to current player
         currState.getCurrentPlayerHand().add(currState.getPlayerHand(target).get(targCardPos));
         currState.getPlayerHand(target).remove(targCardPos);

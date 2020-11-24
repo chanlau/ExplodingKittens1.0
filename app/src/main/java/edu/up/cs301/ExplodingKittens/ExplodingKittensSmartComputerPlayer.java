@@ -78,6 +78,8 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
                     DrawCardAction draw = new DrawCardAction(this);
                     this.game.sendAction(draw);
                 }
+                DrawCardAction draw = new DrawCardAction(this);
+                this.game.sendAction(draw);
         }
 
     }//receive info
@@ -166,11 +168,11 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
     public boolean getACard(GameInfo info){
 
         //targets player with lowest amount of cards in hand
-        int counter = 100;
+        int counter = 0;
         int target = 0;
         for(int i = 0; i < this.computerState.getNumPlayers(); i++){
             if(i != this.playerNum){
-                if(this.computerState.getPlayerHand(i).size() < counter){
+                if(this.computerState.getPlayerHand(i).size() > counter){
                     target = i;
                 }
             }
