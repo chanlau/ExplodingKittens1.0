@@ -524,8 +524,10 @@ public class EK_LocalGame extends LocalGame {
         if(currState.getCardsToDraw() == 0){
             currState.setWhoseTurn((currState.getWhoseTurn()+1)%(currState.getNumPlayers()));
         }
-        while (currState.getCurrentPlayerHand().get(0).getCardType() == 0) {
-            currState.setWhoseTurn((currState.getWhoseTurn()+1)%(currState.getPlayerHands().size()));
+        if(currState.getCurrentPlayerHand() != null) {
+            while (currState.getCurrentPlayerHand().get(0).getCardType() == 0) {
+                currState.setWhoseTurn((currState.getWhoseTurn() + 1) % (currState.getPlayerHands().size()));
+            }
         }
         currState.setCardsToDraw(1);
     }//nextTurn
