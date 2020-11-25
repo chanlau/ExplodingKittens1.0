@@ -106,9 +106,9 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
                             PlayFutureCard future = new PlayFutureCard(this);
                             this.game.sendAction(future);
                             break;
-                        case 11:
-                            PlayNopeCard nope = new PlayNopeCard(this);
-                            this.game.sendAction(nope);
+                        //case 11:
+                          //  PlayNopeCard nope = new PlayNopeCard(this);
+                          //  this.game.sendAction(nope);
                         default:
                             DrawCardAction draw = new DrawCardAction(this);
                             this.game.sendAction(draw);

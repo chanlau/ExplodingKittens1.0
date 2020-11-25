@@ -155,9 +155,10 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
         }
         else{
             if(getACard(this.computerState) == true){
-                if(checkForPlayableCard() == true) {
-                    playCard(this.computerState, cardToPlayPos);
-                }
+                return;
+                //if(checkForPlayableCard() == true) {
+                //    playCard(this.computerState, cardToPlayPos);
+                //}
             }
             else{
                 DrawCardAction draw = new DrawCardAction(this);
