@@ -54,6 +54,11 @@ import edu.up.cs301.game.GameFramework.gameConfiguration.GamePlayerType;
  *
  * 8. Possible to play with 2-4 players
  *
+ * Known Bugs:
+ * 1. When making the human player any player except player0 the game is still
+ *  playable, but the player name text views are incorrect, and not all player
+ *  moves are shown in the player history
+ *
  * @author Samuel Warrick
  * @author Kaulu Ng
  * @author Chandler Lau
