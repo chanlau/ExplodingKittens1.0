@@ -8,8 +8,46 @@ import edu.up.cs301.game.GameFramework.gameConfiguration.GameConfig;
 import edu.up.cs301.game.GameFramework.gameConfiguration.GamePlayerType;
 
 /**
- *Main Activity of Exploding Kittens Game
- * Initializes Config screen and creates an Exploding Kittens Local Game
+ * Beta Release:
+ * The game functions as intended with some limitations that are listed
+ *
+ * 1. The Nope Card can only be use to Nope a card that was played by the
+ * previous player only and only for attack, skip, and nope cards played.
+ * Having every card played then send a request to each player asking if they
+ * would like to nope the card was too difficult and would have slowed down
+ * the pace of play significantly.
+ *
+ * 2. The Favor card only takes a random card from a target play instead of
+ * allowing that pplayer to choose the card. This was similar to the nope
+ * card as it would be difficult to implement sending the action and waiting
+ * then receiving an action (selecting a card) from the other play while.
+ *
+ * 3. Defuse cards are not "optional" to play. That is it will automatically
+ * play the defuse card for you to defuse an exploding kitten.
+ *
+ * 4. After defusing an exploding kitten the player does not have the option
+ * to return it to a specific location in the deck, it is randomly placed
+ * there. In the normal game you would be able to place the card. Choosing
+ * the location of the card would have required even more popups/button
+ * presses and with so many actions by the human already it was decided that
+ * it was an extra option that if we got to we would do but if not it would
+ * not be a huge detriment to the game.
+ *
+ * Changes since Alpha release:
+ * 1. The Nope card has been implemented as discussed above.
+ *
+ * 2. All bugs that were brought up in the github were fixed.
+ *
+ * 3. A "how to play" button was added describing how to play the game. It
+ * can be exited out of by taping the screen anywhere.
+ *
+ * 4: The "play" button was removed and functionality was integrated with the
+ * "enter" button. To play a card simply select the card and press "enter".
+ *
+ * 5. Generate GUI updates were added to make the game more appealing.
+ *
+ * 6. Computer actions and player actions for each round are now viewable in
+ * the top left of the screen next to the "how to play" button.
  *
  * @author Samuel Warrick
  * @author Kaulu Ng
