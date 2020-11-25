@@ -3,11 +3,11 @@
     <!--<string name="app_name">Counter</string>-->
     <string name="hello_world">Hello world!</string>
     <string name="how_to_play">
-        HOW TO PLAY: The objective of the game is to not draw an Exploding Kitten card. During your
-        turn, youcan play any amount of playable cards, trade 2 identical cards, trade 3 identical
-        cards, trade 5 unique cards, or play no cards.When you are done playing cards you can
+        HOW TO PLAY: The objective of the game is to avoid drawing an Exploding Kitten card. During your
+        turn, you can play any amount of playable cards, trade 2 identical cards, trade 3 identical
+        cards, trade 5 unique cards, or play no cards. When you are done playing cards you can
         press the "End Turn" button to draw a card.
-        *Every turn, you must draw a card or skip your turn.
+        *Every turn, you must draw a card or play a card to skip your turn.
         *The screen will flash red if you make an invalid move.
     </string>
     <string name="playing_a_card">
@@ -15,6 +15,12 @@
         selected a card, press the Enter button to play the card. *Make sure that you only have
         one card selected when you press Enter.
     </string>
+    <string name="playing_defuse">
+        The game will not allow you to play a defuse but it will automatically play it when
+        you draw an Exploding Kitten. The defuse card is the only card that can remove an
+        Exploding Kitten from your hand.
+    </string>
+
     <string name="attackDescription">
         Skips your turn. Forces the next player to draw two cards. Can be stacked.
     </string>

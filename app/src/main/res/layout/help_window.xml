@@ -24,13 +24,28 @@
             android:layout_marginLeft="@dimen/help_menu_card_spacing"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/helpText1"
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#FF0000"
-                android:textSize="@dimen/help_text_size"
-                android:text="Non-Playable Cards:"/>
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/helpText1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FF0000"
+                    android:textSize="@dimen/help_text_size"
+                    android:text="Non-Playable Cards:"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp"
+                    android:text="@string/playing_defuse"/>
+
+            </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -120,7 +135,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="#FFFFFF"
-                    android:textSize="@dimen/description_titles"
+                    android:textSize="14sp"
                     android:text="@string/playing_a_card"/>
 
             </LinearLayout>

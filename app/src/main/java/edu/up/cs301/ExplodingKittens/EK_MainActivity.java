@@ -75,7 +75,8 @@ public class EK_MainActivity extends GameMainActivity {
     //creates instance of EKLocalGame
     @Override
     public LocalGame createLocalGame() {
-        return new EK_LocalGame(this.getConfig().getNumPlayers());
+        //Creates the LocalGame depending on the number of players in the menu
+        return new EK_LocalGame(this.getTablePlayersSize());
     }
 
 }
