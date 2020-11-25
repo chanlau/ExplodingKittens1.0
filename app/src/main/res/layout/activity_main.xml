@@ -42,14 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:text="Help" />
-
-            <Button
-                android:id="@+id/play"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="Play Card" />
+                android:text="How to Play" />
 
             <Button
                 android:id="@+id/endTurn"
@@ -130,7 +123,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/textView3"
+                        android:id="@+id/player2_label"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -149,7 +142,7 @@
                         android:text="TextView" />
 
                     <ImageButton
-                        android:id="@+id/player3"
+                        android:id="@+id/player2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -208,7 +201,7 @@
                             android:orientation="vertical">
 
                             <TextView
-                                android:id="@+id/textView4"
+                                android:id="@+id/player1_label"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -228,7 +221,7 @@
                     </LinearLayout>
 
                     <ImageButton
-                        android:id="@+id/player2"
+                        android:id="@+id/player1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -314,7 +307,7 @@
                             android:orientation="vertical">
 
                             <TextView
-                                android:id="@+id/textView5"
+                                android:id="@+id/player3_label"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -334,7 +327,7 @@
                     </LinearLayout>
 
                     <ImageButton
-                        android:id="@+id/player4"
+                        android:id="@+id/player3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"

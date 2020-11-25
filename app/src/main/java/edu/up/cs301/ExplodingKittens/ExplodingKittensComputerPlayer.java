@@ -106,6 +106,9 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
                             PlayFutureCard future = new PlayFutureCard(this);
                             this.game.sendAction(future);
                             break;
+                        case 11:
+                            PlayNopeCard nope = new PlayNopeCard(this);
+                            this.game.sendAction(nope);
                         default:
                             DrawCardAction draw = new DrawCardAction(this);
                             this.game.sendAction(draw);
@@ -156,25 +159,8 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
                     if(computerState.getPlayerHand(this.playerNum).size() >= 5) {
                         //Select a random card from the discard pile
                         int cardDesired = (int)(Math.random()*computerState.getDiscardPile().size());
-                        /*
-                        //Set cardPos to an unreachable number
-                        int cardPos = 99;
-                        while(cardPos == 99) {
-                            //Decide what random card to get
-                            cardDesired = (int) ((Math.random() * 12) + 1);
-                            //Find it and set it's position to cardPos
-                            for (int i = 0; i < computerState.getDiscardPile().size(); i++) {
-                                if(computerState.getDiscardPile().get(i).getCardType() == cardDesired){
-                                    cardPos = i;
-                                    break;
-                                }
-                            }
-                        }
-                        //If cardPos was set then make a trade 5 action
-                        //do a draw card action if it wasn't set
-                        if(cardPos != 99) {
 
-                         */if(computerState.getCurrentPlayerHand().size() >= 5) {
+                        if(computerState.getCurrentPlayerHand().size() >= 5) {
                             Trade5Action trade5 = new Trade5Action(this, 0, 1, 2, 3, 4, cardDesired);
                             this.game.sendAction(trade5);
                         }

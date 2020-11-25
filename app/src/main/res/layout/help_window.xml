@@ -13,6 +13,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/help_menu_card_spacing"
             android:textSize="@dimen/help_text_size"
             android:textColor="#FFFFFF"
             android:text="@string/how_to_play"/>
@@ -20,6 +21,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/help_menu_card_spacing"
             android:orientation="horizontal">
 
             <TextView
@@ -98,14 +100,31 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/help_menu_card_spacing"
             android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#00FF00"
-                android:textSize="@dimen/help_text_size"
-                android:text="Playable Cards:"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/help_menu_card_spacing"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#00FF00"
+                    android:textSize="@dimen/help_text_size"
+                    android:text="Playable Cards:"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FFFFFF"
+                    android:textSize="@dimen/description_titles"
+                    android:text="@string/playing_a_card"/>
+
+            </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -267,7 +286,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/help_menu_card_spacing"
             android:layout_marginRight="@dimen/help_menu_card_spacing"
-            android:layout_marginBottom="@dimen/help_menu_card_spacing"
+            android:layout_marginBottom="5sp"
+            android:layout_marginTop="5sp"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -309,7 +329,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:orientation="vertical">
 
                 <TextView
@@ -345,7 +365,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:orientation="vertical">
 
                 <TextView

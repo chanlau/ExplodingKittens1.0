@@ -35,18 +35,16 @@ import static java.sql.Types.NULL;
  * @version November 2020
  */
 
-public class EK_LocalGame extends LocalGame {
+public class EK_LocalGame extends LocalGame{
 
     //Instance variable representing the current state
     private EKGameState currState;
-    //Instance variable representing the previous state of the game
-    private EKGameState previousState;
+
 
     //constructor
-    public EK_LocalGame() {
+    public EK_LocalGame(int numOfPlayers) {
         //creates a game with 4 players
-        this.currState = new EKGameState(4);
-        this.previousState = null;
+        this.currState = new EKGameState(numOfPlayers);
     }
 
 
@@ -103,9 +101,7 @@ public class EK_LocalGame extends LocalGame {
         if (action instanceof PlayNopeCard) {
             return Nope(action.getPlayer());
         }
-        else {
-            this.previousState = new EKGameState(this.currState);
-            if (action instanceof DrawCardAction) {
+            else if (action instanceof DrawCardAction) {
 
                 return drawCard(action.getPlayer());
 
@@ -147,12 +143,15 @@ public class EK_LocalGame extends LocalGame {
                         ((Trade5Action) action).getPosC4(), ((Trade5Action) action).getPosC5(),
                         ((Trade5Action) action).getTargetValue());
             }
+            else{
+            //error message
+            Log.d("Invalid Action",
+                    "Action provided was an invalid action");
+            return false;
         }
 
-        //error message
-        Log.d("Invalid Action",
-                "Action provided was an invalid action");
-        return false;
+
+
     }//makeMove
 
 
@@ -204,9 +203,10 @@ public class EK_LocalGame extends LocalGame {
         return true;
     }//Attack()
 
-
-    //Nope card
+    //Nope Card
+    //Cancels a previous move if it was an attack, skip, or nope
     public boolean Nope(GamePlayer p) {
+        //Get the last action played
         int actionTracker = currState.getActionsPerformed().size() - 1;
         //find position of nope in hand
         int card = checkHand(currState.getCurrentPlayerHand(), 11);
@@ -214,6 +214,7 @@ public class EK_LocalGame extends LocalGame {
         if (card == -1) {
             return false;
         }
+        //Make sure there is an action to nope
         if (currState.getActionsPerformed().size() == 0) {
             return false;
         }
@@ -237,11 +238,17 @@ public class EK_LocalGame extends LocalGame {
         //if last action was skip undo skip
         if (currState.getActionsPerformed().get(actionTracker) == 9) {
             decrementTurn();
+            String logSkip = playerNames[currState.getWhoseTurn()] + " Nope'd a Skip card";
+            currState.addToPlayerLog(logSkip);
+            Log.d("Log Played Nope", logSkip);
         }
         //if last action was attack undo attack
         else if (currState.getActionsPerformed().get(actionTracker) == 6) {
             decrementTurn();
             currState.setCardsToDraw(currState.getCardsToDraw() - 1);
+            String logAttack = playerNames[currState.getWhoseTurn()] + " Nope'd an Attack card";
+            currState.addToPlayerLog(logAttack);
+            Log.d("Log Played Nope", logAttack);
         }
         //if last card was nope, check for more nopes
         else if (currState.getActionsPerformed().get(actionTracker) == 11) {
@@ -287,8 +294,9 @@ public class EK_LocalGame extends LocalGame {
         else{
             last = last - 1;
         }
+        //Determine if the last player is still playing the game
         if(currState.getPlayerHand(last).size() != 0) {
-            while (currState.getPlayerHand(last).get(0).getCardType() == 0) {
+            while (currState.hasPlayerLost(last)) {
                 if (last == 0) {
                     last = currState.getNumPlayers() - 1;
                 } else {
@@ -307,7 +315,7 @@ public class EK_LocalGame extends LocalGame {
         else{
             currState.setWhoseTurn(currState.getWhoseTurn() - 1);
         }
-        while(currState.getCurrentPlayerHand().get(0).getCardType() == 0){
+        while(currState.hasPlayerLost(currState.getWhoseTurn())){
             if(currState.getWhoseTurn() == 0){
                 currState.setWhoseTurn(currState.getNumPlayers() - 1);
                 if(currState.getCurrentPlayerHand().size() == 0){

@@ -10,6 +10,11 @@
         *Every turn, you must draw a card or skip your turn.
         *The screen will flash red if you make an invalid move.
     </string>
+    <string name="playing_a_card">
+        In order to play a card, touch a card image and allow it to turn grey. After you have
+        selected a card, press the Enter button to play the card. *Make sure that you only have
+        one card selected when you press Enter.
+    </string>
     <string name="attackDescription">
         Skips your turn. Forces the next player to draw two cards. Can be stacked.
     </string>
@@ -20,10 +25,10 @@
         Takes a random card from another player.
     </string>
     <string name="skipDescription">
-        Skips your turn.
+        End your turn without drawing a card.
     </string>
     <string name="seeTheFutureDescription">
-        Allows you to see the top 3 cards only.
+        Privately view the top 3 cards of the deck. Press Exit button to exit view.
     </string>
     <string name="nopeDescription">
         Cancels a previously played Attack, Skip, or Nope Card.

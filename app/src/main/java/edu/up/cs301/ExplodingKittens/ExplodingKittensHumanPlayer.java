@@ -14,6 +14,8 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 import edu.up.cs301.ExplodingKittens.EKActions.DrawCardAction;
@@ -94,14 +96,17 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
     /*
     image buttons for the players that will be selectable for trade 2 and 3
      */
+    private ImageButton player1 = null;
     private ImageButton player2 = null;
     private ImageButton player3 = null;
-    private ImageButton player4 = null;
     //an array list of image buttons to be used
     private ImageButton imagesHand[] = new ImageButton[5];
     // the discard pile image button
     private ImageButton discardPileBtn = null;
     //TextViews
+    private TextView player1Label = null;
+    private TextView player2Label = null;
+    private TextView player3Label = null;
     private TextView player0CardCount = null;
     private TextView player1CardCount = null;
     private TextView player2CardCount = null;
@@ -333,6 +338,10 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         for(int j = seeTop; j < 3; j++){
             imagesHand[j].setImageResource(R.drawable.blankcard);
         }
+
+        //Setting the text of the button to "Exit View"
+        //in order to help guide the player
+        this.enterBtn.setText("Exit View");
     }
 
     /**
@@ -344,42 +353,20 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         update each player so that if the current player selects another
         person it does not keep the previously selected player
          */
-        if(state.getPlayerHand(1).size() != 0) {
-            if (tradePlayer == 1 && state.getPlayerHand(1).get(0).getCardType() != 0) {
-                player2.setImageResource(R.drawable.selectcardback);
-            }
+        if(state.getNumPlayers() == 2){
+            drawPlayer1(true);
+            drawPlayer2(false);
+            drawPlayer3(false);
         }
-        if (state.hasPlayerLost(1)) {
-            player2.setImageResource(R.drawable.cardbacklost);
-            player1CardCount.setText(allPlayerNames[1] + " has lost the game");
-        } else {
-            player2.setImageResource(R.drawable.cardback);
+        else if(state.getNumPlayers() == 3){
+            drawPlayer1(true);
+            drawPlayer2(true);
+            drawPlayer3(false);
         }
-
-        if(state.getPlayerHand(2).size() != 0) {
-            if (tradePlayer == 2 && state.getPlayerHand(2).get(0).getCardType() != 0) {
-                player3.setImageResource(R.drawable.selectcardback);
-            }
-        }
-        if (state.hasPlayerLost(2)){
-            player3.setImageResource(R.drawable.cardbacklost);
-            player2CardCount.setText(allPlayerNames[2]+" has lost the game");
-        }
-        else {
-            player3.setImageResource(R.drawable.cardback);
-        }
-
-        if(state.getPlayerHand(3).size() != 0) {
-            if (tradePlayer == 3 && state.getPlayerHand(3).get(0).getCardType() != 0) {
-                player4.setImageResource(R.drawable.selectcardback);
-            }
-        }
-        if (state.hasPlayerLost(3)){
-            player4.setImageResource(R.drawable.cardbacklost);
-            player3CardCount.setText(allPlayerNames[3]+" has lost the game");
-        }
-        else {
-            player4.setImageResource(R.drawable.cardback);
+        else if(state.getNumPlayers() == 4){
+            drawPlayer1(true);
+            drawPlayer2(true);
+            drawPlayer3(true);
         }
 
     }
@@ -414,17 +401,17 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
 
                 if stmnt 3: the player is looking at their own hand
              */
-                if (switchedDiscard == true) {
+                if (switchedDiscard) {
                     if(state.getDiscardPile().size() <= i){
                         cardType = 15;
                     }
                     else {
                         cardType = state.getDiscardPile().get(cardHand[i]).getCardType();
                         selectingCard = state.getDiscardPile().get(cardHand[i]).getSelected();
-                        displayCards.setText("Dicard Pile");
+                        displayCards.setText("Discard Pile");
                     }
                 }
-                else if (switchedDiscard == false && trade3 == true && trade3Stage == 2) {
+                else if (!switchedDiscard && trade3 && trade3Stage == 2) {
                     cardType = allCards[cardHand[i]].getCardType();
                     selectingCard = allCards[cardHand[i]].getSelected();
                     displayCards.setText("Select 1 Card to Request");
@@ -571,7 +558,6 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         this.trade3Btn = (Button)activity.findViewById(R.id.trade3);
         this.trade5Btn = (Button)activity.findViewById(R.id.trade5);
         this.enterBtn = (Button)activity.findViewById(R.id.enter);
-        this.playBtn = (Button)activity.findViewById(R.id.play);
         this.endTurn = (Button)activity.findViewById(R.id.endTurn);
         this.helpBtn = (Button)activity.findViewById(R.id.help_Button);
         this.card1 = (ImageButton)activity.findViewById(R.id.imageButton5);
@@ -579,11 +565,17 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         this.card3 = (ImageButton)activity.findViewById(R.id.imageButton7);
         this.card4 = (ImageButton)activity.findViewById(R.id.imageButton8);
         this.card5 = (ImageButton)activity.findViewById(R.id.imageButton9);
+        this.player1 = (ImageButton)activity.findViewById(R.id.player1);
         this.player2 = (ImageButton)activity.findViewById(R.id.player2);
         this.player3 = (ImageButton)activity.findViewById(R.id.player3);
-        this.player4 = (ImageButton)activity.findViewById(R.id.player4);
         this.discardPileBtn =
                 (ImageButton)activity.findViewById(R.id.discardPile);
+        this.player1Label =
+                (TextView)activity.findViewById((R.id.player1_label));
+        this.player2Label =
+                (TextView)activity.findViewById(R.id.player2_label);
+        this.player3Label =
+                (TextView)activity.findViewById(R.id.player3_label);
         this.player0CardCount =
                 (TextView)activity.findViewById(R.id.player0cards);
         this.player1CardCount =
@@ -605,7 +597,6 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         trade3Btn.setOnClickListener(this);
         trade5Btn.setOnClickListener(this);
         enterBtn.setOnClickListener(this);
-        playBtn.setOnClickListener(this);
         endTurn.setOnClickListener(this);
         helpBtn.setOnClickListener(this);
         card1.setOnClickListener(this);
@@ -613,9 +604,9 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         card3.setOnClickListener(this);
         card4.setOnClickListener(this);
         card5.setOnClickListener(this);
+        player1.setOnClickListener(this);
         player2.setOnClickListener(this);
         player3.setOnClickListener(this);
-        player4.setOnClickListener(this);
         discardPileBtn.setOnClickListener(this);
 
          /*
@@ -635,7 +626,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
      * button: leftScroll, rightScroll, trade2Btn, trade3Btn, trade5Btn,
      * playBtn, enterBtn
      * imageButtons: discardPileBtn, card1, card2, card3, card4, card5,
-     * player2, player3, player4
+     * player1, player2, player3
      * @param button
      */
     @Override
@@ -665,16 +656,16 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 int width = LinearLayout.LayoutParams.MATCH_PARENT;
                 int height = LinearLayout.LayoutParams.MATCH_PARENT;
                 boolean focusable = true;
-                final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+                final PopupWindow helpWindow = new PopupWindow(popupView, width, height, focusable);
 
                 // show popup window
-                popupWindow.showAtLocation(button, Gravity.CENTER, 0, 0);
+                helpWindow.showAtLocation(button, Gravity.CENTER, 0, 0);
 
                 // dismiss the popup window when touched
                 popupView.setOnTouchListener(new View.OnTouchListener() {
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
-                        popupWindow.dismiss();
+                        helpWindow.dismiss();
                         return true;
                     }
                 });
@@ -867,6 +858,9 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             trade button and is submitting their selections for trading.
              */
             else if (button == enterBtn) {
+                //Set the text of the button back to it's original text
+                this.enterBtn.setText("Enter");
+
                 int numSelected = 0;
                 int c = 0;
                 for(int i = 0; i < 5; i++){
@@ -874,67 +868,6 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 }
                 playCard();
 
-                /*
-                // check to make sure that this is not a trade or discard pile
-                if (trade2 == false && trade3 == false && trade5 == false && switchedDiscard == false && seeTheFutHand == false) {
-                    // check to see that only 1 card is selected
-                    int a = 0;
-                    int index = 0;
-                    for (int i = 0; i < state.getCurrentPlayerHand().size(); i++) {
-                        if (state.getCurrentPlayerHand().get(i).getSelected()) {
-                            a++;
-                            index = i;
-                        }
-                    }
-                    if (a == 1) {
-                        //find what card is too be played
-                        switch(state.getCurrentPlayerHand().get(index).getCardType()) {
-                            case 6:
-                                PlayAttackCard attackCard =
-                                        new PlayAttackCard(this);
-                                game.sendAction(attackCard);
-                                break;
-                            case 7:
-                                PlayShuffleCard shuffleCard =
-                                        new PlayShuffleCard(this);
-                                game.sendAction(shuffleCard);
-                                break;
-                            case 8:
-                                int rand =
-                                        (int)(Math.random()*state.getPlayerHand(tradePlayer).size());
-                                PlayFavorCard favorCard =
-                                        new PlayFavorCard(this, tradePlayer,
-                                                rand);
-                                game.sendAction(favorCard);
-                                break;
-                            case 9:
-                                PlaySkipCard skipCard = new PlaySkipCard(this);
-                                game.sendAction(skipCard);
-                                break;
-                            case 10:
-                                seeTheFutHand = true;
-                                PlayFutureCard futureCard = new PlayFutureCard(this);
-                                game.sendAction(futureCard);
-                                if(state.getWhoseTurn() == this.playerNum) {
-                                    seeTheFuture();
-                                }
-
-                                break;
-                            case 11:
-                                PlayNopeCard nopeCard = new PlayNopeCard(this);
-                                game.sendAction(nopeCard);
-                                break;
-                            case 12:
-                                PlayDefuseCard defuseCard =
-                                        new PlayDefuseCard(this);
-                                game.sendAction(defuseCard);
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                    return;
-                } */
                 /*
                 trade 2, check to make sure that only two cards are selected
                 then sends the action
@@ -1383,7 +1316,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             has not lost the game yet, if they have find the next player that
              is still in the game and set to them
              */
-            else if (button == player2) {
+            else if (button == player1) {
                 if (state.hasPlayerLost(1)) {
                     tradePlayer = 2;
                     if (state.hasPlayerLost(2)) {
@@ -1394,14 +1327,14 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                     tradePlayer = 1;
                     otherPlayerHands();
                 }
-            } // player2 button
+            } // player1 button
 
             /*
             player 3 image button that can be selected but only if player 2
             has not lost the game yet, if they have find the next player that
              is still in the game and set to them
              */
-            else if (button == player3) {
+            else if (button == player2) {
                 if (state.hasPlayerLost(2)) {
                     tradePlayer = 3;
                     if (state.hasPlayerLost(3)) {
@@ -1419,7 +1352,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             has not lost the game yet, if they have find the next player that
              is still in the game and set to them
              */
-            else if (button == player4) {
+            else if (button == player3) {
                 if (state.hasPlayerLost(3)) {
                     tradePlayer = 1;
                     if (state.hasPlayerLost(1)) {
@@ -1501,6 +1434,86 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
     }
 
     protected void setPlayersText(){
+        //set the human text
+        setPlayer0Text();
+
+        //Set the text depending on how many players are in the game
+        switch(state.getNumPlayers()){
+            case 2:
+                setPlayer1Text(true);
+                setPlayer2Text(false);
+                setPlayer3Text(false);
+                break;
+            case 3:
+                setPlayer1Text(true);
+                setPlayer2Text(true);
+                setPlayer3Text(false);
+                break;
+            case 4:
+                setPlayer1Text(true);
+                setPlayer2Text(true);
+                setPlayer3Text(true);
+            default:
+                setPlayer1Text(true);
+                setPlayer2Text(true);
+                setPlayer3Text(true);
+                break;
+        }
+
+    }
+
+    protected void drawPlayer1(boolean isPlaying){
+        if(isPlaying) {
+            if (tradePlayer == 1 && !state.hasPlayerLost(1)) {
+                player1.setImageResource(R.drawable.selectcardback);
+            } else if (state.hasPlayerLost(1)) {
+                player1.setImageResource(R.drawable.cardbacklost);
+                player1CardCount.setText(allPlayerNames[1] + " has lost the game");
+            } else {
+                player1.setImageResource(R.drawable.cardback);
+            }
+        }
+        else{
+            player1.setImageResource(R.drawable.blankcard);
+            player1.setClickable(false);
+        }
+    }
+
+    protected void drawPlayer2(boolean isPlaying){
+        if(isPlaying) {
+            if (tradePlayer == 2 && state.getPlayerHand(2).get(0).getCardType() != 0) {
+                player2.setImageResource(R.drawable.selectcardback);
+            } else if (state.hasPlayerLost(2)) {
+                player2.setImageResource(R.drawable.cardbacklost);
+                player2CardCount.setText(allPlayerNames[2] + " has lost the game");
+            } else {
+                player2.setImageResource(R.drawable.cardback);
+            }
+        }
+        else{
+            player2.setImageResource(R.drawable.blankcard);
+            player2.setClickable(false);
+        }
+    }
+
+    protected void drawPlayer3(boolean isPlaying){
+        if(isPlaying) {
+            if (tradePlayer == 3 && state.getPlayerHand(3).get(0).getCardType() != 0) {
+                player3.setImageResource(R.drawable.selectcardback);
+            } else if (state.hasPlayerLost(3)) {
+                player3.setImageResource(R.drawable.cardbacklost);
+                player3CardCount.setText(allPlayerNames[3] + " has lost the game");
+            } else {
+                player3.setImageResource(R.drawable.cardback);
+            }
+        }
+        else{
+            player3.setImageResource(R.drawable.blankcard);
+            player3.setClickable(false);
+        }
+    }
+
+    protected void setPlayer0Text(){
         if(!state.hasPlayerLost(0)){
             player0CardCount.setText("Your Card Count: " + state.getPlayerHand(0).size());
             cardsToDraw.setText("Cards to Draw This Turn: " + state.getCardsToDraw());
@@ -1509,14 +1522,44 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             player0CardCount.setText("You Lost");
             cardsToDraw.setText("");
         }
-        if(!state.hasPlayerLost(1)) {
-            player1CardCount.setText("Card Count: " + state.getPlayerHand(1).size());
+    }
+
+    protected void setPlayer1Text(boolean isPlaying){
+        if(isPlaying){
+            if(!state.hasPlayerLost(1)) {
+                player1Label.setText(allPlayerNames[1]);
+                player1CardCount.setText("Card Count: " + state.getPlayerHand(1).size());
+            }
         }
-        if(!state.hasPlayerLost(2)) {
-            player2CardCount.setText("Card Count: " + state.getPlayerHand(2).size());
+        else{
+            player1Label.setText(" ");
+            player1CardCount.setText(" ");
         }
-        if(!state.hasPlayerLost(3)) {
-            player3CardCount.setText("Card Count: " + state.getPlayerHand(3).size());
+    }
+
+    protected void setPlayer2Text(boolean isPlaying){
+        if(isPlaying){
+            if(!state.hasPlayerLost(2)) {
+                player2Label.setText(allPlayerNames[2]);
+                player2CardCount.setText("Card Count: " + state.getPlayerHand(2).size());
+            }
+        }
+        else{
+            player2Label.setText(" ");
+            player2CardCount.setText(" ");
+        }
+    }
+
+    protected void setPlayer3Text(boolean isPlaying){
+        if(isPlaying){
+            if(!state.hasPlayerLost(3)) {
+                player3Label.setText(allPlayerNames[3]);
+                player3CardCount.setText("Card Count: " + state.getPlayerHand(3).size());
+            }
+        }
+        else{
+            player3Label.setText(" ");
+            player3CardCount.setText(" ");
         }
     }
 
