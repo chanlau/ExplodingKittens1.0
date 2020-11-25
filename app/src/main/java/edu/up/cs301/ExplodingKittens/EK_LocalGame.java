@@ -550,6 +550,9 @@ public class EK_LocalGame extends LocalGame{
         if(a >= currState.getCurrentPlayerHand().size() || b >= currState.getCurrentPlayerHand().size()){
             return false;
         }
+        if(currState.getPlayerHand(targ).size() == 0){
+            return false;
+        }
 
         //determine if the two cards are of the same card type
         Card trade1 = currState.getCurrentPlayerHand().get(a);
