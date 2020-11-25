@@ -902,7 +902,9 @@ public abstract class GameMainActivity extends AppCompatActivity implements
         }
     }
 
-    //Added method to access current Game Config
-    public GameConfig getConfig(){return this.config;}
+    //Added method to access current and dynamically chaning amount of players
+    //This will allow us to play with multiple players because
+    //it changes when the menu is updated
+    public int getTablePlayersSize(){return this.tableRows.size();}
 
 }
