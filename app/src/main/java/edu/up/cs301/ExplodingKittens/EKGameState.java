@@ -64,18 +64,6 @@ public class EKGameState extends GameState {
         this.whoPerformed = new ArrayList<Integer>();
         populateDeck();
         populateHands();
-        this.getPlayerHand(0).add(new Card(11));
-        this.getPlayerHand(0).add(new Card(6));
-        this.getPlayerHand(0).add(new Card(10));
-        this.getPlayerHand(1).clear();
-        this.getPlayerHand(1).add(new Card(1));
-        this.getPlayerHand(1).add(new Card(2));
-        this.getPlayerHand(1).add(new Card(3));
-        this.getPlayerHand(1).add(new Card(4));
-        this.getPlayerHand(1).add(new Card(5));
-        this.getDiscardPile().add(new Card(12));
-
-
         populateDefuseExplode();
     }//EKGameState
 
