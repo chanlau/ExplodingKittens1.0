@@ -15,6 +15,17 @@ import edu.up.cs301.ExplodingKittens.EKActions.Trade5Action;
 import edu.up.cs301.game.GameFramework.GameComputerPlayer;
 import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
 
+/**
+ *An Exploding Kittens Smart Computer Player Class
+ *Computer acts based on probability, available cards, and previous player
+ * actions
+ *
+ * @author Samuel Warrick
+ * @author Kaulu Ng
+ * @author Chandler Lau
+ * @version November 2020
+ */
+
 public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
 
     private double probability;
@@ -39,6 +50,7 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
         this.previousSTF = false;
     }
 
+    //receiveInfo: Computer takes in EKGameState to decide the course of action
     @Override
     protected void receiveInfo(GameInfo info) {
 
@@ -95,8 +107,6 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
                                 playCard(this.computerState, this.cardToPlayPos);
                             } else {
                                 if (getACard(this.computerState) == true) {
-                                        //playCard(this.computerState,
-                                          //  cardToPlayPos);
                                     return;
                                 }
                             }
@@ -113,6 +123,7 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
 
     }//receive info
 
+    //playCard: Used to play a card based on the computers current situation
     private void playCard(EKGameState computerState, int CardPos){
         if(checkForPlayableCard() == true) {
             //Check to see which card was selected by the card selection process
@@ -194,6 +205,7 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
         }
     } //seeTheFuture
 
+    //getACard(): Used if player doesn't have a playable card but needs one
     public boolean getACard(GameInfo info){
 
         //targets player with highest amount of cards in hand
@@ -323,6 +335,7 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
         return false;
     }//checkForDefuse
 
+    //Checks if next card is an EK based on STF card
     public boolean nextCardEK(){
         //checks that STF Array isn't empty
         if(this.STFArray.size() == 0){
@@ -370,8 +383,8 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
         return false;
     } //nextCardEK
 
+    //Checks if player has a playable card that's good for the situation
     public boolean checkForPlayableCard(){
-
         //if you know next card is an Exploding Kitten
         if(nextCardEK() == true || previousSTF == true){
             for(int i = 0; i < this.computerState.getCurrentPlayerHand().size(); i++){
@@ -390,6 +403,7 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
             }
             return false;
         }
+        //If computer doesn't know if next card is an EK
         else{
             for(int i = 0; i < this.computerState.getCurrentPlayerHand().size(); i++){
                 //check for cards SKIP ATTACK STF
@@ -409,6 +423,8 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
         }
     }//checkForPlayableCard
 
+    //Trade 5
+    //Checks if player's capable of trading 5 and does it if possible
     public boolean Trade5(){
 
         int cardPos1 = -1;
@@ -468,7 +484,8 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
             }
 
         }
-
+        //If the player has 5 unique cards and it knows an EK is next, try to
+        // get a card from discard pile
         if(found5Unique == true){
             int discardPos = 0;
             if(nextCardEK()){
@@ -500,6 +517,8 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
                 return true;
             }
 
+            //If player doesn't have a defuse, try to get one from the
+            // discard pile
             if(checkForDefuse() == false){
                 for(int c = 0; c < this.computerState.getDiscardPile().size(); c++){
                     if(this.computerState.getDiscardPile().get(c).getCardType() == 12){
@@ -516,8 +535,10 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
         }
         //if you have a defuse then skip this
         return false;
-    }
+    }//Trade5
 
+    //Checks the actionsPerformed array to check if there are any previous
+    // actions that the computer can use to decide it's next move
     public void checkPreviousTurns(){
 
         if(this.computerState.getActionsPerformed() == null){
@@ -536,6 +557,8 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
                     this.computerState.getActionsPerformed().get(actionTracker) == 11){
                     actionTracker = actionTracker - 1;
                 if(this.computerState.getActionsPerformed().get(actionTracker) == 10){
+                    //set previous stf so that the computer knows someone
+                    // played STF and skipped their turn
                     previousSTF = true;
 
                     //if player has nope, play nope or another card
@@ -566,7 +589,6 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
                 else{
                     previousSTF = false;
                 }
-
             }
 
             //if probable that next card is EK, and previous player attack,
@@ -584,6 +606,6 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
         }
 
 
-    }
+    }//checkPreviousTurns
 
 }
