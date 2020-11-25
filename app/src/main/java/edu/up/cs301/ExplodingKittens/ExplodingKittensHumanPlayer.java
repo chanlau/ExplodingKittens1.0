@@ -81,6 +81,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
     private Button trade3Btn = null;
     private Button trade5Btn = null;
     private Button enterBtn = null;
+    private Button playBtn = null;
     private Button endTurn = null;
     private Button helpBtn = null;
     /* image buttons that will be set to the corresponding image buttons for

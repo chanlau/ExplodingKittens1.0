@@ -18,7 +18,6 @@ import edu.up.cs301.ExplodingKittens.EKActions.PlaySkipCard;
 import edu.up.cs301.ExplodingKittens.EKActions.Trade2Action;
 import edu.up.cs301.ExplodingKittens.EKActions.Trade3Action;
 import edu.up.cs301.ExplodingKittens.EKActions.Trade5Action;
-import edu.up.cs301.game.GameFramework.GameHumanPlayer;
 import edu.up.cs301.game.GameFramework.GamePlayer;
 import edu.up.cs301.game.GameFramework.LocalGame;
 import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
@@ -177,7 +176,6 @@ public class EK_LocalGame extends LocalGame{
     //current player ends their turn without drawing a card and forces the
     //next player to draw two cards before ending their turn
     public boolean Attack(GamePlayer p) {
-        //Get the current position of the attack card in the player's hand
         int card = checkHand(currState.getCurrentPlayerHand(), 6);
         //move the card into the discard pile
         if(card == -1){
@@ -237,10 +235,6 @@ public class EK_LocalGame extends LocalGame{
             currState.addToPlayerLog(logMessage);
             Log.d("Log Played Nope", logMessage);
 
-        //check if last player who acted was the last player else return false
-        if (currState.getWhoPerformed().get(actionTracker) != lastTurn()) {
-            return false;
-        }
         //if last action was skip undo skip
         if (currState.getActionsPerformed().get(actionTracker) == 9) {
             decrementTurn();
@@ -304,7 +298,7 @@ public class EK_LocalGame extends LocalGame{
         if(currState.getPlayerHand(last).size() != 0) {
             while (currState.hasPlayerLost(last)) {
                 if (last == 0) {
-                    last = currState.getNumPlayers()-1;
+                    last = currState.getNumPlayers() - 1;
                 } else {
                     last = last - 1;
                 }
@@ -324,9 +318,15 @@ public class EK_LocalGame extends LocalGame{
         while(currState.hasPlayerLost(currState.getWhoseTurn())){
             if(currState.getWhoseTurn() == 0){
                 currState.setWhoseTurn(currState.getNumPlayers() - 1);
+                if(currState.getCurrentPlayerHand().size() == 0){
+                    return;
+                }
             }
             else{
                 currState.setWhoseTurn(currState.getWhoseTurn() - 1);
+                if(currState.getCurrentPlayerHand().size() == 0){
+                    return;
+                }
             }
         }
     }//decrementTurn()
@@ -380,6 +380,11 @@ public class EK_LocalGame extends LocalGame{
         currState.getDiscardPile().add(currState.getCurrentPlayerHand().get(card));
         currState.getCurrentPlayerHand().remove(card);
 
+
+        //adds STF action to action history array
+        currState.addActionsPerformed(10);
+        currState.addWhoPerformed();
+
         //Sending a message to the log
         String logMessage = playerNames[currState.getWhoseTurn()] + " played a SeeTheFuture card ";
         currState.addToPlayerLog(logMessage);
@@ -413,6 +418,10 @@ public class EK_LocalGame extends LocalGame{
         currState.getCurrentPlayerHand().remove(card);
         //shuffle the deck
         Collections.shuffle(currState.getDeck());
+
+        //adds shuffle action to action history array
+        currState.addActionsPerformed(7);
+        currState.addWhoPerformed();
 
         //Sending a message to the log
         String logMessage = playerNames[currState.getWhoseTurn()] + " played a Shuffle card ";
@@ -491,6 +500,9 @@ public class EK_LocalGame extends LocalGame{
     //if they are not able to defuse an exploding kitten
     public boolean drawCard(GamePlayer player) {
         //checks if deck is empty
+        if(currState.getDeck().size() == 0){
+            return false;
+        }
         if (currState.getDeck().get(0) == null || player == null) {
             return false;
         }
@@ -521,15 +533,24 @@ public class EK_LocalGame extends LocalGame{
         }
         //Progress the turn count
         if(currState.getCardsToDraw() == 0){
+            //adds draw action to action history array
+            currState.addActionsPerformed(1);
+            currState.addWhoPerformed();
             nextTurn();
         }
         else{
+            currState.addActionsPerformed(1);
+            currState.addWhoPerformed();
             drawCard(player);
         }
         return true;
     }
 
     public boolean trade2(GamePlayer play, int targ, int a, int b) {
+        if(a >= currState.getCurrentPlayerHand().size() || b >= currState.getCurrentPlayerHand().size()){
+            return false;
+        }
+
         //determine if the two cards are of the same card type
         Card trade1 = currState.getCurrentPlayerHand().get(a);
         Card trade2 = currState.getCurrentPlayerHand().get(b);
@@ -565,10 +586,14 @@ public class EK_LocalGame extends LocalGame{
 
     public boolean trade3(GamePlayer play, int targ, int a, int b, int c,
                           int targCard) {
+        if(a >= currState.getCurrentPlayerHand().size() || b >= currState.getCurrentPlayerHand().size() || c >= currState.getCurrentPlayerHand().size()){
+            return false;
+        }
         //determine if the three cards are of the same type
         Card trade1 = currState.getCurrentPlayerHand().get(a);
         Card trade2 = currState.getCurrentPlayerHand().get(b);
         Card trade3 = currState.getCurrentPlayerHand().get(c);
+
         if (trade1.getCardType() == trade2.getCardType() &&
                 trade2.getCardType() == trade3.getCardType()) {
             //update the players hand
@@ -647,9 +672,13 @@ public class EK_LocalGame extends LocalGame{
         if(currState.getCardsToDraw() == 0){
             currState.setWhoseTurn((currState.getWhoseTurn()+1)%(currState.getNumPlayers()));
         }
-        if(currState.getCurrentPlayerHand() != null) {
+        if(currState.getCurrentPlayerHand() != null && currState.getCurrentPlayerHand().size() != 0) {
             while (currState.getCurrentPlayerHand().get(0).getCardType() == 0) {
                 currState.setWhoseTurn((currState.getWhoseTurn() + 1) % (currState.getPlayerHands().size()));
+                if(currState.getCurrentPlayerHand().size() == 0){
+                    currState.setCardsToDraw(1);
+                    return;
+                }
             }
         }
         currState.setCardsToDraw(1);
