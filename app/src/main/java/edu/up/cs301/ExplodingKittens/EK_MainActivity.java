@@ -8,8 +8,16 @@ import edu.up.cs301.game.GameFramework.gameConfiguration.GameConfig;
 import edu.up.cs301.game.GameFramework.gameConfiguration.GamePlayerType;
 
 /**
- *Main Activity of Exploding Kittens Game
- * Initializes Config screen and creates an Exploding Kittens Local Game
+ * Beta Release:
+ * The game functions as intended with some limitations that are listed
+ *
+ * 1: The Nope Card can only be use to Nope a card that was played by the
+ * previous player only and only for attack, skip, and nope cards played.
+ * Having every card played then send a request to each player asking if they
+ * would like to nope the card was too difficult and would have slowed down
+ * the pace of play significantly.
+ *
+ * 2: 
  *
  * @author Samuel Warrick
  * @author Kaulu Ng

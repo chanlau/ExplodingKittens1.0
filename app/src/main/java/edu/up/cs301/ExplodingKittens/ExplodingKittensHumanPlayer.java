@@ -39,7 +39,7 @@ import edu.up.cs301.game.R;
  * player and game buttons.
  *
  * @authors Chandler Lau, Ka'ulu Ng, Samuel Warrick
- * @version 11/11/2020
+ * @version 11/25/2020
  */
 
 public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View.OnClickListener {
