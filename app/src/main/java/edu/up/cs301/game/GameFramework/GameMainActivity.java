@@ -902,4 +902,7 @@ public abstract class GameMainActivity extends AppCompatActivity implements
         }
     }
 
+    //Added method to access current Game Config
+    public GameConfig getConfig(){return this.config;}
+
 }

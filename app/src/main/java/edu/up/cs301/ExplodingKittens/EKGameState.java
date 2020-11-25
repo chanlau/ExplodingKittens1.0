@@ -64,9 +64,6 @@ public class EKGameState extends GameState {
         this.whoPerformed = new ArrayList<Integer>();
         populateDeck();
         populateHands();
-        this.getPlayerHand(0).add(new Card(11));
-        this.getPlayerHand(0).add(new Card(11));
-        this.getPlayerHand(0).add(new Card(11));
         populateDefuseExplode();
     }//EKGameState
 
@@ -86,7 +83,7 @@ public class EKGameState extends GameState {
         this.deck = new ArrayList<Card>();
         this.playerHands = new ArrayList<ArrayList<Card>>();
         this.playerLog = new ArrayList<String>();
-        this.numPlayers = gamestate.numPlayers;
+        this.numPlayers = gamestate.getNumPlayers();
         //copy of whose turn it is
         this.whoseTurn = gamestate.getWhoseTurn();
         //Copy of # of cards to draw
@@ -150,7 +147,6 @@ public class EKGameState extends GameState {
     }//ToString
 
     //getter method to return Arraylist of player actions
-
 
     public ArrayList<String> getPlayerLog() {
         return playerLog;

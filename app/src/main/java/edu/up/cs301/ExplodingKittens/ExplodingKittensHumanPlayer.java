@@ -100,9 +100,9 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
     /*
     image buttons for the players that will be selectable for trade 2 and 3
      */
+    private ImageButton player1 = null;
     private ImageButton player2 = null;
     private ImageButton player3 = null;
-    private ImageButton player4 = null;
     //an array list of image buttons to be used
     private ImageButton imagesHand[] = new ImageButton[5];
     // the discard pile image button
@@ -333,6 +333,10 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         for(int j = seeTop; j < 3; j++){
             imagesHand[j].setImageResource(R.drawable.blankcard);
         }
+
+        //Setting the text of the button to "Exit View"
+        //in order to help guide the player
+        this.enterBtn.setText("Exit View");
     }
 
     /**
@@ -344,36 +348,23 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         update each player so that if the current player selects another
         person it does not keep the previously selected player
          */
-        if (tradePlayer == 1 && state.getPlayerHand(1).get(0).getCardType() != 0) {
-            player2.setImageResource(R.drawable.selectcardback);
+        if(state.getNumPlayers() == 2){
+            drawPlayer1(true);
+            drawPlayer2(false);
+            drawPlayer3(false);
         }
-        else if (state.hasPlayerLost(1)){
-            player2.setImageResource(R.drawable.cardbacklost);
-            player1CardCount.setText(allPlayerNames[1]+" has lost the game");
+        else if(state.getNumPlayers() == 3){
+            drawPlayer1(true);
+            drawPlayer2(true);
+            drawPlayer3(false);
         }
-        else {
-            player2.setImageResource(R.drawable.cardback);
+        else if(state.getNumPlayers() == 4){
+            drawPlayer1(true);
+            drawPlayer2(true);
+            drawPlayer3(true);
         }
-        if (tradePlayer == 2 && state.getPlayerHand(2).get(0).getCardType() != 0) {
-            player3.setImageResource(R.drawable.selectcardback);
-        }
-        else if (state.hasPlayerLost(2)){
-            player3.setImageResource(R.drawable.cardbacklost);
-            player2CardCount.setText(allPlayerNames[2]+" has lost the game");
-        }
-        else {
-            player3.setImageResource(R.drawable.cardback);
-        }
-        if (tradePlayer == 3 && state.getPlayerHand(3).get(0).getCardType() != 0) {
-            player4.setImageResource(R.drawable.selectcardback);
-        }
-        else if (state.hasPlayerLost(3)){
-            player4.setImageResource(R.drawable.cardbacklost);
-            player3CardCount.setText(allPlayerNames[3]+" has lost the game");
-        }
-        else {
-            player4.setImageResource(R.drawable.cardback);
-        }
+
+
     }
 
     /**
@@ -406,17 +397,17 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
 
                 if stmnt 3: the player is looking at their own hand
              */
-                if (switchedDiscard == true) {
+                if (switchedDiscard) {
                     if(state.getDiscardPile().size() <= i){
                         cardType = 15;
                     }
                     else {
                         cardType = state.getDiscardPile().get(cardHand[i]).getCardType();
                         selectingCard = state.getDiscardPile().get(cardHand[i]).getSelected();
-                        displayCards.setText("Dicard Pile");
+                        displayCards.setText("Discard Pile");
                     }
                 }
-                else if (switchedDiscard == false && trade3 == true && trade3Stage == 2) {
+                else if (!switchedDiscard && trade3 && trade3Stage == 2) {
                     cardType = allCards[cardHand[i]].getCardType();
                     selectingCard = allCards[cardHand[i]].getSelected();
                     displayCards.setText("Select 1 Card to Request");
@@ -571,9 +562,9 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         this.card3 = (ImageButton)activity.findViewById(R.id.imageButton7);
         this.card4 = (ImageButton)activity.findViewById(R.id.imageButton8);
         this.card5 = (ImageButton)activity.findViewById(R.id.imageButton9);
+        this.player1 = (ImageButton)activity.findViewById(R.id.player1);
         this.player2 = (ImageButton)activity.findViewById(R.id.player2);
         this.player3 = (ImageButton)activity.findViewById(R.id.player3);
-        this.player4 = (ImageButton)activity.findViewById(R.id.player4);
         this.discardPileBtn =
                 (ImageButton)activity.findViewById(R.id.discardPile);
         this.player0CardCount =
@@ -605,9 +596,9 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         card3.setOnClickListener(this);
         card4.setOnClickListener(this);
         card5.setOnClickListener(this);
+        player1.setOnClickListener(this);
         player2.setOnClickListener(this);
         player3.setOnClickListener(this);
-        player4.setOnClickListener(this);
         discardPileBtn.setOnClickListener(this);
 
          /*
@@ -627,7 +618,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
      * button: leftScroll, rightScroll, trade2Btn, trade3Btn, trade5Btn,
      * playBtn, enterBtn
      * imageButtons: discardPileBtn, card1, card2, card3, card4, card5,
-     * player2, player3, player4
+     * player1, player2, player3
      * @param button
      */
     @Override
@@ -657,16 +648,16 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 int width = LinearLayout.LayoutParams.MATCH_PARENT;
                 int height = LinearLayout.LayoutParams.MATCH_PARENT;
                 boolean focusable = true;
-                final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+                final PopupWindow helpWindow = new PopupWindow(popupView, width, height, focusable);
 
                 // show popup window
-                popupWindow.showAtLocation(button, Gravity.CENTER, 0, 0);
+                helpWindow.showAtLocation(button, Gravity.CENTER, 0, 0);
 
                 // dismiss the popup window when touched
                 popupView.setOnTouchListener(new View.OnTouchListener() {
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
-                        popupWindow.dismiss();
+                        helpWindow.dismiss();
                         return true;
                     }
                 });
@@ -862,6 +853,9 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             trade button and is submitting their selections for trading.
              */
             else if (button == enterBtn) {
+                //Set the text of the button back to it's original text
+                this.enterBtn.setText("Enter");
+
                 int numSelected = 0;
                 int c = 0;
                 for(int i = 0; i < 5; i++){
@@ -1318,7 +1312,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             has not lost the game yet, if they have find the next player that
              is still in the game and set to them
              */
-            else if (button == player2) {
+            else if (button == player1) {
                 if (state.hasPlayerLost(1)) {
                     tradePlayer = 2;
                     if (state.hasPlayerLost(2)) {
@@ -1329,14 +1323,14 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                     tradePlayer = 1;
                     otherPlayerHands();
                 }
-            } // player2 button
+            } // player1 button
 
             /*
             player 3 image button that can be selected but only if player 2
             has not lost the game yet, if they have find the next player that
              is still in the game and set to them
              */
-            else if (button == player3) {
+            else if (button == player2) {
                 if (state.hasPlayerLost(2)) {
                     tradePlayer = 3;
                     if (state.hasPlayerLost(3)) {
@@ -1354,7 +1348,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             has not lost the game yet, if they have find the next player that
              is still in the game and set to them
              */
-            else if (button == player4) {
+            else if (button == player3) {
                 if (state.hasPlayerLost(3)) {
                     tradePlayer = 1;
                     if (state.hasPlayerLost(1)) {
@@ -1391,6 +1385,57 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         }
         if(!state.hasPlayerLost(3)) {
             player3CardCount.setText("Card Count: " + state.getPlayerHand(3).size());
+        }
+    }
+
+    protected void drawPlayer1(boolean inTheGame){
+        if(inTheGame) {
+            if (tradePlayer == 1 && !state.hasPlayerLost(1)) {
+                player1.setImageResource(R.drawable.selectcardback);
+            } else if (state.hasPlayerLost(1)) {
+                player1.setImageResource(R.drawable.cardbacklost);
+                player1CardCount.setText(allPlayerNames[1] + " has lost the game");
+            } else {
+                player1.setImageResource(R.drawable.cardback);
+            }
+        }
+        else{
+            player1.setImageResource(R.drawable.blankcard);
+            player1.setClickable(false);
+        }
+    }
+
+    protected void drawPlayer2(boolean inTheGame){
+        if(inTheGame) {
+            if (tradePlayer == 2 && state.getPlayerHand(2).get(0).getCardType() != 0) {
+                player2.setImageResource(R.drawable.selectcardback);
+            } else if (state.hasPlayerLost(2)) {
+                player2.setImageResource(R.drawable.cardbacklost);
+                player2CardCount.setText(allPlayerNames[2] + " has lost the game");
+            } else {
+                player2.setImageResource(R.drawable.cardback);
+            }
+        }
+        else{
+            player2.setImageResource(R.drawable.blankcard);
+            player2.setClickable(false);
+        }
+    }
+
+    protected void drawPlayer3(boolean inTheGame){
+        if(inTheGame) {
+            if (tradePlayer == 3 && state.getPlayerHand(3).get(0).getCardType() != 0) {
+                player3.setImageResource(R.drawable.selectcardback);
+            } else if (state.hasPlayerLost(3)) {
+                player3.setImageResource(R.drawable.cardbacklost);
+                player3CardCount.setText(allPlayerNames[3] + " has lost the game");
+            } else {
+                player3.setImageResource(R.drawable.cardback);
+            }
+        }
+        else{
+            player3.setImageResource(R.drawable.blankcard);
+            player3.setClickable(false);
         }
     }
 

@@ -267,7 +267,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/help_menu_card_spacing"
             android:layout_marginRight="@dimen/help_menu_card_spacing"
-            android:layout_marginBottom="@dimen/help_menu_card_spacing"
+            android:layout_marginBottom="5sp"
+            android:layout_marginTop="5sp"
             android:orientation="horizontal">
 
             <LinearLayout

@@ -74,7 +74,7 @@ public class EK_MainActivity extends GameMainActivity {
     //creates instance of EKLocalGame
     @Override
     public LocalGame createLocalGame() {
-        return new EK_LocalGame();
+        return new EK_LocalGame(this.getConfig().getNumPlayers());
     }
 
 }

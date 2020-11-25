@@ -20,10 +20,10 @@
         Takes a random card from another player.
     </string>
     <string name="skipDescription">
-        Skips your turn.
+        End your turn without drawing a card.
     </string>
     <string name="seeTheFutureDescription">
-        Allows you to see the top 3 cards only.
+        Privately view the top 3 cards of the deck. Press Exit button to exit view.
     </string>
     <string name="nopeDescription">
         Cancels a previously played Attack, Skip, or Nope Card.
