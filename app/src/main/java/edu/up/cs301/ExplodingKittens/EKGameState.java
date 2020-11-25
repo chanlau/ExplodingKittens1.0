@@ -65,8 +65,17 @@ public class EKGameState extends GameState {
         populateDeck();
         populateHands();
         this.getPlayerHand(0).add(new Card(11));
-        this.getPlayerHand(0).add(new Card(11));
-        this.getPlayerHand(0).add(new Card(11));
+        this.getPlayerHand(0).add(new Card(6));
+        this.getPlayerHand(0).add(new Card(10));
+        this.getPlayerHand(1).clear();
+        this.getPlayerHand(1).add(new Card(1));
+        this.getPlayerHand(1).add(new Card(2));
+        this.getPlayerHand(1).add(new Card(3));
+        this.getPlayerHand(1).add(new Card(4));
+        this.getPlayerHand(1).add(new Card(5));
+        this.getDiscardPile().add(new Card(12));
+
+
         populateDefuseExplode();
     }//EKGameState
 
@@ -91,6 +100,8 @@ public class EKGameState extends GameState {
         this.whoseTurn = gamestate.getWhoseTurn();
         //Copy of # of cards to draw
         this.cardsToDraw = gamestate.getCardsToDraw();
+        this.actionsPerformed = new ArrayList<Integer>();
+        this.whoPerformed = new ArrayList<Integer>();
 
         //deep copy of the gamestate discardPile
         for (int a = 0; a < gamestate.getDiscardPile().size(); a++) {
@@ -124,6 +135,14 @@ public class EKGameState extends GameState {
             this.playerLog.add(gamestate.getPlayerLog().get(e));
         }
 
+        //deep copy for actions performed
+        for(int f = 0; f < gamestate.getActionsPerformed().size(); f++){
+            this.actionsPerformed.add(gamestate.getActionsPerformed().get(f));
+        }
+        //deep copy for who performed
+        for(int g = 0; g < gamestate.getActionsPerformed().size(); g++){
+            this.whoPerformed.add(gamestate.getWhoPerformed().get(g));
+        }
     }//EKGameState(copy constructor)
 
 
@@ -274,7 +293,7 @@ public class EKGameState extends GameState {
     public boolean hasPlayerLost(int index){
         //Edge case of the hand of a player completely
         //running out.
-        if(this.playerHands.get(index) == null){
+        if(this.playerHands.get(index) == null || this.playerHands.get(index).size() == 0){
             return false;
         }
         return this.playerHands.get(index).get(0).getCardType() == 0;

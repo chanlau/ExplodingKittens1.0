@@ -344,36 +344,44 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         update each player so that if the current player selects another
         person it does not keep the previously selected player
          */
-        if (tradePlayer == 1 && state.getPlayerHand(1).get(0).getCardType() != 0) {
-            player2.setImageResource(R.drawable.selectcardback);
+        if(state.getPlayerHand(1).size() != 0) {
+            if (tradePlayer == 1 && state.getPlayerHand(1).get(0).getCardType() != 0) {
+                player2.setImageResource(R.drawable.selectcardback);
+            }
         }
-        else if (state.hasPlayerLost(1)){
+        if (state.hasPlayerLost(1)) {
             player2.setImageResource(R.drawable.cardbacklost);
-            player1CardCount.setText(allPlayerNames[1]+" has lost the game");
-        }
-        else {
+            player1CardCount.setText(allPlayerNames[1] + " has lost the game");
+        } else {
             player2.setImageResource(R.drawable.cardback);
         }
-        if (tradePlayer == 2 && state.getPlayerHand(2).get(0).getCardType() != 0) {
-            player3.setImageResource(R.drawable.selectcardback);
+
+        if(state.getPlayerHand(2).size() != 0) {
+            if (tradePlayer == 2 && state.getPlayerHand(2).get(0).getCardType() != 0) {
+                player3.setImageResource(R.drawable.selectcardback);
+            }
         }
-        else if (state.hasPlayerLost(2)){
+        if (state.hasPlayerLost(2)){
             player3.setImageResource(R.drawable.cardbacklost);
             player2CardCount.setText(allPlayerNames[2]+" has lost the game");
         }
         else {
             player3.setImageResource(R.drawable.cardback);
         }
-        if (tradePlayer == 3 && state.getPlayerHand(3).get(0).getCardType() != 0) {
-            player4.setImageResource(R.drawable.selectcardback);
+
+        if(state.getPlayerHand(3).size() != 0) {
+            if (tradePlayer == 3 && state.getPlayerHand(3).get(0).getCardType() != 0) {
+                player4.setImageResource(R.drawable.selectcardback);
+            }
         }
-        else if (state.hasPlayerLost(3)){
+        if (state.hasPlayerLost(3)){
             player4.setImageResource(R.drawable.cardbacklost);
             player3CardCount.setText(allPlayerNames[3]+" has lost the game");
         }
         else {
             player4.setImageResource(R.drawable.cardback);
         }
+
     }
 
     /**

@@ -6,6 +6,7 @@ import edu.up.cs301.ExplodingKittens.EKActions.DrawCardAction;
 import edu.up.cs301.ExplodingKittens.EKActions.PlayAttackCard;
 import edu.up.cs301.ExplodingKittens.EKActions.PlayFavorCard;
 import edu.up.cs301.ExplodingKittens.EKActions.PlayFutureCard;
+import edu.up.cs301.ExplodingKittens.EKActions.PlayNopeCard;
 import edu.up.cs301.ExplodingKittens.EKActions.PlayShuffleCard;
 import edu.up.cs301.ExplodingKittens.EKActions.PlaySkipCard;
 import edu.up.cs301.ExplodingKittens.EKActions.Trade2Action;
@@ -22,6 +23,7 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
     private int cardToPlayPos;
     private ArrayList<Integer> STFArray;
     private EKGameState computerState;
+    private boolean previousSTF;
     /**
      * constructor
      *
@@ -34,6 +36,7 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
         this.cardToPlayPos = 0;
         this.STFDeckSize = 0;
         this.STFArray = new ArrayList<Integer>();
+        this.previousSTF = false;
     }
 
     @Override
@@ -47,12 +50,27 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
             return;
         }
        else if(this.computerState.getWhoseTurn() == this.playerNum) {
+           if(checkForDefuse() == false){
+               if(Trade5() == true){
+                   return;
+               };
+           }
+
                 //If next card is EK based on STF play a card
                 if (nextCardEK() == true) {
                     if (checkForPlayableCard() == true) {
                         playCard(this.computerState, cardToPlayPos);
                     }
+                    else {
+                        if (getACard(this.computerState) == true) {
+                            if (checkForPlayableCard() == true) {
+                                //playCard(this.computerState, cardToPlayPos);
+                                return;
+                            }
+                        }
+                    }
                 }
+
 
                 //generates random number from 0 - 100
                 random = (double) Math.random() * 101;
@@ -62,16 +80,27 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
                     probability = probability *1.5;
                 }
 
+                //checks previous turns and acts accordingly
+                checkPreviousTurns();
+
+                //if random # is within probability play a card
+                //otherwise draw
                 if (random <= probability) {
                     //play a card: Skip, Attack, STF -> Shuffle
                     //If none, try to get a card (Trade 2, 3, 5, or favor)
                     // (Prioritize Defuse)
                     //else draw a card
-                    if (computerState.getCurrentPlayerHand() != null) {
-                        if (checkForPlayableCard() == true) {
-                            playCard(this.computerState, this.cardToPlayPos);
+                        if (computerState.getCurrentPlayerHand() != null) {
+                            if (checkForPlayableCard() == true) {
+                                playCard(this.computerState, this.cardToPlayPos);
+                            } else {
+                                if (getACard(this.computerState) == true) {
+                                        //playCard(this.computerState,
+                                          //  cardToPlayPos);
+                                    return;
+                                }
+                            }
                         }
-                    }
                 }
                 else {
                     //draw a card
@@ -167,7 +196,7 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
 
     public boolean getACard(GameInfo info){
 
-        //targets player with lowest amount of cards in hand
+        //targets player with highest amount of cards in hand
         int counter = 0;
         int target = 0;
         for(int i = 0; i < this.computerState.getNumPlayers(); i++){
@@ -178,9 +207,29 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
             }
         }
 
+        if(this.computerState.getPlayerHand(target).size() != 0){
+            while(this.computerState.getPlayerHand(target).get(0).getCardType() == 0){
+                    if (target == computerState.getNumPlayers() - 1) {
+                        target = 0;
+                    }
+                    else {
+                        target = target + 1;
+                    }
+                while(this.computerState.getPlayerHand(target).size() == 0){
+                    if(target == computerState.getNumPlayers() - 1){
+                        target = 0;
+                    }
+                    else {
+                        target = target + 1;
+                    }
+                }
+            }
+
+        }
+
         //play favor on target if you have it
         for(int x = 0; x < this.computerState.getCurrentPlayerHand().size(); x++) {
-            if (this.computerState.getCurrentPlayerHand().get(x).getCardType() == 4) {
+            if (this.computerState.getCurrentPlayerHand().get(x).getCardType() == 8) {
                 int randomCardPos =
                         (int)(Math.random()*this.computerState.getPlayerHand(target).size());
                 PlayFavorCard favor = new PlayFavorCard(this, target, randomCardPos);
@@ -188,25 +237,6 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
                 return true;
             }
         }
-
-        //play trade 2 if you have 2 of the same card
-        if(checkForMatches(2) != -1){
-            int cardPos1 = -1;
-            int cardPos2 = -1;
-            for(int i = 0; i < this.computerState.getCurrentPlayerHand().size(); i++){
-                if(this.computerState.getCurrentPlayerHand().get(i).getCardType() == checkForMatches(2)){
-                    if (cardPos1 != -1){
-                        cardPos2 = i;
-                    }
-                    else{
-                        cardPos1 = i;
-                    }
-                }
-            }
-            Trade2Action trade2 = new Trade2Action(this, target, cardPos1, cardPos2);
-            this.game.sendAction(trade2);
-            return true;
-        } //trade 2 cards logic
 
         //Trade 3
         if(checkForMatches(3) != -1){
@@ -233,14 +263,33 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
             int randomCard = (int) (Math.random() * 5) + 6;
             Trade3Action trade3 = new Trade3Action(this, target, cardPos1,
                     cardPos2, cardPos3, randomCard);
+            this.game.sendAction(trade3);
             return true;
         }
+
+        //play trade 2 if you have 2 of the same card
+        if(checkForMatches(2) != -1){
+            int cardPos1 = -1;
+            int cardPos2 = -1;
+            for(int i = 0; i < this.computerState.getCurrentPlayerHand().size(); i++){
+                if(this.computerState.getCurrentPlayerHand().get(i).getCardType() == checkForMatches(2)){
+                    if (cardPos1 != -1){
+                        cardPos2 = i;
+                    }
+                    else{
+                        cardPos1 = i;
+                    }
+                }
+            }
+            Trade2Action trade2 = new Trade2Action(this, target, cardPos1, cardPos2);
+            this.game.sendAction(trade2);
+            return true;
+        } //trade 2 cards logic
 
         //Trade 5
         if(Trade5() == true){
             return true;
         }
-
 
         return false;
     } //getCard
@@ -324,7 +373,7 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
     public boolean checkForPlayableCard(){
 
         //if you know next card is an Exploding Kitten
-        if(nextCardEK() == true){
+        if(nextCardEK() == true || previousSTF == true){
             for(int i = 0; i < this.computerState.getCurrentPlayerHand().size(); i++){
                 //check for cards SKIP ATTACK SHUFFLE
                 switch(this.computerState.getCurrentPlayerHand().get(i).getCardType()){
@@ -447,6 +496,7 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
                 }
                 Trade5Action trade = new Trade5Action(this, cardPos1,
                         cardPos2, cardPos3, cardPos4, cardPos5, discardPos);
+                this.game.sendAction(trade);
                 return true;
             }
 
@@ -455,6 +505,7 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
                     if(this.computerState.getDiscardPile().get(c).getCardType() == 12){
                         Trade5Action trade = new Trade5Action(this, cardPos1,
                                 cardPos2, cardPos3, cardPos4, cardPos5, c);
+                        this.game.sendAction(trade);
                         return true;
                     }
                 }
@@ -465,6 +516,74 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
         }
         //if you have a defuse then skip this
         return false;
+    }
+
+    public void checkPreviousTurns(){
+
+        if(this.computerState.getActionsPerformed() == null){
+            return;
+        }
+        if(this.computerState.getActionsPerformed().size() == 0){
+            return;
+        }
+        int actionTracker = this.computerState.getActionsPerformed().size() - 1;
+        //if a STF was activated and players skipped, play a card because the
+        // next is probably EK
+        if(this.computerState.getActionsPerformed().get(actionTracker) == 6 ||
+                this.computerState.getActionsPerformed().get(actionTracker) == 9){
+
+            while(this.computerState.getActionsPerformed().get(actionTracker) == 6 || this.computerState.getActionsPerformed().get(actionTracker) == 9 ||
+                    this.computerState.getActionsPerformed().get(actionTracker) == 11){
+                    actionTracker = actionTracker - 1;
+                if(this.computerState.getActionsPerformed().get(actionTracker) == 10){
+                    previousSTF = true;
+
+                    //if player has nope, play nope or another card
+                    if(this.computerState.getCurrentPlayerHand().size() != 0){
+                        for(int i = 0; i < this.computerState.getCurrentPlayerHand().size(); i++){
+                            if(this.computerState.getCurrentPlayerHand().get(i).getCardType() == 11){
+                                PlayNopeCard nope = new PlayNopeCard(this);
+                                this.game.sendAction(nope);
+                            }
+                            else {
+                                    if (checkForPlayableCard() == true) {
+                                        playCard(computerState, cardToPlayPos);
+                                    }
+                                    else if(getACard(computerState) == true) {
+                                            if (checkForPlayableCard() == true) {
+                                                playCard(computerState, cardToPlayPos);
+                                            }
+                                        }
+                            }
+
+                        }
+                    }
+
+                    else if(checkForPlayableCard() == true){
+                        playCard(this.computerState, cardToPlayPos);
+                    }
+                }
+                else{
+                    previousSTF = false;
+                }
+
+            }
+
+            //if probable that next card is EK, and previous player attack,
+            // skipped, or noped, play nope card
+            if(random <= probability){
+                if(this.computerState.getCurrentPlayerHand().size() != 0){
+                    for(int i = 0; i < this.computerState.getCurrentPlayerHand().size(); i++){
+                        if(this.computerState.getCurrentPlayerHand().get(i).getCardType() == 11){
+                            PlayNopeCard nope = new PlayNopeCard(this);
+                            this.game.sendAction(nope);
+                        }
+                    }
+                }
+            }
+        }
+
+
     }
 
 }
