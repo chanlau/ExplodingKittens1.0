@@ -276,8 +276,7 @@
                         android:maxHeight="120dip"
                         android:minHeight="100dip"
                         android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/cardback"
-                        tools:srcCompat="@drawable/cardback" />
+                        app:srcCompat="@drawable/cardback"/>
 
                     <TextView
                         android:id="@+id/cardsindeck"

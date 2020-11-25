@@ -103,6 +103,8 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
     private ImageButton imagesHand[] = new ImageButton[5];
     // the discard pile image button
     private ImageButton discardPileBtn = null;
+    // the deck image button
+    private ImageButton deckBtn = null;
     //TextViews
     private TextView player1Label = null;
     private TextView player2Label = null;
@@ -335,6 +337,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             } //switch statement
         }
 
+        //Set the remaining cards to blank cards
         for(int j = seeTop; j < 3; j++){
             imagesHand[j].setImageResource(R.drawable.blankcard);
         }
@@ -353,6 +356,9 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         update each player so that if the current player selects another
         person it does not keep the previously selected player
          */
+
+        //Draws the number of players on the board depending
+        //on how many players are in the game
         if(state.getNumPlayers() == 2){
             drawPlayer1(true);
             drawPlayer2(false);
@@ -570,6 +576,8 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         this.player3 = (ImageButton)activity.findViewById(R.id.player3);
         this.discardPileBtn =
                 (ImageButton)activity.findViewById(R.id.discardPile);
+        this.deckBtn =
+                (ImageButton)activity.findViewById(R.id.deck);
         this.player1Label =
                 (TextView)activity.findViewById((R.id.player1_label));
         this.player2Label =
@@ -608,6 +616,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         player2.setOnClickListener(this);
         player3.setOnClickListener(this);
         discardPileBtn.setOnClickListener(this);
+        deckBtn.setOnClickListener(this);
 
          /*
         initialize the imagesHand array with the now initialized image buttons
@@ -647,12 +656,14 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                  * own help window
                  */
 
+
                 LayoutInflater inflater = (LayoutInflater)
                         myActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                //Set the layout of the view to the help window
                 View popupView = inflater.inflate(R.layout.help_window, null);
 
 
-                // create popup window
+                // create popup window that will match the dimensions of the screen
                 int width = LinearLayout.LayoutParams.MATCH_PARENT;
                 int height = LinearLayout.LayoutParams.MATCH_PARENT;
                 boolean focusable = true;
@@ -661,7 +672,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 // show popup window
                 helpWindow.showAtLocation(button, Gravity.CENTER, 0, 0);
 
-                // dismiss the popup window when touched
+                // dismiss the popup window when the screen is touched
                 popupView.setOnTouchListener(new View.OnTouchListener() {
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
@@ -991,7 +1002,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             end turn button that resets all of the selected cards to not
             selected and sends the draw card action to the game
              */
-            else if (button == endTurn) {
+            else if (button == endTurn || button == deckBtn) {
 
                 // deselect all player hand cards
                 for (int a = 0; a < state.getPlayerHand(this.playerNum).size(); a++) {
@@ -1462,6 +1473,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
 
     }
 
+    //Visually put Player 1 in the game if they are playing
     protected void drawPlayer1(boolean isPlaying){
         if(isPlaying) {
             if (tradePlayer == 1 && !state.hasPlayerLost(1)) {
@@ -1478,7 +1490,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             player1.setClickable(false);
         }
     }
-
+    //Visually put Player 2 in the game if they are playing
     protected void drawPlayer2(boolean isPlaying){
         if(isPlaying) {
             if (tradePlayer == 2 && state.getPlayerHand(2).get(0).getCardType() != 0) {
@@ -1496,6 +1508,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         }
     }
 
+    //Visually put Player 3 in the game if they are playing
     protected void drawPlayer3(boolean isPlaying){
         if(isPlaying) {
             if (tradePlayer == 3 && state.getPlayerHand(3).get(0).getCardType() != 0) {
@@ -1512,7 +1525,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             player3.setClickable(false);
         }
     }
-
+    //Set's the text of Human Player depending on if they are playing or not
     protected void setPlayer0Text(){
         if(!state.hasPlayerLost(0)){
             player0CardCount.setText("Your Card Count: " + state.getPlayerHand(0).size());
@@ -1524,6 +1537,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         }
     }
 
+    //Set's the text of Player 1 depending on if they are playing or not
     protected void setPlayer1Text(boolean isPlaying){
         if(isPlaying){
             if(!state.hasPlayerLost(1)) {
@@ -1537,6 +1551,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         }
     }
 
+    //Set's the text of Player 2 depending on if they are playing or not
     protected void setPlayer2Text(boolean isPlaying){
         if(isPlaying){
             if(!state.hasPlayerLost(2)) {
@@ -1550,6 +1565,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         }
     }
 
+    //Set's the text of Player 3 depending on if they are playing or not
     protected void setPlayer3Text(boolean isPlaying){
         if(isPlaying){
             if(!state.hasPlayerLost(3)) {
