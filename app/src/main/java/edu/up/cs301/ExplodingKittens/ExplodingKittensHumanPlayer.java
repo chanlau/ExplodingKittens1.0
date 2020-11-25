@@ -36,12 +36,6 @@ import edu.up.cs301.game.R;
  * GUI for a human to play the game. Handles all interactions between Human
  * player and game buttons.
  *
- * Known bug: Occasionally the program will crash with an error about lack of
- * memory. We believe this is due to certain images that are being used for the
- * image buttons that are "too big" for android studio. We are aware of this
- * bug and are working on a fix.
- * buttons
- *
  * @authors Chandler Lau, Ka'ulu Ng, Samuel Warrick
  * @version 11/11/2020
  */
@@ -135,6 +129,11 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
     boolean to keep track of when the player is looking at a seeTheFuture card
      */
     private boolean seeTheFutHand = false;
+    /*
+    boolean to keep track of when the player is looking at the deck for a
+    see the future card
+     */
+    private boolean displayDeck = false;
 
 
     /*
@@ -279,6 +278,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
     public void seeTheFuture() {
         card4.setImageResource(R.drawable.blankcard);
         card5.setImageResource(R.drawable.blankcard);
+        displayDeck = true;
         int seeTop = 3;
         if(state.getDeck().size() < 3){
             seeTop = state.getDeck().size();
@@ -802,9 +802,81 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
              the action for that card. Certain cards have no action and are
              used for trading only.
              */
-            else if(button == playBtn) {
+            else if(button == enterBtn && trade2 == false && trade3 == false && trade5 == false && switchedDiscard == false && seeTheFutHand == false) {
+                // check to see that only 1 card is selected
+                int a = 0;
+                int index = 0;
+                for (int i = 0; i < state.getCurrentPlayerHand().size(); i++) {
+                    if (state.getCurrentPlayerHand().get(i).getSelected()) {
+                        a++;
+                        index = i;
+                    }
+                }
+                if (a == 1) {
+                    //find what card is too be played
+                    switch(state.getCurrentPlayerHand().get(index).getCardType()) {
+                        case 6:
+                            PlayAttackCard attackCard =
+                                    new PlayAttackCard(this);
+                            game.sendAction(attackCard);
+                            break;
+                        case 7:
+                            PlayShuffleCard shuffleCard =
+                                    new PlayShuffleCard(this);
+                            game.sendAction(shuffleCard);
+                            break;
+                        case 8:
+                            int rand =
+                                    (int)(Math.random()*state.getPlayerHand(tradePlayer).size());
+                            PlayFavorCard favorCard =
+                                    new PlayFavorCard(this, tradePlayer,
+                                            rand);
+                            game.sendAction(favorCard);
+                            break;
+                        case 9:
+                            PlaySkipCard skipCard = new PlaySkipCard(this);
+                            game.sendAction(skipCard);
+                            break;
+                        case 10:
+                            seeTheFutHand = true;
+                            PlayFutureCard futureCard = new PlayFutureCard(this);
+                            game.sendAction(futureCard);
+                            if(state.getWhoseTurn() == this.playerNum) {
+                                seeTheFuture();
+                            }
+
+                            break;
+                        case 11:
+                            PlayNopeCard nopeCard = new PlayNopeCard(this);
+                            game.sendAction(nopeCard);
+                            break;
+                        case 12:
+                            PlayDefuseCard defuseCard =
+                                    new PlayDefuseCard(this);
+                            game.sendAction(defuseCard);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                return;
+            }
+
+            /*
+            enter button is pressed when the player has already selected a
+            trade button and is submitting their selections for trading.
+             */
+            else if (button == enterBtn) {
+                int numSelected = 0;
+                int c = 0;
+                for(int i = 0; i < 5; i++){
+                    cardHand[i] = i;
+                }
+                playCard();
+
+                /*
                 // check to make sure that this is not a trade or discard pile
-                if (trade2 == false && trade3 == false && trade5 == false && switchedDiscard == false) {
+                if (trade2 == false && trade3 == false && trade5 == false && switchedDiscard == false && seeTheFutHand == false) {
                     // check to see that only 1 card is selected
                     int a = 0;
                     int index = 0;
@@ -819,7 +891,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                         switch(state.getCurrentPlayerHand().get(index).getCardType()) {
                             case 6:
                                 PlayAttackCard attackCard =
-                                 new PlayAttackCard(this);
+                                        new PlayAttackCard(this);
                                 game.sendAction(attackCard);
                                 break;
                             case 7:
@@ -861,20 +933,8 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                                 break;
                         }
                     }
-                }
-                return;
-            }
-
-            /*
-            enter button is pressed when the player has already selected a
-            trade button and is submitting their selections for trading.
-             */
-            else if (button == enterBtn) {
-                int numSelected = 0;
-                int c = 0;
-                for(int i = 0; i < 5; i++){
-                    cardHand[i] = i;
-                }
+                    return;
+                } */
                 /*
                 trade 2, check to make sure that only two cards are selected
                 then sends the action
@@ -989,6 +1049,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 //see the future card ticked
                 else if (seeTheFutHand) {
                     seeTheFutHand = false;
+                    displayDeck = false;
                 }
 
             } // enter button
@@ -1021,7 +1082,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 DrawCardAction drawCard = new DrawCardAction(this);
                 game.sendAction(drawCard);
             } // endTurn button
-
+            int queryT = 0;
         } // if statement for instance of button
 
         // for all image buttons
@@ -1052,10 +1113,6 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                     for (int i = 0; i < 5; i++) {
                         cardHand[i] = i;
                     }
-                    // deselect all cards in the discard pile array
-                    /*for (int a = 0; a < state.getDiscardPile().size(); a++) {
-                        state.getDiscardPile().get(a).setSelected(false);
-                    }*/
                 }
                 updateDisplay();
             } //discard pile button
@@ -1378,10 +1435,71 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         updateDisplay();
     } //onClick method
 
-    /*===============
-
-
+    /*=============
      */
+
+    public void playCard() {
+        // check to make sure that this is not a trade or discard pile
+        if (trade2 == false && trade3 == false && trade5 == false && switchedDiscard == false) {
+            // check to see that only 1 card is selected
+            int a = 0;
+            int index = 0;
+            for (int i = 0; i < state.getCurrentPlayerHand().size(); i++) {
+                if (state.getCurrentPlayerHand().get(i).getSelected()) {
+                    a++;
+                    index = i;
+                }
+            }
+            if (a == 1) {
+                //find what card is too be played
+                switch(state.getCurrentPlayerHand().get(index).getCardType()) {
+                    case 6:
+                        PlayAttackCard attackCard =
+                                new PlayAttackCard(this);
+                        game.sendAction(attackCard);
+                        break;
+                    case 7:
+                        PlayShuffleCard shuffleCard =
+                                new PlayShuffleCard(this);
+                        game.sendAction(shuffleCard);
+                        break;
+                    case 8:
+                        int rand =
+                                (int)(Math.random()*state.getPlayerHand(tradePlayer).size());
+                        PlayFavorCard favorCard =
+                                new PlayFavorCard(this, tradePlayer,
+                                        rand);
+                        game.sendAction(favorCard);
+                        break;
+                    case 9:
+                        PlaySkipCard skipCard = new PlaySkipCard(this);
+                        game.sendAction(skipCard);
+                        break;
+                    case 10:
+                        seeTheFutHand = true;
+                        PlayFutureCard futureCard = new PlayFutureCard(this);
+                        game.sendAction(futureCard);
+                        if(state.getWhoseTurn() == this.playerNum) {
+                            seeTheFuture();
+                        }
+
+                        break;
+                    case 11:
+                        PlayNopeCard nopeCard = new PlayNopeCard(this);
+                        game.sendAction(nopeCard);
+                        break;
+                    case 12:
+                        PlayDefuseCard defuseCard =
+                                new PlayDefuseCard(this);
+                        game.sendAction(defuseCard);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    }
+
     protected void setPlayersText(){
         if(!state.hasPlayerLost(0)){
             player0CardCount.setText("Your Card Count: " + state.getPlayerHand(0).size());
