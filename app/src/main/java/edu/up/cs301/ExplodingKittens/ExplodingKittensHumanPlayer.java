@@ -1551,6 +1551,9 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
     }
 
     protected void setPlayer3Text(boolean isPlaying){
+        if(allPlayerNames.length < 4){
+            return;
+        }
         if(isPlaying){
             if(!state.hasPlayerLost(3)) {
                 player3Label.setText(allPlayerNames[3]);
