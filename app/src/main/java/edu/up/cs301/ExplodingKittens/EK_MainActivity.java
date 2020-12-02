@@ -18,7 +18,7 @@ import edu.up.cs301.game.GameFramework.gameConfiguration.GamePlayerType;
  * the pace of play significantly.
  *
  * 2. The Favor card only takes a random card from a target play instead of
- * allowing that pplayer to choose the card. This was similar to the nope
+ * allowing that player to choose the card. This was similar to the nope
  * card as it would be difficult to implement sending the action and waiting
  * then receiving an action (selecting a card) from the other play while.
  *

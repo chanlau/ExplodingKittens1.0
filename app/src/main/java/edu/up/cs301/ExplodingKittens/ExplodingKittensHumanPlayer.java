@@ -386,7 +386,13 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
         viewed or the discard pile is being viewed and is updated with the
         card indexes for the given array */
         // update whose turn it is
-        this.playerTurn.setText("Player " + state.getWhoseTurn() + " Turn");
+        if(state.getWhoseTurn() == this.playerNum){
+            this.playerTurn.setText("Your Turn");
+        }
+        else{
+            this.playerTurn.setText("Player " + state.getWhoseTurn() + "'s Turn");
+        }
+
         //if targeted player has lost, set target to a different player
         if(state.hasPlayerLost(tradePlayer)){
             while(state.hasPlayerLost(tradePlayer)){
@@ -660,17 +666,17 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 LayoutInflater inflater = (LayoutInflater)
                         myActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 //Set the layout of the view to the help window
-                View popupView = inflater.inflate(R.layout.help_window, null);
+                View popupView = inflater.inflate(R.layout.insert_explodingkitten_window, null);
 
 
                 // create popup window that will match the dimensions of the screen
-                int width = LinearLayout.LayoutParams.MATCH_PARENT;
-                int height = LinearLayout.LayoutParams.MATCH_PARENT;
+                int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+                int height = LinearLayout.LayoutParams.WRAP_CONTENT;
                 boolean focusable = true;
                 final PopupWindow helpWindow = new PopupWindow(popupView, width, height, focusable);
 
                 // show popup window
-                helpWindow.showAtLocation(button, Gravity.CENTER, 0, 0);
+                helpWindow.showAtLocation(button, Gravity.CENTER, 10, 10);
 
                 // dismiss the popup window when the screen is touched
                 popupView.setOnTouchListener(new View.OnTouchListener() {
