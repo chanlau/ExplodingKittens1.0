@@ -52,10 +52,17 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
 
     //receiveInfo: Computer takes in EKGameState to decide the course of action
     @Override
-    protected void receiveInfo(GameInfo info) {
+    protected void receiveInfo(GameInfo info) throws InterruptedException {
 
         if(!(info instanceof EKGameState)){ return;}
         this.computerState = (EKGameState) info;
+
+        if(!computerState.hasPlayerLost(0)) {
+            Thread.sleep(500);
+        }
+        else{
+            Thread.sleep(300);
+        }
 
         //check to see if it's this player's turn
         if(this.computerState.getWhoseTurn() != this.playerNum){
@@ -558,6 +565,10 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
             while(this.computerState.getActionsPerformed().get(actionTracker) == 6 || this.computerState.getActionsPerformed().get(actionTracker) == 9 ||
                     this.computerState.getActionsPerformed().get(actionTracker) == 11){
                     actionTracker = actionTracker - 1;
+                    if(actionTracker < 0){
+                        previousSTF = false;
+                        return;
+                    }
                 if(this.computerState.getActionsPerformed().get(actionTracker) == 10){
                     //set previous stf so that the computer knows someone
                     // played STF and skipped their turn

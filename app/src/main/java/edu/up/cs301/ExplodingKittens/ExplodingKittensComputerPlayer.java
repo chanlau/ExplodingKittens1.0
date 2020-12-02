@@ -42,11 +42,18 @@ public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
      * If any of the actions fails, then it will draw a card
      */
     @Override
-    protected void receiveInfo(GameInfo info) {
+    protected void receiveInfo(GameInfo info) throws InterruptedException {
         //Making sure that the info variable is
         //able to be type casted into a EKGameState
         if(!(info instanceof EKGameState)){ return;}
         EKGameState computerState = (EKGameState) info;
+
+        if(!computerState.hasPlayerLost(0)) {
+            Thread.sleep(700);
+        }
+        else{
+            Thread.sleep(300);
+        }
 
         //check to see if it's this player's turn
         if(computerState.getWhoseTurn() != this.playerNum){
