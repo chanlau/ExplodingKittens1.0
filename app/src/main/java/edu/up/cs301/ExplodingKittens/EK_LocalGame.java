@@ -43,7 +43,6 @@ public class EK_LocalGame extends LocalGame{
 
     //constructor
     public EK_LocalGame(int numOfPlayers) {
-        //creates a game with 4 players
         this.currState = new EKGameState(numOfPlayers);
     }
 
@@ -237,18 +236,18 @@ public class EK_LocalGame extends LocalGame{
 
         //if last action was skip undo skip
         if (currState.getActionsPerformed().get(actionTracker) == 9) {
-            decrementTurn();
             String logSkip = playerNames[currState.getWhoseTurn()] + " Nope'd a Skip card";
             currState.addToPlayerLog(logSkip);
             Log.d("Log Played Nope", logSkip);
+            decrementTurn();
         }
         //if last action was attack undo attack
         else if (currState.getActionsPerformed().get(actionTracker) == 6) {
-            decrementTurn();
             currState.setCardsToDraw(currState.getCardsToDraw() - 1);
             String logAttack = playerNames[currState.getWhoseTurn()] + " Nope'd an Attack card";
             currState.addToPlayerLog(logAttack);
             Log.d("Log Played Nope", logAttack);
+            decrementTurn();
         }
         //if last card was nope, check for more nopes
         else if (currState.getActionsPerformed().get(actionTracker) == 11) {
@@ -352,6 +351,9 @@ public class EK_LocalGame extends LocalGame{
             return false;
         }
         if(currState.getPlayerHand(target).size() == 0){
+            return false;
+        }
+        if(targCardPos >= currState.getPlayerHand(target).size()){
             return false;
         }
         //copy selected card from target player to current player
@@ -715,6 +717,11 @@ public class EK_LocalGame extends LocalGame{
     //Getter method to return local game's instance of EKGameState
     public EKGameState getCurrState(){
         return this.currState;
+    }
+
+    //Getter to get array of players
+    public GamePlayer[] getPlayers(){
+        return players;
     }
 
 }//EK_LocalGame
