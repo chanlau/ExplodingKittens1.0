@@ -3,6 +3,7 @@ package edu.up.cs301.ExplodingKittens;
 import android.content.Context;
 import android.graphics.Color;
 import android.media.Image;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -81,7 +82,6 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
     private Button trade3Btn = null;
     private Button trade5Btn = null;
     private Button enterBtn = null;
-    private Button playBtn = null;
     private Button endTurn = null;
     private Button helpBtn = null;
     /* image buttons that will be set to the corresponding image buttons for
@@ -1002,8 +1002,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             end turn button that resets all of the selected cards to not
             selected and sends the draw card action to the game
              */
-            else if (button == endTurn || button == deckBtn) {
-
+            else if (button == endTurn) {
                 // deselect all player hand cards
                 for (int a = 0; a < state.getPlayerHand(this.playerNum).size(); a++) {
                     state.getPlayerHand(this.playerNum).get(a).setSelected(false);
@@ -1031,7 +1030,6 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
 
         // for all image buttons
         else if (button instanceof ImageButton) {
-
             /*
             discard pile button sets the switchedDiscard boolean to true or not
              */
@@ -1060,6 +1058,30 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 }
                 updateDisplay();
             } //discard pile button
+
+            else if (button == deckBtn) {
+                // deselect all player hand cards
+                for (int a = 0; a < state.getPlayerHand(this.playerNum).size(); a++) {
+                    state.getPlayerHand(this.playerNum).get(a).setSelected(false);
+                }
+                // deselect all allCards cards
+                for (int b = 0; b < 11; b++) {
+                    allCards[b].setSelected(false);
+                }
+                // deselect all cards in the discard pile array
+                for (int c = 0; c < state.getDiscardPile().size(); c++) {
+                    state.getDiscardPile().get(c).setSelected(false);
+                }
+                // reset the trade booleans
+                trade2 = false;
+                trade3 = false;
+                trade5 = false;
+                trade2Btn.setText("Trade 2 Off");
+                trade3Btn.setText("Trade 3 Off");
+                trade5Btn.setText("Trade 5 Off");
+                DrawCardAction drawCard = new DrawCardAction(this);
+                game.sendAction(drawCard);
+            } // deck button
 
             /*
             card 1 image button that selects or deselcts the card object in
