@@ -666,12 +666,12 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 LayoutInflater inflater = (LayoutInflater)
                         myActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 //Set the layout of the view to the help window
-                View popupView = inflater.inflate(R.layout.insert_explodingkitten_window, null);
+                View popupView = inflater.inflate(R.layout.help_window, null);
 
 
                 // create popup window that will match the dimensions of the screen
-                int width = LinearLayout.LayoutParams.WRAP_CONTENT;
-                int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+                int width = LinearLayout.LayoutParams.MATCH_PARENT;
+                int height = LinearLayout.LayoutParams.MATCH_PARENT;
                 boolean focusable = true;
                 final PopupWindow helpWindow = new PopupWindow(popupView, width, height, focusable);
 

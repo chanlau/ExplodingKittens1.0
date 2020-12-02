@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="#4169E1">
+    android:background="@color/popup_window_color">
 
     <LinearLayout
         android:layout_width="match_parent"
