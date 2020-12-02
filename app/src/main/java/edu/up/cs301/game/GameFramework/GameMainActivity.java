@@ -327,6 +327,11 @@ public abstract class GameMainActivity extends AppCompatActivity implements
             }
         }
 
+        //Check if human player is player 0
+        if(!(players[0] instanceof GameHumanPlayer)){
+            return "Player 0 must be a Human Player.";
+        }
+
         // create the game if it's remote
         if (!config.isLocal()) { // remote game
             game = createRemoteGame(config.getIpCode());

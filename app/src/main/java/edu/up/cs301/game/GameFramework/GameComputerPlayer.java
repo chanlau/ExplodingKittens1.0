@@ -158,7 +158,7 @@ public abstract class GameComputerPlayer implements Tickable, GamePlayer {
      * @param info
      * 			the object representing the information from the game
      */
-    protected abstract void receiveInfo(GameInfo info);
+    protected abstract void receiveInfo(GameInfo info) throws InterruptedException;
 
     /**
      * Helper-class to post a message to this player's thread
@@ -238,12 +238,20 @@ public abstract class GameComputerPlayer implements Tickable, GamePlayer {
                         timerTicked();
                     }
                     else {
-                        receiveInfo(myInfo);
+                        try {
+                            receiveInfo(myInfo);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
                 else {
                     // invoke subclass method
-                    receiveInfo(myInfo);
+                    try {
+                        receiveInfo(myInfo);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }

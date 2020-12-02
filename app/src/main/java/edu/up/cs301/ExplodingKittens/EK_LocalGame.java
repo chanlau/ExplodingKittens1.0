@@ -43,7 +43,6 @@ public class EK_LocalGame extends LocalGame{
 
     //constructor
     public EK_LocalGame(int numOfPlayers) {
-        //creates a game with 4 players
         this.currState = new EKGameState(numOfPlayers);
     }
 
@@ -237,18 +236,18 @@ public class EK_LocalGame extends LocalGame{
 
         //if last action was skip undo skip
         if (currState.getActionsPerformed().get(actionTracker) == 9) {
-            decrementTurn();
             String logSkip = playerNames[currState.getWhoseTurn()] + " Nope'd a Skip card";
             currState.addToPlayerLog(logSkip);
             Log.d("Log Played Nope", logSkip);
+            decrementTurn();
         }
         //if last action was attack undo attack
         else if (currState.getActionsPerformed().get(actionTracker) == 6) {
-            decrementTurn();
             currState.setCardsToDraw(currState.getCardsToDraw() - 1);
             String logAttack = playerNames[currState.getWhoseTurn()] + " Nope'd an Attack card";
             currState.addToPlayerLog(logAttack);
             Log.d("Log Played Nope", logAttack);
+            decrementTurn();
         }
         //if last card was nope, check for more nopes
         else if (currState.getActionsPerformed().get(actionTracker) == 11) {
@@ -352,6 +351,9 @@ public class EK_LocalGame extends LocalGame{
             return false;
         }
         if(currState.getPlayerHand(target).size() == 0){
+            return false;
+        }
+        if(targCardPos >= currState.getPlayerHand(target).size()){
             return false;
         }
         //copy selected card from target player to current player
@@ -550,7 +552,7 @@ public class EK_LocalGame extends LocalGame{
         if(a >= currState.getCurrentPlayerHand().size() || b >= currState.getCurrentPlayerHand().size()){
             return false;
         }
-        if(currState.getPlayerHand(targ).size() == 0){
+        if(currState.getPlayerHand(targ).size() == 0 || currState.getPlayerHand(targ) == null){
             return false;
         }
 
@@ -636,7 +638,15 @@ public class EK_LocalGame extends LocalGame{
     //from the discard pile
     public boolean trade5(GamePlayer p, int cardPos1, int cardPos2, int cardPos3,
                           int cardPos4, int cardPos5, int target) {
-        //determine if the 5 cards are unique
+        if(cardPos1 >= currState.getCurrentPlayerHand().size() ||
+                cardPos2 >= currState.getCurrentPlayerHand().size() ||
+                cardPos3 >= currState.getCurrentPlayerHand().size() ||
+                cardPos4 >= currState.getCurrentPlayerHand().size() ||
+                cardPos5 >= currState.getCurrentPlayerHand().size() ){
+            return false;
+        }
+        
+            //determine if the 5 cards are unique
         int comp1 = currState.getCurrentPlayerHand().get(cardPos1).getCardType();
         int comp2 = currState.getCurrentPlayerHand().get(cardPos2).getCardType();
         int comp3 = currState.getCurrentPlayerHand().get(cardPos3).getCardType();
@@ -707,6 +717,11 @@ public class EK_LocalGame extends LocalGame{
     //Getter method to return local game's instance of EKGameState
     public EKGameState getCurrState(){
         return this.currState;
+    }
+
+    //Getter to get array of players
+    public GamePlayer[] getPlayers(){
+        return players;
     }
 
 }//EK_LocalGame
