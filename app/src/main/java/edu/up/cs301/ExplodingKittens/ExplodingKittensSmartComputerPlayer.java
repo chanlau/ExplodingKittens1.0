@@ -105,7 +105,8 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
                         if (computerState.getCurrentPlayerHand() != null) {
                             if (checkForPlayableCard() == true) {
                                 playCard(this.computerState, this.cardToPlayPos);
-                            } else {
+                            }
+                            else {
                                 if (getACard(this.computerState) == true) {
                                     return;
                                 }
@@ -155,9 +156,10 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
         }
         else{
             if(getACard(this.computerState) == true){
-                if(checkForPlayableCard() == true) {
-                    playCard(this.computerState, cardToPlayPos);
-                }
+                return;
+                //if(checkForPlayableCard() == true) {
+                //    playCard(this.computerState, cardToPlayPos);
+                //}
             }
             else{
                 DrawCardAction draw = new DrawCardAction(this);

@@ -13,9 +13,10 @@ import edu.up.cs301.game.GameFramework.gameConfiguration.GamePlayerType;
  *
  * 1. The Nope Card can only be use to Nope a card that was played by the
  * previous player only and only for attack, skip, and nope cards played.
- * Having every card played then send a request to each player asking if they
- * would like to nope the card was too difficult and would have slowed down
- * the pace of play significantly.
+ * This is because all other cards actions besides skip, attack, and nope
+ * happen immediately and having every card played then send a request to
+ * each player asking if they would like to nope the card was too difficult
+ * and would have slowed down the pace of play significantly.
  *
  * 2. The Favor card only takes a random card from a target play instead of
  * allowing that pplayer to choose the card. This was similar to the nope
@@ -48,6 +49,15 @@ import edu.up.cs301.game.GameFramework.gameConfiguration.GamePlayerType;
  *
  * 6. Computer actions and player actions for each round are now viewable in
  * the top left of the screen next to the "how to play" button.
+ *
+ * 7. Smart Computer player has been added to game
+ *
+ * 8. Possible to play with 2-4 players
+ *
+ * Known Bugs:
+ * 1. When making the human player any player except player0 the game is still
+ *  playable, but the player name text views are incorrect, and not all player
+ *  moves are shown in the player history
  *
  * @author Samuel Warrick
  * @author Kaulu Ng
@@ -87,14 +97,15 @@ public class EK_MainActivity extends GameMainActivity {
         // - from 1 to 2 players
         // - name of game is "Counter Game"
         // - port number as defined above
-        GameConfig defaultConfig = new GameConfig(playerTypes, 1, 4,
+        GameConfig defaultConfig = new GameConfig(playerTypes, 2, 4,
                 "Exploding Kittens" + " Game",
                 PORT_NUMBER);
 
         // Add the default players to the configuration
         defaultConfig.addPlayer("Human", 0); // player 1: a human player
         defaultConfig.addPlayer("Computer 1", 1); // player 2: a computer player
-        defaultConfig.addPlayer("Computer 2", 1); // player 3: a computer player
+        defaultConfig.addPlayer("Computer 2", 1); // player 3: a computer
+        // player
         defaultConfig.addPlayer("Computer 3", 2); // player 4: a computer
         // player
 
