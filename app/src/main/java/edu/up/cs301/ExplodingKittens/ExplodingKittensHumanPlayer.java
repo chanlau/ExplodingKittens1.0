@@ -1515,12 +1515,10 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
     //Visually put Player 2 in the game if they are playing
     protected void drawPlayer2(boolean isPlaying){
         if(isPlaying) {
-            if(state.getPlayerHand(2).size() != 0){
-                if (tradePlayer == 2 && state.getPlayerHand(2).get(0).getCardType() != 0) {
-                    player2.setImageResource(R.drawable.selectcardback);
-                }
+            if(state.getPlayerHand(2).size() != 0 && tradePlayer == 2){
+                player2.setImageResource(R.drawable.selectcardback);
             }
-            if (state.hasPlayerLost(2)) {
+            else if (state.hasPlayerLost(2)) {
                 player2.setImageResource(R.drawable.cardbacklost);
                 player2CardCount.setText(allPlayerNames[2] + " has lost the game");
             } else {
@@ -1536,12 +1534,10 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
     //Visually put Player 3 in the game if they are playing
     protected void drawPlayer3(boolean isPlaying){
         if(isPlaying) {
-            if(state.getPlayerHand(3).size() != 0){
-                if (tradePlayer == 3 && state.getPlayerHand(3).get(0).getCardType() != 0) {
-                    player3.setImageResource(R.drawable.selectcardback);
-                }
+            if(state.getPlayerHand(3).size() != 0 && tradePlayer == 3){
+                player3.setImageResource(R.drawable.selectcardback);
             }
-            if (state.hasPlayerLost(3)) {
+            else if (state.hasPlayerLost(3)) {
                 player3.setImageResource(R.drawable.cardbacklost);
                 player3CardCount.setText(allPlayerNames[3] + " has lost the game");
             } else {
