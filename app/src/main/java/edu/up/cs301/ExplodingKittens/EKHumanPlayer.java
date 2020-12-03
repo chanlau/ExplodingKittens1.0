@@ -2,6 +2,7 @@ package edu.up.cs301.ExplodingKittens;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.media.Image;
 import android.util.Log;
 import android.view.Gravity;
@@ -692,10 +693,21 @@ public class EKHumanPlayer extends GameHumanPlayer implements View.OnClickListen
             else if (button == leftScroll) {
                 for (int i = 0; i < 5; i++) {
                     if (cardHand[i] - 1 == -1) {
+                        leftScroll.getBackground().setColorFilter(0xFF808080,
+                                PorterDuff.Mode.MULTIPLY);
                         break;
-                    } else {
+                    }
+                    else {
+                        leftScroll.getBackground().setColorFilter(0xFFD3D3D3,
+                                    PorterDuff.Mode.MULTIPLY);
                         cardHand[i] = cardHand[i] - 1;
                     }
+                    if (cardHand[0] - 1  == -1) {
+                        leftScroll.getBackground().setColorFilter(0xFF808080,
+                                PorterDuff.Mode.MULTIPLY);
+                    }
+                    rightScroll.getBackground().setColorFilter(0xFFD3D3D3,
+                            PorterDuff.Mode.MULTIPLY);
                 }
             } //left scroll button
 
@@ -711,24 +723,54 @@ public class EKHumanPlayer extends GameHumanPlayer implements View.OnClickListen
                      */
                     if (!switchedDiscard && trade3Stage != 2) {
                         if (cardHand[4] + 1 >= state.getPlayerHand(this.playerNum).size()) {
+                            rightScroll.getBackground().setColorFilter(0xFF808080,
+                                    PorterDuff.Mode.MULTIPLY);
                             break;
                         } else {
+                            leftScroll.getBackground().setColorFilter(0xFFD3D3D3,
+                                    PorterDuff.Mode.MULTIPLY);
                             cardHand[i] = cardHand[i] + 1;
                         }
+                        if (cardHand[4] + 1  >= state.getPlayerHand(this.playerNum).size()) {
+                            rightScroll.getBackground().setColorFilter(0xFF808080,
+                                    PorterDuff.Mode.MULTIPLY);
+                        }
+                        leftScroll.getBackground().setColorFilter(0xFFD3D3D3,
+                                PorterDuff.Mode.MULTIPLY);
                     }
                     else if (switchedDiscard && trade3Stage != 2) {
                         if (cardHand[4] + 1 >= state.getDiscardPile().size()) {
+                            rightScroll.getBackground().setColorFilter(0xFF808080,
+                                    PorterDuff.Mode.MULTIPLY);
                             break;
                         } else {
+                            leftScroll.getBackground().setColorFilter(0xFFD3D3D3,
+                                    PorterDuff.Mode.MULTIPLY);
                             cardHand[i] = cardHand[i] + 1;
                         }
+                        if (cardHand[4] + 1  >= state.getDiscardPile().size()) {
+                            rightScroll.getBackground().setColorFilter(0xFF808080,
+                                    PorterDuff.Mode.MULTIPLY);
+                        }
+                        leftScroll.getBackground().setColorFilter(0xFFD3D3D3,
+                                PorterDuff.Mode.MULTIPLY);
                     }
                     else if (trade3Stage == 2) {
                         if (cardHand[4] + 1 >= allCards.length) {
+                            rightScroll.getBackground().setColorFilter(0xFF808080,
+                                    PorterDuff.Mode.MULTIPLY);
                             break;
                         } else {
+                            leftScroll.getBackground().setColorFilter(0xFFD3D3D3,
+                                    PorterDuff.Mode.MULTIPLY);
                             cardHand[i] = cardHand[i] + 1;
                         }
+                        if (cardHand[4] + 1  >= allCards.length) {
+                            rightScroll.getBackground().setColorFilter(0xFF808080,
+                                    PorterDuff.Mode.MULTIPLY);
+                        }
+                        leftScroll.getBackground().setColorFilter(0xFFD3D3D3,
+                                PorterDuff.Mode.MULTIPLY);
                     }
                 }
             } //right scroll button
@@ -1033,6 +1075,8 @@ public class EKHumanPlayer extends GameHumanPlayer implements View.OnClickListen
                 trade5Btn.setText("Trade 5 Off");
                 DrawCardAction drawCard = new DrawCardAction(this);
                 game.sendAction(drawCard);
+                rightScroll.getBackground().setColorFilter(0xFFD3D3D3,
+                        PorterDuff.Mode.MULTIPLY);
             } // endTurn button
         } // if statement for instance of button
 
@@ -1068,6 +1112,9 @@ public class EKHumanPlayer extends GameHumanPlayer implements View.OnClickListen
                 updateDisplay();
             } //discard pile button
 
+            /*
+            deck imageButton that also ends the turn and draws a card
+             */
             else if (button == deckBtn) {
                 // deselect all player hand cards
                 for (int a = 0; a < state.getPlayerHand(this.playerNum).size(); a++) {
@@ -1090,6 +1137,8 @@ public class EKHumanPlayer extends GameHumanPlayer implements View.OnClickListen
                 trade5Btn.setText("Trade 5 Off");
                 DrawCardAction drawCard = new DrawCardAction(this);
                 game.sendAction(drawCard);
+                rightScroll.getBackground().setColorFilter(0xFFD3D3D3,
+                        PorterDuff.Mode.MULTIPLY);
             } // deckBtn button
 
             /*
