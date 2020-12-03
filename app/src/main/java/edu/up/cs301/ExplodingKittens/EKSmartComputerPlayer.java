@@ -50,7 +50,12 @@ public class EKSmartComputerPlayer extends GameComputerPlayer {
         this.previousSTF = false;
     }
 
-    //receiveInfo: Computer takes in EKGameState to decide the course of action
+    /**
+     * computer receives an EKGameState and decides the next course of action
+     * @param info
+     *      GameInfo object that has the current game information
+     * @throws InterruptedException
+     */
     @Override
     protected void receiveInfo(GameInfo info) throws InterruptedException {
 
@@ -131,7 +136,13 @@ public class EKSmartComputerPlayer extends GameComputerPlayer {
 
     }//receive info
 
-    //playCard: Used to play a card based on the computers current situation
+    /**
+     * method to play a card based on the computer's current situation
+     * @param computerState
+     *      EKGameState object
+     * @param CardPos
+     *      int for the current card position
+     */
     private void playCard(EKGameState computerState, int CardPos){
         if(checkForPlayableCard() == true) {
             //Check to see which card was selected by the card selection process
@@ -175,10 +186,11 @@ public class EKSmartComputerPlayer extends GameComputerPlayer {
         }
         }//playCard()
 
-    //seeTheFuture
-    //Updates See the Future array
-    //If card is not EK then draw
-    //If cars is EK then play card
+    /**
+     * method for see the future card action. Tells the computer what the top
+     * 3 cards of the deck are and the computer reacts according to this
+     * information
+     */
     public void seeTheFuture(){
         int cardsToAdd = 3;
         //add top 3 cards of deck to STF array
@@ -214,7 +226,13 @@ public class EKSmartComputerPlayer extends GameComputerPlayer {
         }
     } //seeTheFuture
 
-    //getACard(): Used if player doesn't have a playable card but needs one
+    /**
+     * method to use if the computer doesn't have a playable card but needs one
+     * @param info
+     *      GameInfo object
+     * @return
+     *      boolean true if an action was take, false otherwise
+     */
     public boolean getACard(GameInfo info){
 
         //targets player with highest amount of cards in hand
@@ -315,10 +333,16 @@ public class EKSmartComputerPlayer extends GameComputerPlayer {
         return false;
     } //getCard
 
-
-    //Checks if there are numOfMatches of the same card in player hand
-    //returns -1 if there are less than numOfMatches of a card
-    //returns the CardType of a card with the amount of matches
+    /**
+     * method that checks if there are a certain number of matches of the
+     * same card in the computer's hand.
+     * @param numOfMatches
+     *      int for the desired number of same cards
+     * @return
+     *      returns an int that is -1 if there are less then numOfMatches
+     *      card match, else it returns the card type of the card with
+     *      numOfMatches cards of that card type
+     */
     public int checkForMatches(int numOfMatches){
         for(int a = 1; a < 12; a++) {
             int counter = 0;
@@ -334,7 +358,11 @@ public class EKSmartComputerPlayer extends GameComputerPlayer {
         return -1;
     } //checkForMatches
 
-    //Checks if the player has a defuse in hand
+    /**
+     * checks if the computer has a defuse card
+     * @return
+     *      returns true if true and false if false
+     */
     public boolean checkForDefuse(){
         for(int i = 0; i < this.computerState.getCurrentPlayerHand().size(); i++){
             if(this.computerState.getCurrentPlayerHand().get(i).getCardType() == 12){
@@ -344,7 +372,12 @@ public class EKSmartComputerPlayer extends GameComputerPlayer {
         return false;
     }//checkForDefuse
 
-    //Checks if next card is an EK based on STF card
+    /**
+     * checks if the next card is an exploding kitten based on see the future
+     * card
+     * @return
+     *      return true if true and false if false
+     */
     public boolean nextCardEK(){
         //checks that STF Array isn't empty
         if(this.STFArray.size() == 0){
@@ -392,7 +425,11 @@ public class EKSmartComputerPlayer extends GameComputerPlayer {
         return false;
     } //nextCardEK
 
-    //Checks if player has a playable card that's good for the situation
+    /**
+     * checks if the computer has a playable card that is good for the situation
+     * @return
+     *      returns true if true and false if false
+     */
     public boolean checkForPlayableCard(){
         //if you know next card is an Exploding Kitten
         if(nextCardEK() == true || previousSTF == true){
@@ -432,8 +469,12 @@ public class EKSmartComputerPlayer extends GameComputerPlayer {
         }
     }//checkForPlayableCard
 
-    //Trade 5
-    //Checks if player's capable of trading 5 and does it if possible
+    /**
+     * trade 5 action, checks if computer is capable of trading 5 cards and
+     * does it if possible
+     * @return
+     *      returns true if successful and false otherwise
+     */
     public boolean Trade5(){
 
         int cardPos1 = -1;

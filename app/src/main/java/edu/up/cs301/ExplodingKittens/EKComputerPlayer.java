@@ -185,15 +185,6 @@ public class EKComputerPlayer extends GameComputerPlayer {
         }
     }//receiveInfo
 
-    /**
-     * Update the display with actions that the computer player is taking.
-     * Do this so that the human player can follow along and understand what
-     * the computer players are doing
-     */
-    public void updateDisplay() {
-
-    }
-
     @Override
     public void setAsGui(GameMainActivity a) {
 

@@ -34,7 +34,7 @@ import edu.up.cs301.game.GameFramework.gameConfiguration.GamePlayerType;
  * it was an extra option that if we got to we would do but if not it would
  * not be a huge detriment to the game.
  *
- * Changes since Alpha release:
+ * Changes since Beta release:
  * 1. The Nope card has been implemented as discussed above.
  *
  * 2. All bugs that were brought up in the github were fixed.
@@ -120,7 +120,11 @@ public class EKMainActivity extends GameMainActivity {
         return defaultConfig;
     }
 
-    //creates instance of EKLocalGame
+    /**
+     * creates instance of local game
+     * @return
+     *      returns a LocalGame object
+     */
     @Override
     public LocalGame createLocalGame() {
         //Creates the LocalGame depending on the number of players in the menu
