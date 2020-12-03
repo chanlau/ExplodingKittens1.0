@@ -24,10 +24,10 @@ import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
  * @version 11/25/2020
  */
 
-public class ExplodingKittensComputerPlayer extends GameComputerPlayer {
+public class EKComputerPlayer extends GameComputerPlayer {
 
 
-    public ExplodingKittensComputerPlayer(String name) {
+    public EKComputerPlayer(String name) {
         super(name);
 
     }

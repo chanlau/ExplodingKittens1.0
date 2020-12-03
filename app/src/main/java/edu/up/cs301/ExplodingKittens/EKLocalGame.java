@@ -35,14 +35,14 @@ import static java.sql.Types.NULL;
  * @version November 2020
  */
 
-public class EK_LocalGame extends LocalGame{
+public class EKLocalGame extends LocalGame{
 
     //Instance variable representing the current state
     private EKGameState currState;
 
 
     //constructor
-    public EK_LocalGame(int numOfPlayers) {
+    public EKLocalGame(int numOfPlayers) {
         this.currState = new EKGameState(numOfPlayers);
     }
 
@@ -724,4 +724,8 @@ public class EK_LocalGame extends LocalGame{
         return players;
     }
 
-}//EK_LocalGame
+    public void setCurrState(EKGameState state){
+        this.currState = state;
+    }
+
+}//EKLocalGame

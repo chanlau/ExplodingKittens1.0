@@ -26,7 +26,7 @@ import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
  * @version November 2020
  */
 
-public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
+public class EKSmartComputerPlayer extends GameComputerPlayer {
 
     private double probability;
     private double random;
@@ -40,7 +40,7 @@ public class ExplodingKittensSmartComputerPlayer extends GameComputerPlayer {
      *
      * @param name the player's name (e.g., "John")
      */
-    public ExplodingKittensSmartComputerPlayer(String name) {
+    public EKSmartComputerPlayer(String name) {
         super(name);
         this.probability = 0;
         this.random = 0;
