@@ -34,14 +34,14 @@ import static java.sql.Types.NULL;
  * @author Chandler Lau
  * @version November 2020
  */
-
 public class EKLocalGame extends LocalGame{
-
     //Instance variable representing the current state
     private EKGameState currState;
 
-
-    //constructor
+    /**
+     * Constructor for EKLocalGame
+     * Initializes all instance variables
+     */
     public EKLocalGame(int numOfPlayers) {
         this.currState = new EKGameState(numOfPlayers);
     }

@@ -18,7 +18,10 @@ import edu.up.cs301.game.GameFramework.infoMessage.GameState;
  * @version November 2020
  */
 
-
+/**
+ * Constructor for EKGameState
+ * Initializes all instance variables
+ */
 public class EKGameState extends GameState {
     /**
      * External Citation
