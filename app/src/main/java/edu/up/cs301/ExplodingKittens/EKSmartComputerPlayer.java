@@ -587,8 +587,10 @@ public class EKSmartComputerPlayer extends GameComputerPlayer {
         return false;
     }//Trade5
 
-    //Checks the actionsPerformed array to check if there are any previous
-    // actions that the computer can use to decide it's next move
+    /**
+     * checks the actionsPerformed array to check if there are any previous
+     * actions that the computer can use to decide it's next move
+     */
     public void checkPreviousTurns(){
 
         if(this.computerState.getActionsPerformed() == null){
