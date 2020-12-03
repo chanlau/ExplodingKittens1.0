@@ -49,13 +49,20 @@ public class EKLocalGame extends LocalGame{
     private int deckIndexChoice = 0;
 
 
-    //constructor
+    /**
+     * constructor
+     * @param numOfPlayers
+     *      int to specify the number of players in the game
+     */
     public EKLocalGame(int numOfPlayers) {
         this.currState = new EKGameState(numOfPlayers);
     }
 
-
-    //send updated state to a given player
+    /**
+     * send the updated GameState to a given player
+     * @param p
+     *      GamePlayer object for the target player
+     */
     @Override
     protected void sendUpdatedStateTo(GamePlayer p) {
 
@@ -63,13 +70,24 @@ public class EKLocalGame extends LocalGame{
         p.sendInfo(gameCopy);
     }//sendUpdatedState
 
-    //checks if player can move
+    /**
+     * method to check if it is the current player's turn
+     * @param playerIdx
+     * 		the player's player-number (ID)
+     * @return
+     *      returns true if it is the player's turn and false otherwise
+     */
     @Override
     protected boolean canMove(int playerIdx) {
         return playerIdx == currState.getWhoseTurn();
     }//canMove
 
-    //checks if game is over
+    /**
+     * checks if the game is over by checking how many players have lost the
+     * game
+     * @return
+     *      returns a string message if the player has won and null if not
+     */
     @Override
     protected String checkIfGameOver() {
         //See how many players have lost the game
@@ -90,8 +108,14 @@ public class EKLocalGame extends LocalGame{
         return null;
     }//checkIfGameOver
 
-    //Takes in an instance of GameAction and acts according to the action
-    // taken in
+    /**
+     * method to make a move. Takes in an instance of GameAction and calls
+     * the correct action accordingly
+     * @param action
+     * 			The move that the player has sent to the game
+     * @return
+     *      returns true if an action was successful and false otherwise
+     */
     @Override
     protected boolean makeMove(GameAction action) {
 
@@ -503,7 +527,7 @@ public class EKLocalGame extends LocalGame{
      * Defuse card, defuses an exploding kitten card and saves the player
      * from losing the game. If the payer does not have a defuse card they
      * lose the game
-     * @param p
+     * @param player
      *      GamePlayer parameter for current player
      * @return
      *      returns true if the action was successful and false otherwise
@@ -793,8 +817,9 @@ public class EKLocalGame extends LocalGame{
         }
     } // trade5
 
-    //increments turn and wraps around from the last player to the first player
-    //skips over player if they have an exploding kitten
+    /**
+     * increments to the next player's turn
+     */
     public void nextTurn() {
         if(currState.getCardsToDraw() == 0){
             currState.setWhoseTurn((currState.getWhoseTurn()+1)%(currState.getNumPlayers()));
