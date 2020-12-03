@@ -76,4 +76,9 @@ public class EK_LocalGameTest {
         test.drawCard(p1);
         assertNotNull(test.getCurrState().getPlayers().get(0).getPlayerHand());
     }
+
+    @Test
+    public void makeMove() {
+
+    }
 }
