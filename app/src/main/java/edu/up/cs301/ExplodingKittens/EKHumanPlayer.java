@@ -1493,9 +1493,10 @@ public class EKHumanPlayer extends GameHumanPlayer implements View.OnClickListen
         updateDisplay();
     } //onClick method
 
-    /*=============
+    /**
+     * method called if the human player is playing a card. It checks what
+     * card type and sends the corresponding game action
      */
-
     public void playCard() {
         // check to make sure that this is not a trade or discard pile
         if (trade2 == false && trade3 == false && trade5 == false && switchedDiscard == false) {
@@ -1556,8 +1557,11 @@ public class EKHumanPlayer extends GameHumanPlayer implements View.OnClickListen
                 }
             }
         }
-    }
+    }//playCard()
 
+    /**
+     * sets the texts for each player based on how many players are in the game
+     */
     protected void setPlayersText(){
         //set the human text
         setPlayer0Text();
@@ -1585,9 +1589,13 @@ public class EKHumanPlayer extends GameHumanPlayer implements View.OnClickListen
                 break;
         }
 
-    }
+    }//setPlayersText()
 
-    //Visually put Player 1 in the game if they are playing
+    /**
+     * visually draws player 1 in the game if they are playing
+     * @param isPlaying
+     *      boolean, true if the player is playing, false otherwise
+     */
     protected void drawPlayer1(boolean isPlaying){
         if(isPlaying) {
             if(state.getPlayerHand(1).size() != 0){
@@ -1612,8 +1620,13 @@ public class EKHumanPlayer extends GameHumanPlayer implements View.OnClickListen
             player1.setImageResource(R.drawable.blankcard);
             player1.setClickable(false);
         }
-    }
-    //Visually put Player 2 in the game if they are playing
+    }//drawPlayer1()
+
+    /**
+     * visually draws player 2 in the game if they are playing
+     * @param isPlaying
+     *      boolean, true if the player is playing, false otherwise
+     */
     protected void drawPlayer2(boolean isPlaying){
         if(isPlaying) {
             if(state.getPlayerHand(2).size() != 0){
@@ -1638,9 +1651,13 @@ public class EKHumanPlayer extends GameHumanPlayer implements View.OnClickListen
             player2.setImageResource(R.drawable.blankcard);
             player2.setClickable(false);
         }
-    }
+    }//drawPlayer2()
 
-    //Visually put Player 3 in the game if they are playing
+    /**
+     * visually draws player 3 in the game if they are playing
+     * @param isPlaying
+     *      boolean, true if the player is playing, false otherwise
+     */
     protected void drawPlayer3(boolean isPlaying){
         if(isPlaying) {
             if(state.getPlayerHand(3).size() != 0){
@@ -1665,8 +1682,11 @@ public class EKHumanPlayer extends GameHumanPlayer implements View.OnClickListen
             player3.setImageResource(R.drawable.blankcard);
             player3.setClickable(false);
         }
-    }
-    //Set's the text of Human Player depending on if they are playing or not
+    }//drawPlayer3
+
+    /**
+     * Set's the text of Player 3 depending on if they are playing or not
+     */
     protected void setPlayer0Text(){
         if(!state.hasPlayerLost(0)){
             player0CardCount.setText("Your Card Count: " + state.getPlayerHand(0).size());
@@ -1678,7 +1698,11 @@ public class EKHumanPlayer extends GameHumanPlayer implements View.OnClickListen
         }
     }
 
-    //Set's the text of Player 1 depending on if they are playing or not
+    /**
+     * Set's the text of Player 1 depending on if they are playing or not
+     * @param isPlaying
+     *      boolean, true if the player is playing false otherwise
+     */
     protected void setPlayer1Text(boolean isPlaying){
         if(isPlaying){
             if(!state.hasPlayerLost(1)) {
@@ -1692,7 +1716,11 @@ public class EKHumanPlayer extends GameHumanPlayer implements View.OnClickListen
         }
     }
 
-    //Set's the text of Player 2 depending on if they are playing or not
+    /**
+     * Set's the text of Player 2 depending on if they are playing or not
+     * @param isPlaying
+     *      boolean, true if the player is playing false otherwise
+     */
     protected void setPlayer2Text(boolean isPlaying){
         if(isPlaying){
             if(!state.hasPlayerLost(2)) {
@@ -1706,7 +1734,11 @@ public class EKHumanPlayer extends GameHumanPlayer implements View.OnClickListen
         }
     }
 
-    //Set's the text of Player 3 depending on if they are playing or not
+    /**
+     * Set's the text of Player 3 depending on if they are playing or not
+     * @param isPlaying
+     *      boolean, true if the player is playing false otherwise
+     */
     protected void setPlayer3Text(boolean isPlaying){
         if(isPlaying){
             if(!state.hasPlayerLost(3)) {
