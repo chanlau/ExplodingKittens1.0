@@ -388,7 +388,7 @@ public class EKSmartComputerPlayer extends GameComputerPlayer {
         if(this.STFArray.size() == 0){
             return false;
         }
-        
+
         //Checks if the location that the computer put the EK in is still
         // relevant and if it's the next card
         int deckSizeChange = lastDeckSize - computerState.getDeck().size();
@@ -683,7 +683,13 @@ public class EKSmartComputerPlayer extends GameComputerPlayer {
 
     }//checkPreviousTurns
 
+
     public void setEKLocation(int location){
         this.EKLocation = location;
     }
+
+    public void setLastDeckSize(int size){
+        this.lastDeckSize = size;
+    }
+
 }

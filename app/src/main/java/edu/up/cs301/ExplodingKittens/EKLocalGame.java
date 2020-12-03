@@ -554,6 +554,8 @@ public class EKLocalGame extends LocalGame{
                     int randPos = (int) (Math.random() * (currState.getDeck().size()));
                     currState.getDeck().add(randPos, new Card(0));
                     ((EKSmartComputerPlayer) player).setEKLocation(randPos);
+                    ((EKSmartComputerPlayer) player).setLastDeckSize(currState.getDeck().size());
+
                 } else {
                     //Insert the exploding kitten in a random spot *Dumb Move
                     int randPos = (int) (Math.random() * (currState.getDeck().size()));
