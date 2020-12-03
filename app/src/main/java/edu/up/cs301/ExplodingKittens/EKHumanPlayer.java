@@ -3,6 +3,7 @@ package edu.up.cs301.ExplodingKittens;
 import android.content.Context;
 import android.graphics.Color;
 import android.media.Image;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -29,8 +30,10 @@ import edu.up.cs301.ExplodingKittens.EKActions.PlaySkipCard;
 import edu.up.cs301.ExplodingKittens.EKActions.Trade2Action;
 import edu.up.cs301.ExplodingKittens.EKActions.Trade3Action;
 import edu.up.cs301.ExplodingKittens.EKActions.Trade5Action;
+import edu.up.cs301.game.GameFramework.Game;
 import edu.up.cs301.game.GameFramework.GameHumanPlayer;
 import edu.up.cs301.game.GameFramework.GameMainActivity;
+import edu.up.cs301.game.GameFramework.LocalGame;
 import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
 import edu.up.cs301.game.R;
 
@@ -81,7 +84,6 @@ public class EKHumanPlayer extends GameHumanPlayer implements View.OnClickListen
     private Button trade3Btn = null;
     private Button trade5Btn = null;
     private Button enterBtn = null;
-    private Button playBtn = null;
     private Button endTurn = null;
     private Button helpBtn = null;
     /* image buttons that will be set to the corresponding image buttons for
@@ -710,7 +712,7 @@ public class EKHumanPlayer extends GameHumanPlayer implements View.OnClickListen
                 final PopupWindow helpWindow = new PopupWindow(popupView, width, height, focusable);
 
                 // show popup window
-                helpWindow.showAtLocation(button, Gravity.CENTER, 10, 10);
+                helpWindow.showAtLocation(button, Gravity.CENTER, 0, 0);
 
                 // dismiss the popup window when the screen is touched
                 popupView.setOnTouchListener(new View.OnTouchListener() {
@@ -720,6 +722,7 @@ public class EKHumanPlayer extends GameHumanPlayer implements View.OnClickListen
                         return true;
                     }
                 });
+                Log.d("Log outside", "You are now outisde the onTouch method");
             }
             else if (button == leftScroll) {
                 for (int i = 0; i < 5; i++) {
@@ -1645,6 +1648,10 @@ public class EKHumanPlayer extends GameHumanPlayer implements View.OnClickListen
             player3CardCount.setText(" ");
         }
     }
+
+    public GameMainActivity getMyActivity(){ return this.myActivity;}
+
+    public Game getMyGame() { return this.game;}
 
 }
 
