@@ -35,9 +35,11 @@ public class EKSmartComputerPlayer extends GameComputerPlayer {
     private ArrayList<Integer> STFArray;
     private EKGameState computerState;
     private boolean previousSTF;
+    private int EKLocation;
+    private int lastDeckSize;
     /**
      * constructor
-     *
+     * Initializes all instance variables
      * @param name the player's name (e.g., "John")
      */
     public EKSmartComputerPlayer(String name) {
@@ -48,12 +50,15 @@ public class EKSmartComputerPlayer extends GameComputerPlayer {
         this.STFDeckSize = 0;
         this.STFArray = new ArrayList<Integer>();
         this.previousSTF = false;
+        this.EKLocation = -1;
+        this.lastDeckSize = 0;
     }
 
     /**
-     * computer receives an EKGameState and decides the next course of action
+     *
      * @param info
      *      GameInfo object that has the current game information
+     *      computer receives an EKGameState and decides the next course of action
      * @throws InterruptedException
      */
     @Override
@@ -186,7 +191,7 @@ public class EKSmartComputerPlayer extends GameComputerPlayer {
         }
         }//playCard()
 
-    /**
+    /** seeTheFuture
      * method for see the future card action. Tells the computer what the top
      * 3 cards of the deck are and the computer reacts according to this
      * information
@@ -383,7 +388,22 @@ public class EKSmartComputerPlayer extends GameComputerPlayer {
         if(this.STFArray.size() == 0){
             return false;
         }
-        else if(this.STFArray.size() != 0) {
+        
+        //Checks if the location that the computer put the EK in is still
+        // relevant and if it's the next card
+        int deckSizeChange = lastDeckSize - computerState.getDeck().size();
+        EKLocation = this.EKLocation - deckSizeChange;
+        if(this.EKLocation != -1) {
+            if (computerState.getDeck().get(this.EKLocation).getCardType() != 0 || EKLocation < 0) {
+                this.EKLocation = -1;
+            }
+            //If next draw is EK based on spot computer player put it in
+            if(EKLocation == 0){
+                return true;
+            }
+        }
+
+        if(this.STFArray.size() != 0) {
             //Updating STFArray
             //If deck size changed since STF activated, update array accordingly
             if (this.computerState.getDeck().size() < this.STFDeckSize) {
@@ -661,7 +681,9 @@ public class EKSmartComputerPlayer extends GameComputerPlayer {
             }
         }
 
-
     }//checkPreviousTurns
 
+    public void setEKLocation(int location){
+        this.EKLocation = location;
+    }
 }
