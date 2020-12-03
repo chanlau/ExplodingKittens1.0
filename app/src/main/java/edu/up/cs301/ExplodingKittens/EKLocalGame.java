@@ -590,8 +590,7 @@ public class EKLocalGame extends LocalGame{
         if (currState.getCardsToDraw() == 0){
             String Message = playerNames[currState.getWhoseTurn()] + " defused an ExplodingKitten";
             currState.addToPlayerLog(Message);
-            Log.d(" Log Draw Card", Message);
-
+            Log.d(" Log Defused an ExplodingKitten", Message);
             nextTurn();
             return true;
         }
