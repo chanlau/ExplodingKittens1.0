@@ -3,6 +3,7 @@ package edu.up.cs301.ExplodingKittens;
 import android.content.Context;
 import android.graphics.Color;
 import android.media.Image;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -29,8 +30,10 @@ import edu.up.cs301.ExplodingKittens.EKActions.PlaySkipCard;
 import edu.up.cs301.ExplodingKittens.EKActions.Trade2Action;
 import edu.up.cs301.ExplodingKittens.EKActions.Trade3Action;
 import edu.up.cs301.ExplodingKittens.EKActions.Trade5Action;
+import edu.up.cs301.game.GameFramework.Game;
 import edu.up.cs301.game.GameFramework.GameHumanPlayer;
 import edu.up.cs301.game.GameFramework.GameMainActivity;
+import edu.up.cs301.game.GameFramework.LocalGame;
 import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
 import edu.up.cs301.game.R;
 
@@ -42,7 +45,7 @@ import edu.up.cs301.game.R;
  * @version 11/25/2020
  */
 
-public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View.OnClickListener {
+public class EKHumanPlayer extends GameHumanPlayer implements View.OnClickListener {
 
     //gamestate variable
     private EKGameState state;
@@ -81,7 +84,6 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
     private Button trade3Btn = null;
     private Button trade5Btn = null;
     private Button enterBtn = null;
-    private Button playBtn = null;
     private Button endTurn = null;
     private Button helpBtn = null;
     /* image buttons that will be set to the corresponding image buttons for
@@ -153,7 +155,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
      *      number corresponding to this player
      *      name corresponding to this player
      */
-    public ExplodingKittensHumanPlayer(String name) {
+    public EKHumanPlayer(String name) {
         super(name);
         /*
         set the cardHand array to the first 5 indexes in the players hand
@@ -676,7 +678,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                 final PopupWindow helpWindow = new PopupWindow(popupView, width, height, focusable);
 
                 // show popup window
-                helpWindow.showAtLocation(button, Gravity.CENTER, 10, 10);
+                helpWindow.showAtLocation(button, Gravity.CENTER, 0, 0);
 
                 // dismiss the popup window when the screen is touched
                 popupView.setOnTouchListener(new View.OnTouchListener() {
@@ -686,6 +688,7 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
                         return true;
                     }
                 });
+                Log.d("Log outside", "You are now outisde the onTouch method");
             }
             else if (button == leftScroll) {
                 for (int i = 0; i < 5; i++) {
@@ -1611,6 +1614,10 @@ public class ExplodingKittensHumanPlayer extends GameHumanPlayer implements View
             player3CardCount.setText(" ");
         }
     }
+
+    public GameMainActivity getMyActivity(){ return this.myActivity;}
+
+    public Game getMyGame() { return this.game;}
 
 }
 

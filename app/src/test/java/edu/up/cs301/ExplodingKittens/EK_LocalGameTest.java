@@ -8,7 +8,7 @@ public class EK_LocalGameTest {
 
     @Test
     public void populateDeck() {
-        EK_LocalGame test = new EK_LocalGame();
+        EKLocalGame test = new EKLocalGame();
         assertNull(test.getCurrState().getDeck());
         test.populateDeck();
         assertNotNull(test.getCurrState().getDeck());
@@ -16,7 +16,7 @@ public class EK_LocalGameTest {
 
     @Test
     public void populateDefuseExplode() {
-        EK_LocalGame test = new EK_LocalGame();
+        EKLocalGame test = new EKLocalGame();
         test.populateDeck();
         assertEquals(11, test.getCurrState().getDeck().get(test.getCurrState().getDeck().size()-1).getCardType());
         test.populateDefuseExplode();
@@ -25,7 +25,7 @@ public class EK_LocalGameTest {
 
     @Test
     public void shuffle() {
-        EK_LocalGame test = new EK_LocalGame();
+        EKLocalGame test = new EKLocalGame();
         Player p1 = new Player(1, "Player 1");
         Player p2 = new Player(2, "Player 2");
         test.getCurrState().addPlayer(p1);
@@ -38,7 +38,7 @@ public class EK_LocalGameTest {
 
     @Test
     public void skip() {
-        EK_LocalGame test = new EK_LocalGame();
+        EKLocalGame test = new EKLocalGame();
         Player p1 = new Player(1, "Player 1");
         Player p2 = new Player(2, "Player 2");
         test.getCurrState().addPlayer(p1);
@@ -51,7 +51,7 @@ public class EK_LocalGameTest {
 
     @Test
     public void defuse() {
-        EK_LocalGame test = new EK_LocalGame();
+        EKLocalGame test = new EKLocalGame();
         Player p1 = new Player(1, "Player 1");
         Player p2 = new Player(2, "Player 2");
         test.getCurrState().addPlayer(p1);
@@ -66,7 +66,7 @@ public class EK_LocalGameTest {
 
     @Test
     public void drawCard() {
-        EK_LocalGame test = new EK_LocalGame();
+        EKLocalGame test = new EKLocalGame();
         Player p1 = new Player(1, "Player 1");
         Player p2 = new Player(2, "Player 2");
         test.getCurrState().addPlayer(p1);
