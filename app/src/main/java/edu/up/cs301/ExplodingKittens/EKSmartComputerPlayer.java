@@ -379,7 +379,7 @@ public class EKSmartComputerPlayer extends GameComputerPlayer {
 
     /**
      * checks if the next card is an exploding kitten based on see the future
-     * card
+     * card && previous position the computer placed EK in after Defuse
      * @return
      *      return true if true and false if false
      */
@@ -393,7 +393,7 @@ public class EKSmartComputerPlayer extends GameComputerPlayer {
         // relevant and if it's the next card
         int deckSizeChange = lastDeckSize - computerState.getDeck().size();
         EKLocation = this.EKLocation - deckSizeChange;
-        if(this.EKLocation != -1) {
+        if(this.EKLocation >= 0 && this.EKLocation < computerState.getDeck().size()) {
             if (computerState.getDeck().get(this.EKLocation).getCardType() != 0 || EKLocation < 0) {
                 this.EKLocation = -1;
             }
@@ -683,13 +683,18 @@ public class EKSmartComputerPlayer extends GameComputerPlayer {
 
     }//checkPreviousTurns
 
-
+    /**
+     * setter method for EKLocation
+     */
     public void setEKLocation(int location){
         this.EKLocation = location;
-    }
+    }//setEKLocation
 
+    /**
+     * setter method for lastDeckSize
+     */
     public void setLastDeckSize(int size){
         this.lastDeckSize = size;
-    }
+    }//setLastDeckSize
 
 }
