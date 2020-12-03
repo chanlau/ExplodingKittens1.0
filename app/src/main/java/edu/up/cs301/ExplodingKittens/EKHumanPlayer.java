@@ -723,7 +723,7 @@ public class EKHumanPlayer extends GameHumanPlayer implements View.OnClickListen
                         return true;
                     }
                 });
-                Log.d("Log outside", "You are now outisde the onTouch method");
+
             }
             else if (button == leftScroll) {
                 for (int i = 0; i < 5; i++) {

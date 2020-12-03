@@ -69,6 +69,7 @@ public class EKGameState extends GameState {
         populateDeck();
         populateHands();
         populateDefuseExplode();
+        this.humanDefusing = false;
     }//EKGameState
 
     public void setHumanDefuse(boolean bool){
@@ -342,5 +343,3 @@ public class EKGameState extends GameState {
     }
 
 }
-
-
