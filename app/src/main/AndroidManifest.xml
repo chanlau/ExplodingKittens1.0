@@ -14,7 +14,7 @@
 
         <!-- <activity android:name="edu.up.cs301.counter
         .CounterMainActivity" -->
-        <activity android:name="edu.up.cs301.ExplodingKittens.EK_MainActivity"
+        <activity android:name="edu.up.cs301.ExplodingKittens.EKMainActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:screenOrientation="landscape"
             >

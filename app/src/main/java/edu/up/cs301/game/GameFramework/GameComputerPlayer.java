@@ -336,4 +336,6 @@ public abstract class GameComputerPlayer implements Tickable, GamePlayer {
     protected void timerTicked() {
         // by default, do nothing
     }
+
+    public Game getGame() {return this.game; }
 }// class GameComputerPlayer

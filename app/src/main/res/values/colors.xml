@@ -8,4 +8,5 @@
     <color name="green">#00FF00</color>
     <color name="red">#FF0000</color>
     <color name="game_background">#FFE4C4</color>
+    <color name="popup_window_color">#4169E1</color>
 </resources>

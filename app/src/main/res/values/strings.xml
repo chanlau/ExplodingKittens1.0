@@ -66,4 +66,11 @@
         pile and select a card to take. Next, press the discard pile again to exit it. Finally,
         press the "Enter" button to confirm your action.
     </string>
+
+    <string name="explodingKitten_popup_text">
+        Wow! You just defused an Exploding Kitten. If you want to place the card in a random place,
+        press the Random Place button. If you want to choose a place in the deck press the +
+        and - button until you reach your desired place. To confirm the position, press the
+        Enter button.
+    </string>
 </resources>

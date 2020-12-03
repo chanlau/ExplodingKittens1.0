@@ -64,7 +64,7 @@ import edu.up.cs301.game.GameFramework.gameConfiguration.GamePlayerType;
  * @author Chandler Lau
  * @version November 2020
  */
-public class EK_MainActivity extends GameMainActivity {
+public class EKMainActivity extends GameMainActivity {
 
     // the port number that this game will use when playing over the network
     private static final int PORT_NUMBER = 7513;
@@ -77,19 +77,19 @@ public class EK_MainActivity extends GameMainActivity {
         // a human player player type (player type 0)
         playerTypes.add(new GamePlayerType("Local Human Player") {
             public GamePlayer createPlayer(String name) {
-                return new ExplodingKittensHumanPlayer(name);
+                return new EKHumanPlayer(name);
             }});
 
         // a computer player type (player type 1)
         playerTypes.add(new GamePlayerType("Computer Player") {
             public GamePlayer createPlayer(String name) {
-                return new ExplodingKittensComputerPlayer(name);
+                return new EKComputerPlayer(name);
             }});
 
         // a computer player type (player type 2)
         playerTypes.add(new GamePlayerType("Smart Computer Player") {
             public GamePlayer createPlayer(String name) {
-                return new ExplodingKittensSmartComputerPlayer(name);
+                return new EKSmartComputerPlayer(name);
             }});
 
         // Create a game configuration class for Counter:
@@ -124,7 +124,7 @@ public class EK_MainActivity extends GameMainActivity {
     @Override
     public LocalGame createLocalGame() {
         //Creates the LocalGame depending on the number of players in the menu
-        return new EK_LocalGame(this.getTablePlayersSize());
+        return new EKLocalGame(this.getTablePlayersSize());
     }
 
 }
