@@ -152,7 +152,6 @@ public class EKHumanPlayer extends GameHumanPlayer implements View.OnClickListen
     /**
      * constructor
      * @param name
-     *      number corresponding to this player
      *      name corresponding to this player
      */
     public EKHumanPlayer(String name) {
@@ -1045,7 +1044,7 @@ public class EKHumanPlayer extends GameHumanPlayer implements View.OnClickListen
             end turn button that resets all of the selected cards to not
             selected and sends the draw card action to the game
              */
-            else if (button == endTurn || button == deckBtn) {
+            else if (button == endTurn) {
 
                 // deselect all player hand cards
                 for (int a = 0; a < state.getPlayerHand(this.playerNum).size(); a++) {
@@ -1069,7 +1068,6 @@ public class EKHumanPlayer extends GameHumanPlayer implements View.OnClickListen
                 DrawCardAction drawCard = new DrawCardAction(this);
                 game.sendAction(drawCard);
             } // endTurn button
-            int queryT = 0;
         } // if statement for instance of button
 
         // for all image buttons
@@ -1103,6 +1101,30 @@ public class EKHumanPlayer extends GameHumanPlayer implements View.OnClickListen
                 }
                 updateDisplay();
             } //discard pile button
+
+            else if (button == deckBtn) {
+                // deselect all player hand cards
+                for (int a = 0; a < state.getPlayerHand(this.playerNum).size(); a++) {
+                    state.getPlayerHand(this.playerNum).get(a).setSelected(false);
+                }
+                // deselect all allCards cards
+                for (int b = 0; b < 11; b++) {
+                    allCards[b].setSelected(false);
+                }
+                // deselect all cards in the discard pile array
+                for (int c = 0; c < state.getDiscardPile().size(); c++) {
+                    state.getDiscardPile().get(c).setSelected(false);
+                }
+                // reset the trade booleans
+                trade2 = false;
+                trade3 = false;
+                trade5 = false;
+                trade2Btn.setText("Trade 2 Off");
+                trade3Btn.setText("Trade 3 Off");
+                trade5Btn.setText("Trade 5 Off");
+                DrawCardAction drawCard = new DrawCardAction(this);
+                game.sendAction(drawCard);
+            } // deckBtn button
 
             /*
             card 1 image button that selects or deselcts the card object in
