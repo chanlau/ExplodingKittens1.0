@@ -20,6 +20,7 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 
 import edu.up.cs301.ExplodingKittens.EKActions.DrawCardAction;
+import edu.up.cs301.ExplodingKittens.EKActions.EndTurnAction;
 import edu.up.cs301.ExplodingKittens.EKActions.PlayAttackCard;
 import edu.up.cs301.ExplodingKittens.EKActions.PlayDefuseCard;
 import edu.up.cs301.ExplodingKittens.EKActions.PlayFavorCard;
@@ -1034,6 +1035,7 @@ public class EKHumanPlayer extends GameHumanPlayer implements View.OnClickListen
                 trade5Btn.setText("Trade 5 Off");
                 DrawCardAction drawCard = new DrawCardAction(this);
                 game.sendAction(drawCard);
+
             } // endTurn button
             int queryT = 0;
         } // if statement for instance of button

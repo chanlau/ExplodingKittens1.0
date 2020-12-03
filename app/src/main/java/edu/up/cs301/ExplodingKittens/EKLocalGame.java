@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import edu.up.cs301.ExplodingKittens.EKActions.DrawCardAction;
+import edu.up.cs301.ExplodingKittens.EKActions.EndTurnAction;
 import edu.up.cs301.ExplodingKittens.EKActions.PlayAttackCard;
 import edu.up.cs301.ExplodingKittens.EKActions.PlayDefuseCard;
 import edu.up.cs301.ExplodingKittens.EKActions.PlayFavorCard;
@@ -25,6 +26,7 @@ import edu.up.cs301.ExplodingKittens.EKActions.PlaySkipCard;
 import edu.up.cs301.ExplodingKittens.EKActions.Trade2Action;
 import edu.up.cs301.ExplodingKittens.EKActions.Trade3Action;
 import edu.up.cs301.ExplodingKittens.EKActions.Trade5Action;
+import edu.up.cs301.game.GameFramework.GameComputerPlayer;
 import edu.up.cs301.game.GameFramework.GameMainActivity;
 import edu.up.cs301.game.GameFramework.GamePlayer;
 import edu.up.cs301.game.GameFramework.LocalGame;
@@ -149,6 +151,16 @@ public class EKLocalGame extends LocalGame{
                         ((Trade5Action) action).getPosC3(),
                         ((Trade5Action) action).getPosC4(), ((Trade5Action) action).getPosC5(),
                         ((Trade5Action) action).getTargetValue());
+        }
+        else if(action instanceof EndTurnAction){
+            if(!currState.hasPlayerLost(currState.getWhoseTurn())){
+                //Sending a message to the log to show that you drew a card
+                String logMessage = playerNames[currState.getWhoseTurn()] + " drew a card ";
+                currState.addToPlayerLog(logMessage);
+                Log.d(" Log Draw Card", logMessage);
+            }
+                nextTurn();
+            return true;
         }
         else{
             //error message
@@ -443,7 +455,7 @@ public class EKLocalGame extends LocalGame{
 
     //Skip card
     //current players turn ends without drawing a card
-    public boolean Skip(GamePlayer p) {
+    public boolean Skip(GamePlayer player) {
         int card = checkHand(currState.getCurrentPlayerHand(), 9);
         if(card == -1){
             return false;
@@ -484,9 +496,7 @@ public class EKLocalGame extends LocalGame{
         int explodePos = checkHand(currState.getCurrentPlayerHand(), 0);
         if(defusePos != -1 && explodePos != -1){
 
-            currState.getDiscardPile().add(currState.getCurrentPlayerHand().get(defusePos));
-            currState.getCurrentPlayerHand().remove(explodePos);
-            currState.getCurrentPlayerHand().remove(defusePos);
+
 
             //Sending a message to the log
             logMessage = playerNames[currState.getWhoseTurn()] + " defused an ExplodingKitten ";
@@ -497,10 +507,18 @@ public class EKLocalGame extends LocalGame{
                 humanDefuse((EKHumanPlayer)player);
             }
             else if(player instanceof EKSmartComputerPlayer){
+                currState.getDiscardPile().add(currState.getCurrentPlayerHand().get(defusePos));
+                currState.getCurrentPlayerHand().remove(explodePos);
+                currState.getCurrentPlayerHand().remove(defusePos);
+                int randPos = (int) (Math.random() * (currState.getDeck().size()));
+                currState.getDeck().add(randPos, new Card(0));
 
             }
             else {
                 //Insert the exploding kitten in a random spot *Dumb Move
+                currState.getDiscardPile().add(currState.getCurrentPlayerHand().get(defusePos));
+                currState.getCurrentPlayerHand().remove(explodePos);
+                currState.getCurrentPlayerHand().remove(defusePos);
                 int randPos = (int) (Math.random() * (currState.getDeck().size()));
                 currState.getDeck().add(randPos, new Card(0));
 
@@ -528,7 +546,7 @@ public class EKLocalGame extends LocalGame{
             return false;
         }
         if (currState.getCardsToDraw() == 0){
-            nextTurn();
+            sendEndTurnAction(player);
             return true;
         }
         //add top card of deck to hand and remove it from deck
@@ -537,18 +555,14 @@ public class EKLocalGame extends LocalGame{
         currState.getDeck().remove(0);
         currState.setCardsToDraw(currState.getCardsToDraw()-1);
 
-        //Sending a message to the log
-        String logMessage = playerNames[currState.getWhoseTurn()] + " drew a card ";
-        currState.addToPlayerLog(logMessage);
-        Log.d(" Log Draw Card", logMessage);
-
         //Check if the player drew an Exploding Kitten and they can't defuse it, then they lose
         if(checkHand(currState.getCurrentPlayerHand(),0) != -1){
+            //If they fail to defuse it then they lose
             if(!Defuse(player)) {
                 Card temp = new Card(0);
                 currState.getCurrentPlayerHand().clear();
                 currState.getCurrentPlayerHand().add(temp);
-                nextTurn();
+                sendEndTurnAction(player);
                 return true;
             }
         }
@@ -557,7 +571,8 @@ public class EKLocalGame extends LocalGame{
             //adds draw action to action history array
             currState.addActionsPerformed(1);
             currState.addWhoPerformed();
-            nextTurn();
+            sendEndTurnAction(player);
+            return true;
         }
         else{
             currState.addActionsPerformed(1);
@@ -746,7 +761,6 @@ public class EKLocalGame extends LocalGame{
          */
         GameMainActivity playerMainActivity = player.getMyActivity();
 
-
         //inflate the view
         LayoutInflater inflater = (LayoutInflater)
                 playerMainActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -772,26 +786,42 @@ public class EKLocalGame extends LocalGame{
         Button plusButton = (Button)popupView.findViewById(R.id.plusButton);
         Button enterButton = (Button)popupView.findViewById(R.id.enterButton);
         final TextView textChoice = (TextView)popupView.findViewById(R.id.choiceDeckIndex);
-        textChoice.setText(Integer.toString(currState.getDeck().size()));
+        textChoice.setText(Integer.toString(0));
 
-            //On click methods for all of the buttons on the view 
+            //On click methods for all of the buttons on the view
              randomButton.setOnClickListener(new View.OnClickListener() {
                  @Override
                  public void onClick(View v) {
+                     int defusePos = checkHand(currState.getCurrentPlayerHand(), 12);
+                     int explodePos = checkHand(currState.getCurrentPlayerHand(), 0);
+                     currState.getDiscardPile().add(currState.getCurrentPlayerHand().get(defusePos));
+                     currState.getCurrentPlayerHand().remove(explodePos);
+                     currState.getCurrentPlayerHand().remove(defusePos);
                      int randPos = (int) (Math.random() * (currState.getDeck().size()));
                      currState.getDeck().add(randPos, new Card(0));
+                     String logMesssage = playerNames[currState.getWhoseTurn()] +
+                             " put the exploding kitten in a random position";
+                     sendEndTurnAction(player);
+                     currState.addToPlayerLog(logMesssage);
+                     Log.d("Log RandButton", logMesssage);
                      chooseWindow.dismiss();
-                     Log.d("Log RandButton", playerNames[currState.getWhoseTurn()] +
-                             "put the exploding kitten in a random position");
                  }
              });
              enterButton.setOnClickListener(new View.OnClickListener() {
                  @Override
                  public void onClick(View v) {
+                     int defusePos = checkHand(currState.getCurrentPlayerHand(), 12);
+                     int explodePos = checkHand(currState.getCurrentPlayerHand(), 0);
+                     currState.getDiscardPile().add(currState.getCurrentPlayerHand().get(defusePos));
+                     currState.getCurrentPlayerHand().remove(explodePos);
+                     currState.getCurrentPlayerHand().remove(defusePos);
                      currState.getDeck().add(deckIndexChoice, new Card(0));
+                     String logMessage = playerNames[currState.getWhoseTurn()] +
+                             " put the exploding kitten in a specifc position";
                      chooseWindow.dismiss();
-                     Log.d("Log EnterButton", playerNames[currState.getWhoseTurn()] +
-                             "put the exploding kitten in a specifc position");
+                     sendEndTurnAction(player);
+                     currState.addToPlayerLog(logMessage);
+                     Log.d("Log EnterButton", logMessage);
                  }
              });
              minusButton.setOnClickListener(new View.OnClickListener() {
@@ -813,6 +843,22 @@ public class EKLocalGame extends LocalGame{
                  }
              });
 
+    }
+
+    public void sendEndTurnAction(GamePlayer player){
+
+        if(checkHand(currState.getCurrentPlayerHand(),0) == -1 ||
+        currState.hasPlayerLost(currState.getWhoseTurn())){
+            if(player instanceof EKHumanPlayer){
+                EndTurnAction endMyTurn = new EndTurnAction(player);
+                ((EKHumanPlayer) player).getMyGame().sendAction(endMyTurn);
+            }
+
+            if(player instanceof GameComputerPlayer){
+                EndTurnAction endMyTurn = new EndTurnAction(player);
+                ((GameComputerPlayer) player).getGame().sendAction(endMyTurn);
+            }
+        }
     }
 
     //Getter method to return local game's instance of EKGameState
