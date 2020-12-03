@@ -172,7 +172,7 @@ public class EKHumanPlayer extends GameHumanPlayer implements View.OnClickListen
         }
         //set tradePlayer to 1
         this.tradePlayer = 1;
-    } //ExplodingKittensHumanPlayer method
+    } //EKHumanPlayer method
 
     //This returns the top level surface view of main GUI
     public View getTopView() {
@@ -552,7 +552,41 @@ public class EKHumanPlayer extends GameHumanPlayer implements View.OnClickListen
         cardsInDeck.setText("Cards In Deck: " + state.getDeck().size());
         otherPlayerHands();
         updateDiscard();
+        removeScroll();
     } //updateDisplay method
+
+    /**greyScroll method
+     * removes the scroll buttons from GUI if scrolling in
+     * that direction isn't available
+     */
+    public void removeScroll(){
+        /**
+         * External Citation
+         * Date: 2 December 2020
+         * Problem: Didn't know how to change transparency of button
+         * Resource:
+         * https://stackoverflow.com/questions/8743120/how-to-grey-out-a-button
+         * Solution: Changed the alpha of the button to make it transparent
+         */
+        //Removes left Scroll button if scrolling not available
+        if(cardHand[0] == 0){
+            leftScroll.setAlpha(0f);
+            leftScroll.setClickable(false);
+        }
+        else{
+            leftScroll.setAlpha(1.0f);
+            leftScroll.setClickable(true);
+        }
+        //removes right scroll button if scrolling not available
+        if(cardHand[4] == state.getPlayerHand(0).size() - 1){
+            rightScroll.setAlpha(0f);
+            rightScroll.setClickable(false);
+        }
+        else{
+            rightScroll.setAlpha(1.0f);
+            rightScroll.setClickable(true);
+        }
+    }//greyScroll Method
 
     /**
      * method for when our game is chosen as the GUI, called from the GUI thread
