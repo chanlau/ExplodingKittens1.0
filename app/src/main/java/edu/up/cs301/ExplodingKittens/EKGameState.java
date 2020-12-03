@@ -18,7 +18,10 @@ import edu.up.cs301.game.GameFramework.infoMessage.GameState;
  * @version November 2020
  */
 
-
+/**
+ * Constructor for EKGameState
+ * Initializes all instance variables
+ */
 public class EKGameState extends GameState {
     /**
      * External Citation
@@ -45,6 +48,7 @@ public class EKGameState extends GameState {
     //trying to set up nope
     private ArrayList<Integer> actionsPerformed;
     private ArrayList<Integer> whoPerformed;
+    private boolean humanDefusing;
 
 
     //initial EKGameState constructor
@@ -66,6 +70,14 @@ public class EKGameState extends GameState {
         populateHands();
         populateDefuseExplode();
     }//EKGameState
+
+    public void setHumanDefuse(boolean bool){
+        this.humanDefusing = bool;
+    }
+
+    public boolean getHumanDefuse(){
+        return this.humanDefusing;
+    }
 
     //copy constructor to copy the given gamestate
     public EKGameState(EKGameState gamestate) {

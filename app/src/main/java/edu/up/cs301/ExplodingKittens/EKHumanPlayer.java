@@ -2,6 +2,7 @@ package edu.up.cs301.ExplodingKittens;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.media.Image;
 import android.util.Log;
 import android.view.Gravity;
@@ -20,7 +21,6 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 
 import edu.up.cs301.ExplodingKittens.EKActions.DrawCardAction;
-import edu.up.cs301.ExplodingKittens.EKActions.EndTurnAction;
 import edu.up.cs301.ExplodingKittens.EKActions.PlayAttackCard;
 import edu.up.cs301.ExplodingKittens.EKActions.PlayDefuseCard;
 import edu.up.cs301.ExplodingKittens.EKActions.PlayFavorCard;
@@ -173,7 +173,7 @@ public class EKHumanPlayer extends GameHumanPlayer implements View.OnClickListen
         }
         //set tradePlayer to 1
         this.tradePlayer = 1;
-    } //ExplodingKittensHumanPlayer method
+    } //EKHumanPlayer method
 
     //This returns the top level surface view of main GUI
     public View getTopView() {
@@ -553,7 +553,41 @@ public class EKHumanPlayer extends GameHumanPlayer implements View.OnClickListen
         cardsInDeck.setText("Cards In Deck: " + state.getDeck().size());
         otherPlayerHands();
         updateDiscard();
+        removeScroll();
     } //updateDisplay method
+
+    /**greyScroll method
+     * removes the scroll buttons from GUI if scrolling in
+     * that direction isn't available
+     */
+    public void removeScroll(){
+        /**
+         * External Citation
+         * Date: 2 December 2020
+         * Problem: Didn't know how to change transparency of button
+         * Resource:
+         * https://stackoverflow.com/questions/8743120/how-to-grey-out-a-button
+         * Solution: Changed the alpha of the button to make it transparent
+         */
+        //Removes left Scroll button if scrolling not available
+        if(cardHand[0] == 0){
+            leftScroll.setAlpha(0f);
+            leftScroll.setClickable(false);
+        }
+        else{
+            leftScroll.setAlpha(1.0f);
+            leftScroll.setClickable(true);
+        }
+        //removes right scroll button if scrolling not available
+        if(cardHand[4] == state.getPlayerHand(0).size() - 1){
+            rightScroll.setAlpha(0f);
+            rightScroll.setClickable(false);
+        }
+        else{
+            rightScroll.setAlpha(1.0f);
+            rightScroll.setClickable(true);
+        }
+    }//greyScroll Method
 
     /**
      * method for when our game is chosen as the GUI, called from the GUI thread
@@ -1012,7 +1046,7 @@ public class EKHumanPlayer extends GameHumanPlayer implements View.OnClickListen
             end turn button that resets all of the selected cards to not
             selected and sends the draw card action to the game
              */
-            else if (button == endTurn || button == deckBtn) {
+            else if (button == endTurn) {
 
                 // deselect all player hand cards
                 for (int a = 0; a < state.getPlayerHand(this.playerNum).size(); a++) {
@@ -1035,9 +1069,7 @@ public class EKHumanPlayer extends GameHumanPlayer implements View.OnClickListen
                 trade5Btn.setText("Trade 5 Off");
                 DrawCardAction drawCard = new DrawCardAction(this);
                 game.sendAction(drawCard);
-
             } // endTurn button
-            int queryT = 0;
         } // if statement for instance of button
 
         // for all image buttons
@@ -1071,6 +1103,35 @@ public class EKHumanPlayer extends GameHumanPlayer implements View.OnClickListen
                 }
                 updateDisplay();
             } //discard pile button
+
+            /*
+            deck imageButton that also ends the turn and draws a card
+             */
+            else if (button == deckBtn) {
+                // deselect all player hand cards
+                for (int a = 0; a < state.getPlayerHand(this.playerNum).size(); a++) {
+                    state.getPlayerHand(this.playerNum).get(a).setSelected(false);
+                }
+                // deselect all allCards cards
+                for (int b = 0; b < 11; b++) {
+                    allCards[b].setSelected(false);
+                }
+                // deselect all cards in the discard pile array
+                for (int c = 0; c < state.getDiscardPile().size(); c++) {
+                    state.getDiscardPile().get(c).setSelected(false);
+                }
+                // reset the trade booleans
+                trade2 = false;
+                trade3 = false;
+                trade5 = false;
+                trade2Btn.setText("Trade 2 Off");
+                trade3Btn.setText("Trade 3 Off");
+                trade5Btn.setText("Trade 5 Off");
+                DrawCardAction drawCard = new DrawCardAction(this);
+                game.sendAction(drawCard);
+                rightScroll.getBackground().setColorFilter(0xFFD3D3D3,
+                        PorterDuff.Mode.MULTIPLY);
+            } // deckBtn button
 
             /*
             card 1 image button that selects or deselcts the card object in
