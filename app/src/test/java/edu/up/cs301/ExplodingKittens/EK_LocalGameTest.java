@@ -14,6 +14,10 @@ public class EK_LocalGameTest {
         assertNotNull(test.getCurrState().getDeck());
     }*/
 
+    /**
+     * tests if the populate deck method is working properly by changing the
+     * deck size and checking against the expected size
+     */
     @Test
     public void populateDeck(){
         EKGameState state = new EKGameState(4);
@@ -23,6 +27,9 @@ public class EK_LocalGameTest {
         assertEquals(state.getDeck().size(), 46);
     }
 
+    /**
+     * tests if the populate defuse explode is working properly by
+     */
     @Test
     public void populateDefuseExplode(){
         EKGameState state = new EKGameState(4);

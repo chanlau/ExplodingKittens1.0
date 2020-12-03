@@ -549,7 +549,9 @@ public class EKLocalGame extends LocalGame{
                 if (player instanceof EKHumanPlayer) {
                     humanDefuse((EKHumanPlayer) player);
                 } else if (player instanceof EKSmartComputerPlayer) {
-
+                    //Insert the exploding kitten in a random spot *Dumb Move
+                    int randPos = (int) (Math.random() * (currState.getDeck().size()));
+                    currState.getDeck().add(randPos, new Card(0));
                 } else {
                     //Insert the exploding kitten in a random spot *Dumb Move
                     int randPos = (int) (Math.random() * (currState.getDeck().size()));
