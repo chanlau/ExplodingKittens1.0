@@ -493,19 +493,16 @@ public class EKLocalGame extends LocalGame{
             logMessage = playerNames[currState.getWhoseTurn()] + " defused an ExplodingKitten ";
             currState.addToPlayerLog(logMessage);
             Log.d("Log Played Defuse", logMessage);
+                if (player instanceof EKHumanPlayer) {
+                    humanDefuse((EKHumanPlayer) player);
+                } else if (player instanceof EKSmartComputerPlayer) {
 
-            if(player instanceof EKHumanPlayer){
-                humanDefuse((EKHumanPlayer)player);
-            }
-            else if(player instanceof EKSmartComputerPlayer){
+                } else {
+                    //Insert the exploding kitten in a random spot *Dumb Move
+                    int randPos = (int) (Math.random() * (currState.getDeck().size()));
+                    currState.getDeck().add(randPos, new Card(0));
 
-            }
-            else {
-                //Insert the exploding kitten in a random spot *Dumb Move
-                int randPos = (int) (Math.random() * (currState.getDeck().size()));
-                currState.getDeck().add(randPos, new Card(0));
-
-            }
+                }
             return true;
         }
 
@@ -529,9 +526,13 @@ public class EKLocalGame extends LocalGame{
             return false;
         }
         if (currState.getCardsToDraw() == 0){
+            String Message = playerNames[currState.getWhoseTurn()] + " " + "Defused EK ";
+            currState.addToPlayerLog(Message);
+            Log.d(" Log Draw Card", Message);
             nextTurn();
             return true;
         }
+
         //add top card of deck to hand and remove it from deck
         currState.getCurrentPlayerHand().add(currState.getDeck().get(0));
         //currState.getPlayerHands().get(this.currState.getWhoseTurn()).add(currState.getDeck().get(0));
@@ -558,7 +559,9 @@ public class EKLocalGame extends LocalGame{
             //adds draw action to action history array
             currState.addActionsPerformed(1);
             currState.addWhoPerformed();
-            nextTurn();
+            if(currState.getHumanDefuse() == false) {
+                nextTurn();
+            }
         }
         else{
             currState.addActionsPerformed(1);
@@ -747,6 +750,7 @@ public class EKLocalGame extends LocalGame{
          */
         GameMainActivity playerMainActivity = player.getMyActivity();
 
+        currState.setHumanDefuse(true);
 
         //inflate the view
         LayoutInflater inflater = (LayoutInflater)
@@ -776,44 +780,49 @@ public class EKLocalGame extends LocalGame{
         textChoice.setText(Integer.toString(currState.getDeck().size()));
 
             //On click methods for all of the buttons on the view
-             randomButton.setOnClickListener(new View.OnClickListener() {
-                 @Override
-                 public void onClick(View v) {
-                     int randPos = (int) (Math.random() * (currState.getDeck().size()));
-                     currState.getDeck().add(randPos, new Card(0));
-                     chooseWindow.dismiss();
-                     Log.d("Log RandButton", playerNames[currState.getWhoseTurn()] +
-                             "put the exploding kitten in a random position");
-                 }
-             });
-             enterButton.setOnClickListener(new View.OnClickListener() {
-                 @Override
-                 public void onClick(View v) {
-                     currState.getDeck().add(deckIndexChoice, new Card(0));
-                     chooseWindow.dismiss();
-                     Log.d("Log EnterButton", playerNames[currState.getWhoseTurn()] +
-                             "put the exploding kitten in a specifc position");
-                 }
-             });
-             minusButton.setOnClickListener(new View.OnClickListener() {
-                 @Override
-                 public void onClick(View v) {
-                     if(deckIndexChoice > 0) {
-                         deckIndexChoice--;
-                         textChoice.setText(Integer.toString(deckIndexChoice));
-                     }
-                 }
-             });
-             plusButton.setOnClickListener(new View.OnClickListener() {
-                 @Override
-                 public void onClick(View v) {
-                     if(deckIndexChoice < currState.getDeck().size()){
-                         deckIndexChoice++;
-                         textChoice.setText(Integer.toString(deckIndexChoice));
-                     }
-                 }
-             });
-
+            randomButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int randPos = (int) (Math.random() * (currState.getDeck().size()));
+                    currState.getDeck().add(randPos, new Card(0));
+                    chooseWindow.dismiss();
+                    Log.d("Log RandButton", playerNames[currState.getWhoseTurn()] +
+                            "put the exploding kitten in a random position");
+                    currState.setHumanDefuse(false);
+                    DrawCardAction draw = new DrawCardAction(getPlayers()[0]);
+                    sendAction(draw);
+                }
+            });
+            enterButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    currState.getDeck().add(deckIndexChoice, new Card(0));
+                    chooseWindow.dismiss();
+                    Log.d("Log EnterButton", playerNames[currState.getWhoseTurn()] +
+                            "put the exploding kitten in a specifc position");
+                    currState.setHumanDefuse(false);
+                    DrawCardAction draw = new DrawCardAction(getPlayers()[0]);
+                    sendAction(draw);
+                }
+            });
+            minusButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (deckIndexChoice > 0) {
+                        deckIndexChoice--;
+                        textChoice.setText(Integer.toString(deckIndexChoice));
+                    }
+                }
+            });
+            plusButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (deckIndexChoice < currState.getDeck().size()) {
+                        deckIndexChoice++;
+                        textChoice.setText(Integer.toString(deckIndexChoice));
+                    }
+                }
+            });
     }
 
     //Getter method to return local game's instance of EKGameState

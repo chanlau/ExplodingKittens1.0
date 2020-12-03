@@ -48,6 +48,7 @@ public class EKGameState extends GameState {
     //trying to set up nope
     private ArrayList<Integer> actionsPerformed;
     private ArrayList<Integer> whoPerformed;
+    private boolean humanDefusing;
 
 
     //initial EKGameState constructor
@@ -69,7 +70,16 @@ public class EKGameState extends GameState {
         populateHands();
         populateDefuseExplode();
         this.deck.add(0,new Card(0));
+        this.humanDefusing = false;
     }//EKGameState
+
+    public void setHumanDefuse(boolean bool){
+        this.humanDefusing = bool;
+    }
+
+    public boolean getHumanDefuse(){
+        return this.humanDefusing;
+    }
 
     //copy constructor to copy the given gamestate
     public EKGameState(EKGameState gamestate) {
