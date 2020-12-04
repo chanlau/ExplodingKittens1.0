@@ -41,6 +41,11 @@ import edu.up.cs301.game.GameFramework.gameConfiguration.GamePlayerType;
  *
  * 4. More unit tests have been created in EK_LocalGameTest.
  *
+ * 5. The help menu option was removed to decrease confusion
+ *
+ * 6. App icon was changed to an ExplodingKittens app icon. Source was cited in
+ * ic_launcher.xml
+ *
  * Known Bugs:
  * There are no known bugs.
  *
