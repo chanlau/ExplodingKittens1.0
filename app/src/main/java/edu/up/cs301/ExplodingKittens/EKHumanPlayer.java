@@ -197,8 +197,12 @@ public class EKHumanPlayer extends GameHumanPlayer implements View.OnClickListen
             }
             if (state.getWhoseTurn() == 0) {
                 turnText.setTextSize(15);
-                if(state.getPlayerLog().size() >= 12){
-                    turnText.setTextSize(12);
+
+                if(state.getPlayerLog().size() >= 15){
+                    turnText.setTextSize(10);
+                }
+                else if(state.getPlayerLog().size() >= 11){
+                    turnText.setTextSize(13);
                 }
                 try {
                     printPlayerLog();
@@ -394,10 +398,10 @@ public class EKHumanPlayer extends GameHumanPlayer implements View.OnClickListen
         card indexes for the given array */
         // update whose turn it is
         if(state.getWhoseTurn() == this.playerNum){
-            this.playerTurn.setText("Your Turn");
+            this.playerTurn.setText("It's Your Turn");
         }
         else{
-            this.playerTurn.setText("Player " + state.getWhoseTurn() + "'s Turn");
+            this.playerTurn.setText("It's Player " + state.getWhoseTurn() + "'s Turn");
         }
 
         //if targeted player has lost, set target to a different player

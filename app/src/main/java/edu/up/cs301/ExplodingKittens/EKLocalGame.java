@@ -609,9 +609,6 @@ public class EKLocalGame extends LocalGame{
         String logMessage = playerNames[currState.getWhoseTurn()] + " drew a card ";
         currState.addToPlayerLog(logMessage);
         Log.d(" Log Draw Card", logMessage);
-        //currState.addToPlayerLog("Blah");
-        currState.addToPlayerLog("Blah");
-
 
         //Check if the player drew an Exploding Kitten and they can't defuse it, then they lose
         if(checkHand(currState.getCurrentPlayerHand(),0) != -1){

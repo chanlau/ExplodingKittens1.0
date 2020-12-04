@@ -186,7 +186,7 @@
                         android:text="TextView"
                         android:layout_marginRight="@dimen/help_menu_card_spacing"
                         android:textColor="@color/black"
-                        android:textSize="50sp" />
+                        android:textSize="40sp" />
                 </LinearLayout>
 
 
