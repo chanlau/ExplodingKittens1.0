@@ -63,7 +63,6 @@ public class EKGameState extends GameState {
         this.whoseTurn = 0;
         this.cardsToDraw = 1;
         this.numPlayers = numOfPlayers;
-        this.playerLog.add(" ");
         this.actionsPerformed = new ArrayList<Integer>();
         this.whoPerformed = new ArrayList<Integer>();
         populateDeck();
@@ -146,37 +145,8 @@ public class EKGameState extends GameState {
         }
     }//EKGameState(copy constructor)
 
+    //getter method to return Arraylist of player actions
 
-    /**
-     * To string class
-     * @return
-     *      returns a string
-     */
-    //@Override
-    public String ToString(){
-        String discardString = getDiscardPile().toString();
-        String deckString = Integer.toString(getDeck().size());
-        String turnString = Integer.toString(getWhoseTurn());
-        String cardsToDrawString = Integer.toString(cardsToDraw);
-        /*
-        String PlayerString = getPlayers().toString();
-        String Player0String = getPlayers().get(0).getPlayerHand().toString();
-        String Player1String = getPlayers().get(1).getPlayerHand().toString();
-        String Player2String = getPlayers().get(2).getPlayerHand().toString();
-        String Player3String = getPlayers().get(3).getPlayerHand().toString();
-        return ("Discard Pile: " + discardString + "\n Cards in Deck: " + deckString + "\n Turn: " + turnString
-                + "\n Cards to Draw Counter" + cardsToDrawString + "\n Players:" + Player0String + "\n Player 1 Hand:" +
-                Player0String + "\n Player 2 Hand: " + Player1String + "\n Player 3 Hand" + Player2String +
-                "\n Player 4 Hand: " + Player3String);
-        */
-        return "HI this is just a place holder";
-    }//ToString
-
-    /**
-     * getter method to return ArrayList of player actions
-     * @return
-     *      returns an ArrayList of Strings with player actions
-     */
     public ArrayList<String> getPlayerLog() {
         return playerLog;
     }

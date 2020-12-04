@@ -2,6 +2,8 @@ package edu.up.cs301.ExplodingKittens;
 
 import org.junit.Test;
 
+import edu.up.cs301.game.GameFramework.GamePlayer;
+
 import static org.junit.Assert.*;
 
 public class EK_LocalGameTest {
@@ -12,11 +14,10 @@ public class EK_LocalGameTest {
      */
     @Test
     public void populateDeck(){
-        EKGameState state = new EKGameState(4);
-        state.getDeck().clear();
-        assertEquals(state.getDeck().size(), 0);
-        state.populateDeck();
-        assertEquals(state.getDeck().size(), 46);
+        EKLocalGame testGame = new EKLocalGame(4);
+
+        testGame.getCurrState().populateDeck();
+        assertEquals(23,testGame.getCurrState().getDeck().size());
     }
 
     /**
@@ -24,21 +25,9 @@ public class EK_LocalGameTest {
      */
     @Test
     public void populateDefuseExplode(){
-        EKGameState state = new EKGameState(4);
-        int DefuseCounter = 0;
-        int EKCounter = 0;
-        state.getDeck().clear();
-        state.populateDefuseExplode();
-        for(int i = 0; i < state.getDeck().size(); i++){
-            if(state.getDeck().get(i).getCardType() == 12){
-                DefuseCounter++;
-            }
-            else if(state.getDeck().get(i).getCardType() == 0){
-                EKCounter++;
-            }
-        }
-        assertEquals(3, EKCounter);
-        assertEquals(2, DefuseCounter);
+        EKLocalGame testGame = new EKLocalGame(4);
+        assertEquals(0, testGame.getCurrState().getDeck().size());
+
     }
 
     /**
@@ -57,36 +46,34 @@ public class EK_LocalGameTest {
     @Test
     public void Skip(){
         EKLocalGame local = new EKLocalGame(4);
-        EKGameState state = new EKGameState(local.getCurrState());
-        state.getPlayerHand(0).add(new Card(9));
         EKHumanPlayer p1 = new EKHumanPlayer("p");
         EKComputerPlayer p2 = new EKComputerPlayer("p2");
+        //local.setGamePlayers(2);
+        local.getPlayers()[0] = p1;
+        local.getPlayers()[1] = p2;
+        EKGameState state = new EKGameState(local.getCurrState());
+        state.getPlayerHand(0).add(new Card(9));
         local.Skip(p1);
         assertEquals(state.getWhoseTurn(), 1);
     }
-/*
-    @Test
-    public void populateDefuseExplode() {
-        EKLocalGame test = new EKLocalGame(4);
-        test.populateDeck();
-        assertEquals(11, test.getCurrState().getDeck().get(test.getCurrState().getDeck().size()-1).getCardType());
-        test.populateDefuseExplode();
-        assertEquals(12, test.getCurrState().getDeck().get(test.getCurrState().getDeck().size()-1).getCardType());
-    }
+
 
     @Test
     public void shuffle() {
-        EKLocalGame test = new EKLocalGame(4);
-        Player p1 = new Player(1, "Player 1");
-        Player p2 = new Player(2, "Player 2");
-        test.getCurrState().addPlayer(p1);
-        test.getCurrState().addPlayer(p2);
-        test.populateDeck();
-        test.makeTestHand();
+        EKLocalGame test = new EKLocalGame(2);
+        EKGameState state = new EKGameState(test.getCurrState());
+        EKComputerPlayer p1 = new EKComputerPlayer("Player 1");
+        EKComputerPlayer p2 = new EKComputerPlayer("Player 2");
+        test.setGamePlayers(2);
+        String[] names = {"p1", "p2"};
+        test.setPlayerNames(names);
+        state.populateDeck();
+        state.getPlayerHand(0).add(new Card(7));
         assertTrue(test.Shuffle(p1));
-        assertEquals(7, test.getCurrState().getDiscardPile().get(0).getCardType());
+        assertEquals(7, state.getDiscardPile().get(0).getCardType());
     }
 
+/*
     @Test
     public void skip() {
         EKLocalGame test = new EKLocalGame(4);

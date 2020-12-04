@@ -79,12 +79,6 @@ public class EKSmartComputerPlayer extends GameComputerPlayer {
             return;
         }
        else if(this.computerState.getWhoseTurn() == this.playerNum) {
-           if(checkForDefuse() == false){
-               if(Trade5() == true){
-                   return;
-               };
-           }
-
                 //If next card is EK based on STF play a card
                 if (nextCardEK() == true) {
                     if (checkForPlayableCard() == true) {
@@ -93,13 +87,19 @@ public class EKSmartComputerPlayer extends GameComputerPlayer {
                     else {
                         if (getACard(this.computerState) == true) {
                             if (checkForPlayableCard() == true) {
-                                //playCard(this.computerState, cardToPlayPos);
+                                playCard(this.computerState, cardToPlayPos);
                                 return;
                             }
                         }
                     }
                 }
 
+            //if player has no defuse, try to get one from discard pile
+            if(checkForDefuse() == false){
+                if(Trade5() == true){
+                    return;
+                }
+            }
 
                 //generates random number from 0 - 100
                 random = (double) Math.random() * 101;
@@ -384,15 +384,12 @@ public class EKSmartComputerPlayer extends GameComputerPlayer {
      *      return true if true and false if false
      */
     public boolean nextCardEK(){
-        //checks that STF Array isn't empty
-        if(this.STFArray.size() == 0){
-            return false;
-        }
 
         //Checks if the location that the computer put the EK in is still
         // relevant and if it's the next card
         int deckSizeChange = lastDeckSize - computerState.getDeck().size();
         EKLocation = this.EKLocation - deckSizeChange;
+        this.lastDeckSize = computerState.getDeck().size();
         if(this.EKLocation >= 0 && this.EKLocation < computerState.getDeck().size()) {
             if (computerState.getDeck().get(this.EKLocation).getCardType() != 0 || EKLocation < 0) {
                 this.EKLocation = -1;
@@ -401,6 +398,12 @@ public class EKSmartComputerPlayer extends GameComputerPlayer {
             if(EKLocation == 0){
                 return true;
             }
+        }
+
+
+        //checks that STF Array isn't empty
+        if(this.STFArray.size() == 0){
+            return false;
         }
 
         if(this.STFArray.size() != 0) {
@@ -514,7 +517,7 @@ public class EKSmartComputerPlayer extends GameComputerPlayer {
             boolean uniqueCard = true;
 
             for(int a = 0; a < trade5Array.size(); a++){
-                if(this.computerState.getCurrentPlayerHand().get(i).getCardType() == trade5Array.get(a)){
+                if(this.computerState.getCurrentPlayerHand().get(i).getCardType() == trade5Array.get(a) || this.computerState.getCurrentPlayerHand().get(i).getCardType() == 12){
                     uniqueCard = false;
                 }
             }

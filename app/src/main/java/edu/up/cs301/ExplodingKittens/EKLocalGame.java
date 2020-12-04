@@ -197,7 +197,7 @@ public class EKLocalGame extends LocalGame{
         if(card == -1){
             return false;
         }
-        currState.getDiscardPile().add(currState.getCurrentPlayerHand().get(card));
+        currState.getDiscardPile().add(0,currState.getCurrentPlayerHand().get(card));
         currState.getCurrentPlayerHand().remove(card);
 
         //Sending a message to the log
@@ -249,7 +249,7 @@ public class EKLocalGame extends LocalGame{
             currState.addWhoPerformed();
 
             //add nope to discard and remove it from hand
-            currState.getDiscardPile().add(currState.getCurrentPlayerHand().get(card));
+            currState.getDiscardPile().add(0,currState.getCurrentPlayerHand().get(card));
             currState.getCurrentPlayerHand().remove(card);
 
             //Sending a message to the log
@@ -402,7 +402,7 @@ public class EKLocalGame extends LocalGame{
         currState.getPlayerHand(target).remove(targCardPos);
         //move the played favor card to the discard pile and remove it from
         // the players hand
-        currState.getDiscardPile().add(currState.getCurrentPlayerHand().get(card));
+        currState.getDiscardPile().add(0,currState.getCurrentPlayerHand().get(card));
         currState.getCurrentPlayerHand().remove(card);
 
         //Sending a message to the log
@@ -426,7 +426,7 @@ public class EKLocalGame extends LocalGame{
         if(card == -1){
             return false;
         }
-        currState.getDiscardPile().add(currState.getCurrentPlayerHand().get(card));
+        currState.getDiscardPile().add(0,currState.getCurrentPlayerHand().get(card));
         currState.getCurrentPlayerHand().remove(card);
 
 
@@ -468,7 +468,7 @@ public class EKLocalGame extends LocalGame{
         }
         //add the played shuffle card to the discard pile and remove it from
         //the players hand
-        currState.getDiscardPile().add(currState.getCurrentPlayerHand().get(card));
+        currState.getDiscardPile().add(0,currState.getCurrentPlayerHand().get(card));
         currState.getCurrentPlayerHand().remove(card);
         //shuffle the deck
         Collections.shuffle(currState.getDeck());
@@ -480,7 +480,7 @@ public class EKLocalGame extends LocalGame{
         //Sending a message to the log
         String logMessage = playerNames[currState.getWhoseTurn()] + " played a Shuffle card ";
         currState.addToPlayerLog(logMessage);
-        Log.d("Log Played Shuffle", logMessage);
+//        Log.d("Log Played Shuffle", logMessage);
 
         return true;
     }
@@ -498,7 +498,7 @@ public class EKLocalGame extends LocalGame{
             return false;
         }
         //finds skip in hand and removes it before incrementing the turn;
-        currState.getDiscardPile().add(currState.getCurrentPlayerHand().get(card));
+        currState.getDiscardPile().add(0,currState.getCurrentPlayerHand().get(card));
         currState.getCurrentPlayerHand().remove(card);
 
         //Sending a message to the log
@@ -538,7 +538,7 @@ public class EKLocalGame extends LocalGame{
         int explodePos = checkHand(currState.getCurrentPlayerHand(), 0);
         if(defusePos != -1 && explodePos != -1){
 
-            currState.getDiscardPile().add(currState.getCurrentPlayerHand().get(defusePos));
+            currState.getDiscardPile().add(0,currState.getCurrentPlayerHand().get(defusePos));
             currState.getCurrentPlayerHand().remove(explodePos);
             currState.getCurrentPlayerHand().remove(defusePos);
 
@@ -551,7 +551,7 @@ public class EKLocalGame extends LocalGame{
                 } else if (player instanceof EKSmartComputerPlayer) {
                     //Insert the exploding kitten in a random spot but saves
                     // location
-                    int randPos = (int) (Math.random() * (currState.getDeck().size()));
+                    int randPos =(int) (Math.random() * (currState.getDeck().size()));
                     currState.getDeck().add(randPos, new Card(0));
                     ((EKSmartComputerPlayer) player).setEKLocation(randPos);
                     ((EKSmartComputerPlayer) player).setLastDeckSize(currState.getDeck().size());
@@ -594,8 +594,7 @@ public class EKLocalGame extends LocalGame{
         if (currState.getCardsToDraw() == 0){
             String Message = playerNames[currState.getWhoseTurn()] + " defused an ExplodingKitten";
             currState.addToPlayerLog(Message);
-            Log.d(" Log Draw Card", Message);
-
+            Log.d(" Log Defused an ExplodingKitten", Message);
             nextTurn();
             return true;
         }
@@ -657,7 +656,7 @@ public class EKLocalGame extends LocalGame{
         if(a >= currState.getCurrentPlayerHand().size() || b >= currState.getCurrentPlayerHand().size()){
             return false;
         }
-        if(currState.getPlayerHand(targ).size() == 0 || currState.getPlayerHand(targ) == null){
+        if(currState.getPlayerHand(targ).size() == 0 || currState.getPlayerHand(targ) == null) {
             return false;
         }
 
@@ -665,6 +664,11 @@ public class EKLocalGame extends LocalGame{
         Card trade1 = currState.getCurrentPlayerHand().get(a);
         Card trade2 = currState.getCurrentPlayerHand().get(b);
         if (trade1.getCardType() == trade2.getCardType()) {
+
+            //Add the played cards to the discard pile
+            currState.getDiscardPile().add(0,currState.getCurrentPlayerHand().get(a));
+            currState.getDiscardPile().add(0,currState.getCurrentPlayerHand().get(b));
+
             //update the players hand
             if(b > a){
                 currState.getCurrentPlayerHand().remove(b);
@@ -719,6 +723,7 @@ public class EKLocalGame extends LocalGame{
         if(a >= currState.getCurrentPlayerHand().size() || b >= currState.getCurrentPlayerHand().size() || c >= currState.getCurrentPlayerHand().size()){
             return false;
         }
+
         //determine if the three cards are of the same type
         Card trade1 = currState.getCurrentPlayerHand().get(a);
         Card trade2 = currState.getCurrentPlayerHand().get(b);
@@ -726,6 +731,12 @@ public class EKLocalGame extends LocalGame{
 
         if (trade1.getCardType() == trade2.getCardType() &&
                 trade2.getCardType() == trade3.getCardType()) {
+
+            //Adding the selected cards to the discard pile
+            currState.getDiscardPile().add(0,currState.getCurrentPlayerHand().get(a));
+            currState.getDiscardPile().add(0,currState.getCurrentPlayerHand().get(b));
+            currState.getDiscardPile().add(0,currState.getCurrentPlayerHand().get(c));
+
             //update the players hand
             currState.getCurrentPlayerHand().remove(c);
             currState.getCurrentPlayerHand().remove(b);
@@ -805,6 +816,14 @@ public class EKLocalGame extends LocalGame{
             return false;
         }
         else {
+
+            //Adding the selected cards to the discard pile
+            currState.getDiscardPile().add(0,currState.getCurrentPlayerHand().get(cardPos1));
+            currState.getDiscardPile().add(0,currState.getCurrentPlayerHand().get(cardPos2));
+            currState.getDiscardPile().add(0,currState.getCurrentPlayerHand().get(cardPos3));
+            currState.getDiscardPile().add(0,currState.getCurrentPlayerHand().get(cardPos4));
+            currState.getDiscardPile().add(0,currState.getCurrentPlayerHand().get(cardPos5));
+
             //update the players hand
             currState.getCurrentPlayerHand().remove(cardPos5);
             currState.getCurrentPlayerHand().remove(cardPos4);
@@ -964,6 +983,7 @@ public class EKLocalGame extends LocalGame{
      * Getter method to return local game's instance of EKGameState
      * @return
      *      returns the current GameState
+     *      this is exclusively for testing
      */
     public EKGameState getCurrState(){
         return this.currState;
@@ -978,8 +998,7 @@ public class EKLocalGame extends LocalGame{
         return players;
     }
 
-    public void setCurrState(EKGameState state){
-        this.currState = state;
+    public void setPlayerNames(String[] names){
+        this.playerNames = names;
     }
-
 }//EKLocalGame
