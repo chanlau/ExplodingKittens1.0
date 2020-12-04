@@ -20,11 +20,10 @@ public class EK_LocalGameTest {
      */
     @Test
     public void populateDeck(){
-        EKGameState state = new EKGameState(4);
-        state.getDeck().clear();
-        assertEquals(state.getDeck().size(), 0);
-        state.populateDeck();
-        assertEquals(state.getDeck().size(), 46);
+        EKLocalGame testGame = new EKLocalGame(4);
+
+        testGame.getCurrState().populateDeck();
+        assertEquals(23,testGame.getCurrState().getDeck().size());
     }
 
     /**
@@ -32,21 +31,9 @@ public class EK_LocalGameTest {
      */
     @Test
     public void populateDefuseExplode(){
-        EKGameState state = new EKGameState(4);
-        int DefuseCounter = 0;
-        int EKCounter = 0;
-        state.getDeck().clear();
-        state.populateDefuseExplode();
-        for(int i = 0; i < state.getDeck().size(); i++){
-            if(state.getDeck().get(i).getCardType() == 12){
-                DefuseCounter++;
-            }
-            else if(state.getDeck().get(i).getCardType() == 0){
-                EKCounter++;
-            }
-        }
-        assertEquals(3, EKCounter);
-        assertEquals(2, DefuseCounter);
+        EKLocalGame testGame = new EKLocalGame(4);
+        assertEquals(0, testGame.getCurrState().getDeck().size());
+
     }
 
     @Test

@@ -45,5 +45,4 @@ public class Card {
 10:See the Future - 5
 11: Nope - 5
 12:Defuse - 2 (6 total)
-13:**NO CARD**
  */

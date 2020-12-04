@@ -63,7 +63,6 @@ public class EKGameState extends GameState {
         this.whoseTurn = 0;
         this.cardsToDraw = 1;
         this.numPlayers = numOfPlayers;
-        this.playerLog.add(" ");
         this.actionsPerformed = new ArrayList<Integer>();
         this.whoPerformed = new ArrayList<Integer>();
         populateDeck();
@@ -145,29 +144,6 @@ public class EKGameState extends GameState {
             this.whoPerformed.add(gamestate.getWhoPerformed().get(g));
         }
     }//EKGameState(copy constructor)
-
-
-
-    //to string class
-    //@Override
-    public String ToString(){
-        String discardString = getDiscardPile().toString();
-        String deckString = Integer.toString(getDeck().size());
-        String turnString = Integer.toString(getWhoseTurn());
-        String cardsToDrawString = Integer.toString(cardsToDraw);
-        /*
-        String PlayerString = getPlayers().toString();
-        String Player0String = getPlayers().get(0).getPlayerHand().toString();
-        String Player1String = getPlayers().get(1).getPlayerHand().toString();
-        String Player2String = getPlayers().get(2).getPlayerHand().toString();
-        String Player3String = getPlayers().get(3).getPlayerHand().toString();
-        return ("Discard Pile: " + discardString + "\n Cards in Deck: " + deckString + "\n Turn: " + turnString
-                + "\n Cards to Draw Counter" + cardsToDrawString + "\n Players:" + Player0String + "\n Player 1 Hand:" +
-                Player0String + "\n Player 2 Hand: " + Player1String + "\n Player 3 Hand" + Player2String +
-                "\n Player 4 Hand: " + Player3String);
-        */
-        return "HI this is just a place holder";
-    }//ToString
 
     //getter method to return Arraylist of player actions
 
@@ -255,12 +231,12 @@ public class EKGameState extends GameState {
         int i;
         int j;
         //puts 3 Exploding Kittens into deck
-        for (i = 0; i < 3; i++) {
+        for (i = 0; i < (this.numPlayers-1); i++) {
             this.deck.add(new Card(0));
         }
 
         //Puts 2 defuse cards into deck
-        for (i = 0; i < 2; i++) {
+        for (i = 0; i < (6-this.numPlayers); i++) {
             this.deck.add(new Card(12));
         }
         //shuffles them into the deck

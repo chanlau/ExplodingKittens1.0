@@ -1197,7 +1197,7 @@ public class EKHumanPlayer extends GameHumanPlayer implements View.OnClickListen
                  button in question. Reverse the current selection state of
                  the card
                  */
-                if (switchedDiscard == false && trade3Stage != 2) {
+                if (!switchedDiscard && trade3Stage != 2) {
                     if(state.getCurrentPlayerHand().size() <= 1){
                         return;
                     }
@@ -1211,7 +1211,7 @@ public class EKHumanPlayer extends GameHumanPlayer implements View.OnClickListen
                 if the discard pile is selected, perform the same action on
                 the discard pile card
                  */
-                else if (switchedDiscard == true) {
+                else if (switchedDiscard) {
                     if(state.getDiscardPile().size() <= 1){
                         return;
                     }
@@ -1225,7 +1225,7 @@ public class EKHumanPlayer extends GameHumanPlayer implements View.OnClickListen
                 if the player is doing trade 3 and is selecting a target card
                  to steal from another player, set the booleans in the allCards
                  */
-                else if (switchedDiscard == false && trade3Stage == 2) {
+                else if (!switchedDiscard && trade3Stage == 2) {
                     if (allCards[cardHand[1]].getSelected() == true) {
                         allCards[cardHand[1]].setSelected(false);
                     } else {
@@ -1249,7 +1249,7 @@ public class EKHumanPlayer extends GameHumanPlayer implements View.OnClickListen
                  button in question. Reverse the current selection state of
                  the card
                  */
-                if (switchedDiscard == false && trade3Stage != 2) {
+                if (!switchedDiscard && trade3Stage != 2) {
                     if(state.getCurrentPlayerHand().size() <= 2){
                         return;
                     }
@@ -1263,7 +1263,7 @@ public class EKHumanPlayer extends GameHumanPlayer implements View.OnClickListen
                 if the discard pile is selected, perform the same action on
                 the discard pile card
                  */
-                else if (switchedDiscard == true) {
+                else if (switchedDiscard) {
                     if(state.getDiscardPile().size() <= 2){
                         return;
                     }
@@ -1277,7 +1277,7 @@ public class EKHumanPlayer extends GameHumanPlayer implements View.OnClickListen
                 if the player is doing trade 3 and is selecting a target card
                  to steal from another player, set the booleans in the allCards
                  */
-                else if (switchedDiscard == false && trade3Stage == 2) {
+                else if (!switchedDiscard && trade3Stage == 2) {
                     if (allCards[cardHand[2]].getSelected() == true) {
                         allCards[cardHand[2]].setSelected(false);
                     } else {
