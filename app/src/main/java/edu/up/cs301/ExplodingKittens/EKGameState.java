@@ -151,51 +151,95 @@ public class EKGameState extends GameState {
         return playerLog;
     }
 
-    //getter method to return ArrayList of PlayerHands(Arraylists)
+    /**
+     * getter method to return ArrayList of PlayerHands(ArrayLists)
+     * @return
+     *      returns an ArrayList of ArrayLists of cards for the players hands
+     */
     public ArrayList<ArrayList<Card>> getPlayerHands(){
         return this.playerHands;
     }//getPlayerHands()
 
-    //getter method to return current player's hand
+    /**
+     * getter method to return current player's hand
+     * @return
+     *      returns an ArrayList of cards for the current player's hand
+     */
     public ArrayList<Card> getCurrentPlayerHand() {return this.playerHands.get(this.whoseTurn);}
 
-    //getter method to return current discard pile
+    /**
+     * getter method to return current discard pile
+     * @return
+     *      returns an ArrayList of cards or the discard pile
+     */
     public ArrayList<Card> getDiscardPile(){
         return this.discardPile;
     }//getDiscardPile
 
-    //getter method to return current deck
+    /**
+     * getter method to return current deck
+     * @return
+     *      returns an ArrayList of cards for the current deck
+     */
     public ArrayList<Card> getDeck(){
         return this.deck;
     }//getDeck
 
-    //getter method to return current turn
+    /**
+     * getter method to return current turn
+     * @return
+     *      returns an int with the current player's turn
+     */
     public int getWhoseTurn(){
         return this.whoseTurn;
     }//getWhoseTurn
 
-    //setter method to set current turn
+    /**
+     * setter method to set current turn
+     * @param i
+     *      int for the current player's turn
+     */
     public void setWhoseTurn(int i){
         this.whoseTurn = i;
     }//setWhoseTurn
 
-    //getterMethod to get amount of draws required this turn
+    /**
+     * getterMethod to get amount of draws required this turn
+     * @return
+     *      returns an int for the number of cards the player has to draw
+     */
     public int getCardsToDraw() {return this.cardsToDraw;}
 
-    //setter method to set amount of cards to draw this turn
+    /**
+     * setter method to set amount of cards to draw this turn
+     * @param i
+     *      int for the number of cards to draw
+     */
     public void setCardsToDraw(int i){ this.cardsToDraw = i;}
 
-    //getter method to get specified players hand
+    /**
+     * getter method to get specified players hand
+     * @param playerID
+     *      int for the current player
+     * @return
+     *      returns an ArrayList of cards for the desired player's hand
+     */
     public ArrayList<Card> getPlayerHand(int playerID){
         return this.playerHands.get(playerID);
     }//getPlayerHand
 
-    //getter method to get the amount of players
+    /**
+     * getter method to get the amount of players
+     * @return
+     *      returns the amount of players in the game
+     */
     public int getNumPlayers(){
         return this.numPlayers;
     }//getNumPlayers
 
-    //Populates the deck with various cards in the game
+    /**
+     * populates the deck with various cards
+     */
     public void populateDeck() {
         int i;
         int j;
@@ -214,7 +258,10 @@ public class EKGameState extends GameState {
         Collections.shuffle(this.deck);
     }//populateDeck
 
-    //adds 7 cards to all players hands and a Defuse Card
+    /**
+     * adds 7 cards from the deck to each player's hand and adds a defuse
+     * card as well
+     */
     public void populateHands() {
         int i, j;
         for (i = 0; i < this.getNumPlayers(); i++) {
@@ -226,24 +273,29 @@ public class EKGameState extends GameState {
         }
     }//populateHands
 
-    //adds defuse and explode cards to deck
+    /**
+     * adds defuse cards and exploding kitten cards to the deck
+     */
     public void populateDefuseExplode() {
         int i;
         int j;
         //puts 3 Exploding Kittens into deck
-        for (i = 0; i < (this.numPlayers-1); i++) {
+        for (i = 0; i < 3; i++) {
             this.deck.add(new Card(0));
         }
 
         //Puts 2 defuse cards into deck
-        for (i = 0; i < (6-this.numPlayers); i++) {
+        for (i = 0; i < 2; i++) {
             this.deck.add(new Card(12));
         }
         //shuffles them into the deck
         Collections.shuffle(this.deck);
     }//populateDefuseExplode
 
-    //sets all players hands to be able to do each action once
+    /**
+     * used for testing, populates each player's hand with a variation of
+     * cards that allows each player to do the trade actions once
+     */
     public void makeTestHand() {
         int i, j;
         for (i = 0; i < this.getNumPlayers(); i++) {
@@ -263,9 +315,13 @@ public class EKGameState extends GameState {
 
     }//makeTestHand
 
-    //Checks to see if a player has lost the game
-    //returns true if they have lost the game
-    //returns false if they haven't
+    /**
+     * checks to see if a player has lost the game
+     * @param index
+     *      int of the players hand to check
+     * @return
+     *      returns true if the player has lost and false if not
+     */
     public boolean hasPlayerLost(int index){
         //Edge case of the hand of a player completely
         //running out.
@@ -276,22 +332,38 @@ public class EKGameState extends GameState {
 
     }//hasPlayerLost
 
+    /**
+     * method adds a string to the player actions log to be displayed
+     * @param addString
+     *      string to add to the player log
+     */
     public void addToPlayerLog(String addString){
         this.playerLog.add(addString);
     }//addToPlayerLog
 
+    /**
+     * clears the player log
+     * @param confirmClearLog
+     *      true if the player log should be cleared and false if not
+     */
     public void clearPlayerLog(boolean confirmClearLog){
         if(confirmClearLog){
             this.playerLog.clear();
         }
     }//clearPlayerLog
 
-    //setter method to set the amount of players in game
+    /**
+     * setter method to set the number of player's in a game
+     * @param val
+     */
     public void setNumPlayers(int val){
         this.numPlayers = val;
     }
 
-    //getter method to get the amount of EK in deck
+    /**
+     * getter method to get the amount of exploding kittens in the deck
+     * @return
+     */
     public int getEKCount(){
         int count = 0;
         for(int i = 0; i < this.getDeck().size(); i++){
@@ -302,18 +374,38 @@ public class EKGameState extends GameState {
         return count;
     }
 
+    /**
+     * getter method for actions that have happened
+     * @return
+     *      returns an ArrayList of integers of what actions were taken
+     */
     public ArrayList<Integer> getActionsPerformed(){
         return this.actionsPerformed;
     }
 
+    /**
+     * getter method for who performed actions
+     * @return
+     *      returns and ArrayList of integers for who performed
+     */
     public ArrayList<Integer> getWhoPerformed(){
         return this.whoPerformed;
     }
 
+    /**
+     * adder method to add an action to the actionsPerformed ArrayList
+     * @param action
+     *      int for the action that was performed
+     */
     public void addActionsPerformed(int action){
         this.actionsPerformed.add(action);
     }
 
+
+    /**
+     * adder method to add the player that performed an action to the
+     * whoPerformed ArrayList
+     */
     public void addWhoPerformed(){
         this.whoPerformed.add(this.getWhoseTurn());
     }

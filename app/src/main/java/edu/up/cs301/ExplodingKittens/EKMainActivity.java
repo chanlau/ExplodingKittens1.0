@@ -8,8 +8,8 @@ import edu.up.cs301.game.GameFramework.gameConfiguration.GameConfig;
 import edu.up.cs301.game.GameFramework.gameConfiguration.GamePlayerType;
 
 /**
- * Beta Release:
- * The game functions as intended with some limitations that are listed
+ * Final Release:
+ * The game functions as intended with some limitations that are listed:
  *
  * 1. The Nope Card can only be use to Nope a card that was played by the
  * previous player only and only for attack, skip, and nope cards played.
@@ -26,43 +26,28 @@ import edu.up.cs301.game.GameFramework.gameConfiguration.GamePlayerType;
  * 3. Defuse cards are not "optional" to play. That is it will automatically
  * play the defuse card for you to defuse an exploding kitten.
  *
- * 4. After defusing an exploding kitten the player does not have the option
- * to return it to a specific location in the deck, it is randomly placed
- * there. In the normal game you would be able to place the card. Choosing
- * the location of the card would have required even more popups/button
- * presses and with so many actions by the human already it was decided that
- * it was an extra option that if we got to we would do but if not it would
- * not be a huge detriment to the game.
  *
  * Changes since Beta release:
- * 1. The Nope card has been implemented as discussed above.
+ * 1. When a player defuses an Exploding Kitten card, they now have the
+ * option to place the card back in a specific spot in the deck, or place it
+ * randomly in the deck.
  *
- * 2. All bugs that were brought up in the github were fixed.
+ * 2. The left and right scroll buttons disappear if there are no more cards
+ * to scroll through in that direction. This signals the edge of the player's
+ * hand in that direction.
  *
- * 3. A "how to play" button was added describing how to play the game. It
- * can be exited out of by taping the screen anywhere.
+ * 3. The deck image button can now be used to draw a card and end the
+ * player's turn. The "end turn" button is still functional and present.
  *
- * 4: The "play" button was removed and functionality was integrated with the
- * "enter" button. To play a card simply select the card and press "enter".
- *
- * 5. Generate GUI updates were added to make the game more appealing.
- *
- * 6. Computer actions and player actions for each round are now viewable in
- * the top left of the screen next to the "how to play" button.
- *
- * 7. Smart Computer player has been added to game
- *
- * 8. Possible to play with 2-4 players
+ * 4. More unit tests have been created in EK_LocalGameTest.
  *
  * Known Bugs:
- * 1. When making the human player any player except player0 the game is still
- *  playable, but the player name text views are incorrect, and not all player
- *  moves are shown in the player history
+ * There are no known bugs.
  *
  * @author Samuel Warrick
  * @author Kaulu Ng
  * @author Chandler Lau
- * @version November 2020
+ * @version December 2020
  */
 public class EKMainActivity extends GameMainActivity {
 

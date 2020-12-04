@@ -301,7 +301,7 @@ public class EKLocalGame extends LocalGame{
         }
 
         return true;
-    }
+    }//nope()
        else{
            return false;
         }
@@ -371,7 +371,7 @@ public class EKLocalGame extends LocalGame{
                 currState.setWhoseTurn((currState.getWhoseTurn() + 1) % (currState.getPlayerHands().size()));
             }
         }
-    }
+    }//incrementTurn()
 
 
     /**
@@ -480,7 +480,7 @@ public class EKLocalGame extends LocalGame{
         //Sending a message to the log
         String logMessage = playerNames[currState.getWhoseTurn()] + " played a Shuffle card ";
         currState.addToPlayerLog(logMessage);
-        Log.d("Log Played Shuffle", logMessage);
+//        Log.d("Log Played Shuffle", logMessage);
 
         return true;
     }
@@ -551,7 +551,7 @@ public class EKLocalGame extends LocalGame{
                 } else if (player instanceof EKSmartComputerPlayer) {
                     //Insert the exploding kitten in a random spot but saves
                     // location
-                    int randPos = (int) (Math.random() * (currState.getDeck().size()));
+                    int randPos =(int) (Math.random() * (currState.getDeck().size()));
                     currState.getDeck().add(randPos, new Card(0));
                     ((EKSmartComputerPlayer) player).setEKLocation(randPos);
                     ((EKSmartComputerPlayer) player).setLastDeckSize(currState.getDeck().size());
@@ -882,9 +882,6 @@ public class EKLocalGame extends LocalGame{
         return -1;
     }//checkHand
 
-    //Smart defuse method allows the player to insert the exploding kitten wherever they choose
-    //https://www.codelocker.net/p/101/android-create-a-popup-window-with-buttons/
-
     /**
      * Smart defuse method allows the player to insert the exploding kitten wherever they choose
      * @param player
@@ -895,6 +892,7 @@ public class EKLocalGame extends LocalGame{
          * External Citation
          * Problem: Wanted to create a popup window for help
          * Source: ThreeThirteenTeam help_button code
+         * https://www.codelocker.net/p/101/android-create-a-popup-window-with-buttons/
          * Solution: used their code as a framework to create our
          * own help window
          */
@@ -1000,8 +998,7 @@ public class EKLocalGame extends LocalGame{
         return players;
     }
 
-    public void setCurrState(EKGameState state){
-        this.currState = state;
+    public void setPlayerNames(String[] names){
+        this.playerNames = names;
     }
-
 }//EKLocalGame

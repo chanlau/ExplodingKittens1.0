@@ -4,8 +4,7 @@ import edu.up.cs301.game.GameFramework.GamePlayer;
 import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
 
 public class Trade5Action extends GameAction {
-
-    /*Basic Trade5Action
+    /*
     player: player that made the action
     PosC1: position of the first card in the player's hand that is being traded
     PosC2: position of the second card in the player's hand that is being traded
@@ -16,6 +15,23 @@ public class Trade5Action extends GameAction {
      */
     private int PosC1, PosC2, PosC3, PosC4, PosC5, targetCardPos;
 
+    /**
+     * Basic Trade5Action
+     * @param player
+     *      player that made the action
+     * @param card1
+     *      position of the first card in the player's hand that is being traded
+     * @param card2
+     *      position of the second card in the player's hand that is being traded
+     * @param card3
+     *      position of the third card in the player's hand that is being traded
+     * @param card4
+     *      position of the fourth card in the player's hand that is being traded
+     * @param card5
+     *      position of the fifth card in the player's hand that is being traded
+     * @param targetPos
+     *      position of the card that the player is targeting in the discard pile
+     */
     public Trade5Action(GamePlayer player, int card1, int card2, int card3, int card4, int card5, int targetPos) {
         super(player);
         this.PosC1 = card1;

@@ -10,8 +10,12 @@ import edu.up.cs301.game.GameFramework.GamePlayer;
 import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
 
 public class PlayShuffleCard extends GameAction {
-    //Basic PlayShuffleCard action with
-    //the player that takes the action
+
+    /**
+     * Basic PlayShuffleCard action with the player that takes the action
+     * @param p
+     *      player playing the action
+     */
     public PlayShuffleCard(GamePlayer p){
         super(p);
     }
