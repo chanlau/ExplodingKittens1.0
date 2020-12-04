@@ -39,7 +39,7 @@ import edu.up.cs301.game.R;
  * @author Samuel Warrick
  * @author Kaulu Ng
  * @author Chandler Lau
- * @version November 2020
+ * @version December 2020
  */
 
 public class EKLocalGame extends LocalGame{

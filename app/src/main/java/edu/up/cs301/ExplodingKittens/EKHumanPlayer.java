@@ -43,7 +43,7 @@ import edu.up.cs301.game.R;
  * player and game buttons.
  *
  * @authors Chandler Lau, Ka'ulu Ng, Samuel Warrick
- * @version 11/25/2020
+ * @version December 2020
  */
 
 public class EKHumanPlayer extends GameHumanPlayer implements View.OnClickListener {
@@ -579,7 +579,7 @@ public class EKHumanPlayer extends GameHumanPlayer implements View.OnClickListen
             leftScroll.setClickable(true);
         }
         //removes right scroll button if scrolling not available
-        if(cardHand[4] == state.getPlayerHand(0).size() - 1){
+        if(cardHand[4] == state.getPlayerHand(0).size() - 1 || seeTheFutHand || cardHand[4] == state.getDiscardPile().size() - 1){
             rightScroll.setAlpha(0f);
             rightScroll.setClickable(false);
         }

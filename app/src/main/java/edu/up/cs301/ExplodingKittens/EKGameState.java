@@ -15,7 +15,7 @@ import edu.up.cs301.game.GameFramework.infoMessage.GameState;
  * @author Samuel Warrick
  * @author Kaulu Ng
  * @author Chandler Lau
- * @version November 2020
+ * @version December 2020
  */
 
 /**
@@ -65,10 +65,10 @@ public class EKGameState extends GameState {
         this.numPlayers = numOfPlayers;
         this.actionsPerformed = new ArrayList<Integer>();
         this.whoPerformed = new ArrayList<Integer>();
+        this.humanDefusing = false;
         populateDeck();
         populateHands();
         populateDefuseExplode();
-        this.humanDefusing = false;
     }//EKGameState
 
     public void setHumanDefuse(boolean bool){
