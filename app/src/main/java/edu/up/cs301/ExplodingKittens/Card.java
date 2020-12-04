@@ -6,6 +6,15 @@
 
 package edu.up.cs301.ExplodingKittens;
 
+/**
+ * Card class for attributes for all card objects
+ *
+ * @author Samuel Warrick
+ * @author Kaulu Ng
+ * @author Chandler Lau
+ * @version December 2020
+ */
+
 public class Card {
     //create variables for the current player playing the card, the target player of the card
     //if there is one, and the cardType as an int

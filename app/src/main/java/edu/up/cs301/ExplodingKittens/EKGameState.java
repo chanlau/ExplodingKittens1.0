@@ -15,7 +15,7 @@ import edu.up.cs301.game.GameFramework.infoMessage.GameState;
  * @author Samuel Warrick
  * @author Kaulu Ng
  * @author Chandler Lau
- * @version November 2020
+ * @version December 2020
  */
 
 /**
