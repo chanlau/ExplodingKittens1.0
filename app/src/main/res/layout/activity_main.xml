@@ -14,14 +14,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Exploding Kittens!"
-            android:textAlignment="center"
-            android:textColor="#DC143C"
-            android:textSize="40dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -93,13 +85,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_weight="2"
                 android:orientation="horizontal">
 
                 <LinearLayout
+                    android:id="@+id/playerlog_layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
+                    android:layout_weight="5"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="5sp">
 
                     <TextView
                         android:id="@+id/turntext"
@@ -109,56 +104,76 @@
                         android:autoSizeTextType="uniform"
                         android:inputType="textMultiLine"
                         android:text="TextView"
+                        android:textSize="@dimen/playerlog_text"
                         android:textColor="#000000"/>
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/player2_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginBottom="10dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/player2_label"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:textColor="#000000"
-                        android:text="Player 2" />
-
-                    <TextView
-                        android:id="@+id/player2cards"
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:textColor="#000000"
-                        android:text="TextView" />
-
-                    <ImageButton
-                        android:id="@+id/player2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:adjustViewBounds="true"
-                        android:background="#FFFFFF"
-                        android:maxHeight="120dip"
-                        android:minHeight="100dip"
-                        android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/cardback"
-                        tools:srcCompat="@drawable/cardback" />
-                </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/player2_format"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_weight="4"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/player2_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginBottom="10dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/player2_label"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:textColor="#000000"
+                            android:text="Player 2" />
+
+                        <TextView
+                            android:id="@+id/player2cards"
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:textColor="#000000"
+                            android:text="TextView" />
+
+                        <ImageButton
+                            android:id="@+id/player2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:adjustViewBounds="true"
+                            android:background="#FFFFFF"
+                            android:maxHeight="120dip"
+                            android:minHeight="100dip"
+                            android:scaleType="fitCenter"
+                            android:layout_gravity="center"
+                            app:srcCompat="@drawable/cardback"
+                            tools:srcCompat="@drawable/cardback" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+
+                <LinearLayout
+                    android:id="@+id/turn_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"
                     android:orientation="horizontal">
 
                     <TextView
@@ -169,8 +184,9 @@
                         android:gravity="right"
                         android:inputType="textMultiLine"
                         android:text="TextView"
-                        android:textColor="#000000"
-                        android:textSize="50sp" />
+                        android:layout_marginRight="@dimen/help_menu_card_spacing"
+                        android:textColor="@color/black"
+                        android:textSize="30sp" />
                 </LinearLayout>
 
 
@@ -374,6 +390,7 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="35dp"
                 android:layout_marginRight="35dp"
+                android:layout_weight="1"
                 android:orientation="horizontal">
 
                 <Button
