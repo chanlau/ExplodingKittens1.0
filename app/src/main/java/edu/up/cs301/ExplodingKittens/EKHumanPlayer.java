@@ -579,7 +579,19 @@ public class EKHumanPlayer extends GameHumanPlayer implements View.OnClickListen
             leftScroll.setClickable(true);
         }
         //removes right scroll button if scrolling not available
-        if(cardHand[4] == state.getPlayerHand(0).size() - 1 || seeTheFutHand || cardHand[4] == state.getDiscardPile().size() - 1){
+        if(cardHand[4] == state.getPlayerHand(0).size() - 1 && !seeTheFutHand && !switchedDiscard && !trade3){
+            rightScroll.setAlpha(0f);
+            rightScroll.setClickable(false);
+        }
+        else if (seeTheFutHand && !switchedDiscard && !trade3) {
+            rightScroll.setAlpha(0f);
+            rightScroll.setClickable(false);
+        }
+        else if (!seeTheFutHand && switchedDiscard && !trade3 && (cardHand[4] == state.getDiscardPile().size() - 1 || state.getDiscardPile().size() < 5)) {
+            rightScroll.setAlpha(0f);
+            rightScroll.setClickable(false);
+        }
+        else if (!seeTheFutHand && !switchedDiscard && trade3 && trade3Stage == 2 && cardHand[4] == allCards.length - 1) {
             rightScroll.setAlpha(0f);
             rightScroll.setClickable(false);
         }
