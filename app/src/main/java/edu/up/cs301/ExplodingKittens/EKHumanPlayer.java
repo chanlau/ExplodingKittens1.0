@@ -196,6 +196,10 @@ public class EKHumanPlayer extends GameHumanPlayer implements View.OnClickListen
               this.cardHand[i] = i;
             }
             if (state.getWhoseTurn() == 0) {
+                turnText.setTextSize(15);
+                if(state.getPlayerLog().size() >= 12){
+                    turnText.setTextSize(12);
+                }
                 try {
                     printPlayerLog();
                 } catch (InterruptedException e) {

@@ -280,12 +280,12 @@ public class EKGameState extends GameState {
         int i;
         int j;
         //puts 3 Exploding Kittens into deck
-        for (i = 0; i < 3; i++) {
+        for (i = 0; i < (this.numPlayers-1); i++) {
             this.deck.add(new Card(0));
         }
 
         //Puts 2 defuse cards into deck
-        for (i = 0; i < 2; i++) {
+        for (i = 0; i < (6-this.numPlayers); i++) {
             this.deck.add(new Card(12));
         }
         //shuffles them into the deck
