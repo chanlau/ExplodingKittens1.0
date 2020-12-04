@@ -511,23 +511,6 @@ public abstract class GameMainActivity extends AppCompatActivity implements
 
     }// initStarterGui
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.game_main, menu);
-        return true;
-    }//onCreateOptionsMenu
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_help:
-                Logger.log(TAG, "This is the help button!");
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
     /**
      * this method is called whenever the user clicks on a button.
      *

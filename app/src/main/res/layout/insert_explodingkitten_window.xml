@@ -29,6 +29,7 @@
                 android:layout_marginLeft="@dimen/help_menu_card_spacing"
                 android:layout_gravity="center_horizontal"
                 android:textSize="@dimen/explodingkittens_window_text"
+                android:textColor="@color/black"
                 android:text="@string/explodingKitten_popup_text"
                 android:layout_weight="1"/>
 

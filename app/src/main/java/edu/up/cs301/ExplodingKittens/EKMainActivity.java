@@ -83,7 +83,7 @@ public class EKMainActivity extends GameMainActivity {
         // - name of game is "Counter Game"
         // - port number as defined above
         GameConfig defaultConfig = new GameConfig(playerTypes, 2, 4,
-                "Exploding Kittens" + " Game",
+                "Exploding Kittens Game",
                 PORT_NUMBER);
 
         // Add the default players to the configuration
