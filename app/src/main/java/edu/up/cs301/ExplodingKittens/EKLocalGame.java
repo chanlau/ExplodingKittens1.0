@@ -480,7 +480,7 @@ public class EKLocalGame extends LocalGame{
         //Sending a message to the log
         String logMessage = playerNames[currState.getWhoseTurn()] + " played a Shuffle card ";
         currState.addToPlayerLog(logMessage);
-        Log.d("Log Played Shuffle", logMessage);
+//        Log.d("Log Played Shuffle", logMessage);
 
         return true;
     }
@@ -551,7 +551,7 @@ public class EKLocalGame extends LocalGame{
                 } else if (player instanceof EKSmartComputerPlayer) {
                     //Insert the exploding kitten in a random spot but saves
                     // location
-                    int randPos = (int) (Math.random() * (currState.getDeck().size()));
+                    int randPos =(int) (Math.random() * (currState.getDeck().size()));
                     currState.getDeck().add(randPos, new Card(0));
                     ((EKSmartComputerPlayer) player).setEKLocation(randPos);
                     ((EKSmartComputerPlayer) player).setLastDeckSize(currState.getDeck().size());
@@ -980,8 +980,7 @@ public class EKLocalGame extends LocalGame{
         return players;
     }
 
-    public void setCurrState(EKGameState state){
-        this.currState = state;
+    public void setPlayerNames(String[] names){
+        this.playerNames = names;
     }
-
 }//EKLocalGame
