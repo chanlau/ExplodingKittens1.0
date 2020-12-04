@@ -579,7 +579,7 @@ public class EKHumanPlayer extends GameHumanPlayer implements View.OnClickListen
             leftScroll.setClickable(true);
         }
         //removes right scroll button if scrolling not available
-        if(cardHand[4] == state.getPlayerHand(0).size() - 1){
+        if(cardHand[4] == state.getPlayerHand(0).size() - 1 || seeTheFutHand || cardHand[4] == state.getDiscardPile().size() - 1){
             rightScroll.setAlpha(0f);
             rightScroll.setClickable(false);
         }
