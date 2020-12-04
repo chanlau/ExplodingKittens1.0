@@ -21,7 +21,7 @@ import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
  * AI  dumb computer player
  *
  * @authors Chandler Lau, Ka'ulu Ng, Samuel Warrick
- * @version 11/25/2020
+ * @version December 2020
  */
 
 public class EKComputerPlayer extends GameComputerPlayer {
