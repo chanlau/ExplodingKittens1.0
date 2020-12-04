@@ -65,10 +65,10 @@ public class EKGameState extends GameState {
         this.numPlayers = numOfPlayers;
         this.actionsPerformed = new ArrayList<Integer>();
         this.whoPerformed = new ArrayList<Integer>();
+        this.humanDefusing = false;
         populateDeck();
         populateHands();
         populateDefuseExplode();
-        this.humanDefusing = false;
     }//EKGameState
 
     public void setHumanDefuse(boolean bool){

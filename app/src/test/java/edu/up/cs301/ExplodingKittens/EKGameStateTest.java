@@ -17,6 +17,15 @@ public class EKGameStateTest {
 
     @Test
     public void populateHands() {
+        int defuseCounter = 0;
+        EKGameState testState = new EKGameState(4);
+        for(int i = 0; i < testState.getPlayerHand(0).size(); i++){
+            if(testState.getCurrentPlayerHand().get(i).getCardType() == 12){
+                defuseCounter = defuseCounter + 1;
+            }
+        }
+        assertEquals(8, testState.getPlayerHand(0).size());
+        assertEquals(1, defuseCounter);
     }
 
     @Test
@@ -32,5 +41,18 @@ public class EKGameStateTest {
 
     @Test
     public void hasPlayerLost() {
+        EKGameState state = new EKGameState(4);
+        state.getPlayerHand(0).clear();
+        state.getPlayerHand(0).add(new Card(0));
+        assertEquals(state.hasPlayerLost(0), true);
+        assertEquals(state.hasPlayerLost(1), false);
     }
+
+    @Test
+    public void getEKCount(){
+        EKGameState state = new EKGameState(4);
+        assertEquals(state.getEKCount(), 3);
+    }
+
+
 }
