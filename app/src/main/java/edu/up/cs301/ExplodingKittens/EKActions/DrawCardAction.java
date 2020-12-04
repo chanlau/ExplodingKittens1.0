@@ -5,7 +5,12 @@ import edu.up.cs301.game.GameFramework.GamePlayer;
 import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
 
 public class DrawCardAction extends GameAction {
-    //Basic DrawCardAction with a player who made the action
+
+    /**
+     * Basic DrawCardAction
+     * @param p
+     *      player who made the action
+     */
      public DrawCardAction(GamePlayer p) {
         super(p);
     }

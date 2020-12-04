@@ -11,7 +11,7 @@ import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
 
 public class Trade2Action extends GameAction {
 
-    /*Basic Trade2Action
+    /*
     player: player that made the action
     targetPlayerIdx: index in the playersHands array that is the target of the action
     PosC1: position of the first card in the player's hand that is being traded
@@ -20,6 +20,17 @@ public class Trade2Action extends GameAction {
     private int targetPlayerIdx;
     private int PosC1, PosC2;
 
+    /**
+     * Basic Trade2Action
+     * @param player
+     *      player that made the action
+     * @param target
+     *      index in the playersHands array that is the target of the action
+     * @param card1
+     *      position of the first card in the player's hand that is being traded
+     * @param card2
+     *      position of the second card in teh player's hand that is being traded
+     */
     public Trade2Action(GamePlayer player, int target, int card1, int card2){
         super(player);
         this.targetPlayerIdx = target;
