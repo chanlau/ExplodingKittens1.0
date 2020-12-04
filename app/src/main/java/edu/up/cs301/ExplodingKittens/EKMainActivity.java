@@ -8,8 +8,8 @@ import edu.up.cs301.game.GameFramework.gameConfiguration.GameConfig;
 import edu.up.cs301.game.GameFramework.gameConfiguration.GamePlayerType;
 
 /**
- * Beta Release:
- * The game functions as intended with some limitations that are listed
+ * Final Release:
+ * The game functions as intended with some limitations that are listed:
  *
  * 1. The Nope Card can only be use to Nope a card that was played by the
  * previous player only and only for attack, skip, and nope cards played.
@@ -30,21 +30,24 @@ import edu.up.cs301.game.GameFramework.gameConfiguration.GamePlayerType;
  * Changes since Beta release:
  * 1. When a player defuses an Exploding Kitten card, they now have the
  * option to place the card back in a specific spot in the deck, or place it
- * randomly in the deck
+ * randomly in the deck.
  *
  * 2. The left and right scroll buttons disappear if there are no more cards
  * to scroll through in that direction. This signals the edge of the player's
- * hand in that direction
+ * hand in that direction.
  *
- * 3: More unit tests have been created
+ * 3. The deck image button can now be used to draw a card and end the
+ * player's turn. The "end turn" button is still functional and present.
+ *
+ * 4. More unit tests have been created in EK_LocalGameTest.
  *
  * Known Bugs:
- * There no known bugs
+ * There are no known bugs.
  *
  * @author Samuel Warrick
  * @author Kaulu Ng
  * @author Chandler Lau
- * @version November 2020
+ * @version December 2020
  */
 public class EKMainActivity extends GameMainActivity {
 

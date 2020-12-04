@@ -5,14 +5,6 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class EK_LocalGameTest {
-/*
-    @Test
-    public void populateDeck() {
-        EKLocalGame test = new EKLocalGame(4);
-        assertNull(test.getCurrState().getDeck());
-        test.populateDeck();
-        assertNotNull(test.getCurrState().getDeck());
-    }*/
 
     /**
      * tests if the populate deck method is working properly by changing the
@@ -49,6 +41,9 @@ public class EK_LocalGameTest {
         assertEquals(2, DefuseCounter);
     }
 
+    /**
+     * tests if the hasPlayerLost function is working properly
+     */
     @Test
     public void hasPlayerLost(){
         EKGameState state = new EKGameState(4);
