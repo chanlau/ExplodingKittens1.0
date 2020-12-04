@@ -153,6 +153,7 @@ public class EKHumanPlayer extends GameHumanPlayer implements View.OnClickListen
     /**
      * constructor
      * @param name
+     *      number corresponding to this player
      *      name corresponding to this player
      */
     public EKHumanPlayer(String name) {
@@ -722,26 +723,15 @@ public class EKHumanPlayer extends GameHumanPlayer implements View.OnClickListen
                         return true;
                     }
                 });
-                Log.d("Log outside", "You are now outisde the onTouch method");
+
             }
             else if (button == leftScroll) {
                 for (int i = 0; i < 5; i++) {
                     if (cardHand[i] - 1 == -1) {
-                        leftScroll.getBackground().setColorFilter(0xFF808080,
-                                PorterDuff.Mode.MULTIPLY);
                         break;
-                    }
-                    else {
-                        leftScroll.getBackground().setColorFilter(0xFFD3D3D3,
-                                    PorterDuff.Mode.MULTIPLY);
+                    } else {
                         cardHand[i] = cardHand[i] - 1;
                     }
-                    if (cardHand[0] - 1  == -1) {
-                        leftScroll.getBackground().setColorFilter(0xFF808080,
-                                PorterDuff.Mode.MULTIPLY);
-                    }
-                    rightScroll.getBackground().setColorFilter(0xFFD3D3D3,
-                            PorterDuff.Mode.MULTIPLY);
                 }
             } //left scroll button
 
@@ -757,54 +747,24 @@ public class EKHumanPlayer extends GameHumanPlayer implements View.OnClickListen
                      */
                     if (!switchedDiscard && trade3Stage != 2) {
                         if (cardHand[4] + 1 >= state.getPlayerHand(this.playerNum).size()) {
-                            rightScroll.getBackground().setColorFilter(0xFF808080,
-                                    PorterDuff.Mode.MULTIPLY);
                             break;
                         } else {
-                            leftScroll.getBackground().setColorFilter(0xFFD3D3D3,
-                                    PorterDuff.Mode.MULTIPLY);
                             cardHand[i] = cardHand[i] + 1;
                         }
-                        if (cardHand[4] + 1  >= state.getPlayerHand(this.playerNum).size()) {
-                            rightScroll.getBackground().setColorFilter(0xFF808080,
-                                    PorterDuff.Mode.MULTIPLY);
-                        }
-                        leftScroll.getBackground().setColorFilter(0xFFD3D3D3,
-                                PorterDuff.Mode.MULTIPLY);
                     }
                     else if (switchedDiscard && trade3Stage != 2) {
                         if (cardHand[4] + 1 >= state.getDiscardPile().size()) {
-                            rightScroll.getBackground().setColorFilter(0xFF808080,
-                                    PorterDuff.Mode.MULTIPLY);
                             break;
                         } else {
-                            leftScroll.getBackground().setColorFilter(0xFFD3D3D3,
-                                    PorterDuff.Mode.MULTIPLY);
                             cardHand[i] = cardHand[i] + 1;
                         }
-                        if (cardHand[4] + 1  >= state.getDiscardPile().size()) {
-                            rightScroll.getBackground().setColorFilter(0xFF808080,
-                                    PorterDuff.Mode.MULTIPLY);
-                        }
-                        leftScroll.getBackground().setColorFilter(0xFFD3D3D3,
-                                PorterDuff.Mode.MULTIPLY);
                     }
                     else if (trade3Stage == 2) {
                         if (cardHand[4] + 1 >= allCards.length) {
-                            rightScroll.getBackground().setColorFilter(0xFF808080,
-                                    PorterDuff.Mode.MULTIPLY);
                             break;
                         } else {
-                            leftScroll.getBackground().setColorFilter(0xFFD3D3D3,
-                                    PorterDuff.Mode.MULTIPLY);
                             cardHand[i] = cardHand[i] + 1;
                         }
-                        if (cardHand[4] + 1  >= allCards.length) {
-                            rightScroll.getBackground().setColorFilter(0xFF808080,
-                                    PorterDuff.Mode.MULTIPLY);
-                        }
-                        leftScroll.getBackground().setColorFilter(0xFFD3D3D3,
-                                PorterDuff.Mode.MULTIPLY);
                     }
                 }
             } //right scroll button
@@ -1109,8 +1069,6 @@ public class EKHumanPlayer extends GameHumanPlayer implements View.OnClickListen
                 trade5Btn.setText("Trade 5 Off");
                 DrawCardAction drawCard = new DrawCardAction(this);
                 game.sendAction(drawCard);
-                rightScroll.getBackground().setColorFilter(0xFFD3D3D3,
-                        PorterDuff.Mode.MULTIPLY);
             } // endTurn button
         } // if statement for instance of button
 

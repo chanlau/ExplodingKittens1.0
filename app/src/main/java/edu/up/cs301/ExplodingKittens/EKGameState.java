@@ -343,5 +343,3 @@ public class EKGameState extends GameState {
     }
 
 }
-
-

@@ -549,9 +549,13 @@ public class EKLocalGame extends LocalGame{
                 if (player instanceof EKHumanPlayer) {
                     humanDefuse((EKHumanPlayer) player);
                 } else if (player instanceof EKSmartComputerPlayer) {
-                    //Insert the exploding kitten in a random spot *Dumb Move
+                    //Insert the exploding kitten in a random spot but saves
+                    // location
                     int randPos = (int) (Math.random() * (currState.getDeck().size()));
                     currState.getDeck().add(randPos, new Card(0));
+                    ((EKSmartComputerPlayer) player).setEKLocation(randPos);
+                    ((EKSmartComputerPlayer) player).setLastDeckSize(currState.getDeck().size());
+
                 } else {
                     //Insert the exploding kitten in a random spot *Dumb Move
                     int randPos = (int) (Math.random() * (currState.getDeck().size()));
@@ -588,9 +592,10 @@ public class EKLocalGame extends LocalGame{
             return false;
         }
         if (currState.getCardsToDraw() == 0){
-            String Message = playerNames[currState.getWhoseTurn()] + " " + "Defused EK ";
+            String Message = playerNames[currState.getWhoseTurn()] + " defused an ExplodingKitten";
             currState.addToPlayerLog(Message);
             Log.d(" Log Draw Card", Message);
+
             nextTurn();
             return true;
         }
@@ -901,7 +906,7 @@ public class EKLocalGame extends LocalGame{
         Button plusButton = (Button)popupView.findViewById(R.id.plusButton);
         Button enterButton = (Button)popupView.findViewById(R.id.enterButton);
         final TextView textChoice = (TextView)popupView.findViewById(R.id.choiceDeckIndex);
-        textChoice.setText(Integer.toString(currState.getDeck().size()));
+        textChoice.setText(Integer.toString(deckIndexChoice));
 
             //On click methods for all of the buttons on the view
             randomButton.setOnClickListener(new View.OnClickListener() {
@@ -910,9 +915,12 @@ public class EKLocalGame extends LocalGame{
                     int randPos = (int) (Math.random() * (currState.getDeck().size()));
                     currState.getDeck().add(randPos, new Card(0));
                     chooseWindow.dismiss();
-                    Log.d("Log RandButton", playerNames[currState.getWhoseTurn()] +
-                            "put the exploding kitten in a random position");
+                    String logMessage = playerNames[0] +
+                            " put the exploding kitten in a random position";
+                    currState.addToPlayerLog(logMessage);
+                    Log.d("Log RandButton", logMessage);
                     currState.setHumanDefuse(false);
+                    deckIndexChoice = 0;
                     DrawCardAction draw = new DrawCardAction(getPlayers()[0]);
                     sendAction(draw);
                 }
@@ -922,9 +930,12 @@ public class EKLocalGame extends LocalGame{
                 public void onClick(View v) {
                     currState.getDeck().add(deckIndexChoice, new Card(0));
                     chooseWindow.dismiss();
-                    Log.d("Log EnterButton", playerNames[currState.getWhoseTurn()] +
-                            "put the exploding kitten in a specifc position");
+                    String logMessage = playerNames[0] +
+                            " put the exploding kitten in a specifc position";
+                    currState.addToPlayerLog(logMessage);
+                    Log.d("Log EnterButton", logMessage);
                     currState.setHumanDefuse(false);
+                    deckIndexChoice = 0;
                     DrawCardAction draw = new DrawCardAction(getPlayers()[0]);
                     sendAction(draw);
                 }
